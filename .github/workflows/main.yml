@@ -1,16 +1,4 @@
-name: Daily Python Run
-
 on:
   schedule:
-    - cron: '23 14 * * *'  # Every day at 16:00 Budapest time
-  workflow_dispatch:      # Optional: allows manual runs
-
-jobs:
-  run-script:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-      - run: python script.py
+    - cron: '0 14 * * *'
+  workflow_dispatch:
