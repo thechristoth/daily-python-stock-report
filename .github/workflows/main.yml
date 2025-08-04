@@ -2,7 +2,7 @@ name: Daily Python Run
 
 on:
   schedule:
-    - cron: '0 14 * * *'  # Every day at 16:00 Budapest time
+    - cron: '10 14 * * *'  # Every day at 16:00 Budapest time
   workflow_dispatch:      # Optional: allows manual runs
 
 jobs:
