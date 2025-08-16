@@ -44,84 +44,117 @@ def fetch_peg_ratio(stock):
         return None
 
 def create_or_update_html(stock_data):
-    # Create basic HTML if file doesn't exist or is empty
-    if not os.path.exists(HTML_FILE) or os.path.getsize(HTML_FILE) == 0:
-        with open(HTML_FILE, 'w') as f:
-            f.write("""<!DOCTYPE html>
-<html>
+    """Generates complete HTML file with styles preserved"""
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    # Generate table rows
+    table_rows = []
+    for stock, peg in stock_data:
+        table_rows.append(f'<tr><td>{stock}</td><td>{peg if peg else "N/A"}</td></tr>')
+    
+    # Complete HTML template
+    html_content = f"""<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stock PEG Ratios</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        table { border-collapse: collapse; width: 300px; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        tr:nth-child(even) { background-color: #f9f9f9; }
-        .timestamp { color: #666; font-size: 0.9em; margin-top: 10px; }
+        body {{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }}
+        h1 {{
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }}
+        table {{
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+            background-color: white;
+        }}
+        th, td {{
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }}
+        th {{
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }}
+        tr:nth-child(even) {{
+            background-color: #f2f2f2;
+        }}
+        tr:hover {{
+            background-color: #e6f7ff;
+        }}
+        .timestamp {{
+            font-size: 0.85em;
+            color: #7f8c8d;
+            text-align: right;
+            margin-top: 20px;
+        }}
+        .positive {{
+            color: #27ae60;
+            font-weight: bold;
+        }}
+        .negative {{
+            color: #e74c3c;
+            font-weight: bold;
+        }}
     </style>
 </head>
 <body>
-    <h1>Stock PEG Ratios</h1>
-    <table id="stock-data">
-        <!-- Table content will be generated -->
-    </table>
-</body>
-</html>""")
-
-    # Read existing HTML
-    with open(HTML_FILE, 'r') as f:
-        html = f.read()
-
-    # Generate new table content
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    table_content = f"""
+    <h1>Stock PEG Ratios Report</h1>
+    <table>
         <thead>
-            <tr><th>Stock</th><th>PEG Ratio</th></tr>
+            <tr>
+                <th>Stock Symbol</th>
+                <th>PEG Ratio</th>
+            </tr>
         </thead>
         <tbody>
-"""
-    for stock, peg in stock_data:
-        table_content += f'            <tr><td>{stock}</td><td>{peg if peg else "N/A"}</td></tr>\n'
-    table_content += f"""        </tbody>
-        <tfoot>
-            <tr><td colspan="2" class="timestamp">Updated: {timestamp}</td></tr>
-        </tfoot>
-"""
-
-    # Update the table content (replace existing if any)
-    if '<table id="stock-data">' in html:
-        # If table exists, replace its content
-        table_start = html.find('<table id="stock-data">')
-        table_end = html.find('</table>', table_start) + len('</table>')
-        before_table = html[:table_start]
-        after_table = html[table_end:]
-        updated_html = before_table + f'<table id="stock-data">{table_content}</table>' + after_table
-    else:
-        # If no table exists, add it before the closing body tag
-        if '</body>' in html:
-            updated_html = html.replace('</body>', f'<table id="stock-data">{table_content}</table>\n</body>')
-        else:
-            # If no body tag exists, append the table at the end
-            updated_html = html + f'\n<table id="stock-data">{table_content}</table>'
-
-    # Write updated HTML back to file
-    with open(HTML_FILE, 'w') as f:
-        f.write(updated_html)
+            {''.join(table_rows)}
+        </tbody>
+    </table>
+    <div class="timestamp">Last updated: {timestamp}</div>
+</body>
+</html>"""
+    
+    # Write to file
+    try:
+        with open(HTML_FILE, 'w', encoding='utf-8') as f:
+            f.write(html_content)
+        print(f"Successfully updated {HTML_FILE}")
+    except IOError as e:
+        print(f"Error writing HTML file: {e}")
 
 def main():
-    # Get stock data
+    print("Starting stock data collection...")
     stock_data = []
-    print("Fetching PEG ratios from Finviz...")
+    
     for i, stock in enumerate(STOCKS):
-        print(f"Fetching {stock}...")
+        print(f"Fetching data for {stock}...")
         peg = fetch_peg_ratio(stock)
         stock_data.append((stock, peg))
+        
+        # Add delay between requests to avoid rate limiting
         if i < len(STOCKS) - 1:
-            time.sleep(DELAY_BETWEEN_REQUESTS + random.uniform(0, 2))
-
-    # Update HTML file
+            delay = DELAY_BETWEEN_REQUESTS + random.uniform(0, 2)
+            print(f"Waiting {delay:.1f} seconds before next request...")
+            time.sleep(delay)
+    
     create_or_update_html(stock_data)
-    print(f"\nStock data updated in: {HTML_FILE}")
+    print("Process completed successfully!")
 
 if __name__ == '__main__':
     main()
