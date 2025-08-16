@@ -44,8 +44,8 @@ def fetch_peg_ratio(stock):
         return None
 
 def create_or_update_html(stock_data):
-    # Create basic HTML if file doesn't exist
-    if not os.path.exists(HTML_FILE):
+    # Create basic HTML if file doesn't exist or is empty
+    if not os.path.exists(HTML_FILE) or os.path.getsize(HTML_FILE) == 0:
         with open(HTML_FILE, 'w') as f:
             f.write("""<!DOCTYPE html>
 <html>
@@ -90,12 +90,19 @@ def create_or_update_html(stock_data):
 
     # Update the table content (replace existing if any)
     if '<table id="stock-data">' in html:
-        start = html.find('<table id="stock-data">') + len('<table id="stock-data">')
-        end = html.find('</table>', start)
-        updated_html = html[:start] + table_content + html[end:]
+        # If table exists, replace its content
+        table_start = html.find('<table id="stock-data">')
+        table_end = html.find('</table>', table_start) + len('</table>')
+        before_table = html[:table_start]
+        after_table = html[table_end:]
+        updated_html = before_table + f'<table id="stock-data">{table_content}</table>' + after_table
     else:
-        # Fallback if table tag is missing
-        updated_html = html.replace('</body>', f'<table id="stock-data">{table_content}</table>\n</body>')
+        # If no table exists, add it before the closing body tag
+        if '</body>' in html:
+            updated_html = html.replace('</body>', f'<table id="stock-data">{table_content}</table>\n</body>')
+        else:
+            # If no body tag exists, append the table at the end
+            updated_html = html + f'\n<table id="stock-data">{table_content}</table>'
 
     # Write updated HTML back to file
     with open(HTML_FILE, 'w') as f:
