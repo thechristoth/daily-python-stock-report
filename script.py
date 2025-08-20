@@ -16,17 +16,17 @@ STOCKS = [
     "KLAC", "CSGP", "ABBV", "WST", "POOL", "ISRG", "TMO", "IDXX", "ROP", "AMT",
     "SBAC", "MNST", "YUM", "MKTX", "TDG", "ORLY", "AZO", "FAST", "CTAS", "AME",
     "IEX", "TDY", "KEYS", "CHD", "SHW", "MKC", "DPZ", "CMG", "QSR", "KO",
-    "WMT", "ROST", "NDAQ", "TRI", "CTSH", "EPAM", "CHKP", "CINF", "BR", "ZEN",
+    "WMT", "ROST", "NDAQ", "TRI", "CTSH", "EPAM", "CHKP", "CINF", "BR",
     "DLR", "PSA", "EXR", "O", "KMI", "ENB", "WM", "RSG", "UPS", "FDX",
     "LHX", "HEI", "XYL", "ETN", "PH", "VMC", "MLM", "SAP", "NVO",
-    "UL", "NESN", "GILD", "MDT", "EW", "HOLX", "ON",
+    "UL", "GILD", "MDT", "EW", "HOLX", "ON",
     "WDAY", "DDOG", "PANW", "FTNT", "NFLX", "DXCM", "SQ", "SHOP", "MELI", "ABNB",
     "ETSY", "DASH", "PLTR", "ANET", "OKTA", "DOCU", "DUOL", "LULU", "ULTA", "CELH",
     "PODD", "TOST", "CPRT", "ENPH", "PINS", "APP", "QFIN", "GDDY", "HIMS", "SMCI",
     "PWP", "PYPL", "ILMN", "TRMB", "FSLR", "ZM", "TSM", "TXN", "ADI", "QCOM",
     "JPM", "GS", "BLK", "AXP", "MS", "CAT", "LIN", "APD", "EMR", "HON",
     "XOM", "CVX", "COP", "EOG", "LMT", "RTX", "GD", "NKE", "TJX", "TSLA",
-    "SOFI", "HOOD", "BABA", "TCEHY", "SE", "DIS",
+    "SOFI", "HOOD", "BABA", "SE", "DIS",
     "CMCSA", "CHTR", "EA"
 ]
 USER_AGENTS = [
@@ -36,7 +36,7 @@ USER_AGENTS = [
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.15 Safari/605.1.15'
 ]
 DELAY_BETWEEN_REQUESTS = 5  # seconds
-HTML_FILE = os.path.join(os.getcwd(), 'index.html')
+HTML_FILE = os.path.join(os.getcwd(), 'enhanced_stock_analysis.html')
 MAX_RETRIES = 3
 
 def get_random_user_agent():
