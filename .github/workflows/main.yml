@@ -2,7 +2,7 @@ name: Run Python script daily
 
 on:
   schedule:
-    - cron: '0 2 * * 6'  # every day at 14:00 UTC (16:00 Budapest)
+    - cron: '0 2 * * 6'  # Every Saturday at 02:00 UTC (03:00 Hungary standard time, 04:00 Hungary daylight time)
   workflow_dispatch:       # manual trigger (optional)
 
 jobs:
