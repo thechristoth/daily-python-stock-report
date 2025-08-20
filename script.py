@@ -27,7 +27,7 @@ STOCKS = [
     "JPM", "GS", "BLK", "AXP", "MS", "CAT", "LIN", "APD", "EMR", "HON",
     "XOM", "CVX", "COP", "EOG", "LMT", "RTX", "GD", "NKE", "TJX", "TSLA",
     "SOFI", "HOOD", "BABA", "TCEHY", "SE", "DIS",
-    "CMCSA", "CHTR", "EA", "ATVI"
+    "CMCSA", "CHTR", "EA"
 ]
 USER_AGENTS = [
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
