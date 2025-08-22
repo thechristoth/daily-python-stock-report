@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 
 # Configuration
 STOCKS = [
-    "MSFT", "AAPL", "NVDA", "GOOGL", "META", "AMZN", "ADBE", "CRM", "NOW", "INTU",
+     "MSFT", "AAPL", "NVDA", "GOOGL", "META", "AMZN", "ADBE", "CRM", "NOW", "INTU",
     "ORCL", "CDNS", "SNPS", "ADSK", "SPGI", "MCO", "MSCI", "FICO", "TYL", "VEEV",
     "VRSK", "MA", "V", "ICE", "CME", "PAYX", "ADP", "ASML", "AVGO", "EQIX",
     "PG", "HD", "LOW", "COST", "PEP", "MCD", "SBUX", "JNJ", "ABT", "SYK",
@@ -36,7 +36,7 @@ USER_AGENTS = [
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.15 Safari/605.1.15'
 ]
 DELAY_BETWEEN_REQUESTS = 5  # seconds
-HTML_FILE = os.path.join(os.getcwd(), 'index.html')
+HTML_FILE = os.path.join(os.getcwd(), 'enhanced_stock_analysis.html')
 HTML_TEMPLATE_FILE = os.path.join(os.getcwd(), 'enhanced_stock_analysis.html')
 MAX_RETRIES = 3
 
@@ -1087,7 +1087,15 @@ def create_enhanced_html(stock_data):
         reverse=True
     )
     
-    # Generate main table rows
+    # Read the existing HTML file
+    try:
+        with open(HTML_FILE, 'r', encoding='utf-8') as f:
+            html_content = f.read()
+    except IOError as e:
+        print(f"❌ Error reading HTML file: {e}")
+        return
+    
+    # Generate new table rows
     table_rows = []
     for stock, metrics, scores, sector in sorted_data:
         valuation_class = "positive" if scores['valuation_score'] >= 7 else "neutral" if scores['valuation_score'] >= 5 else "negative"
@@ -1113,24 +1121,29 @@ def create_enhanced_html(stock_data):
         fcf_display = f"${metrics['FCF_per_share']:.2f}" if metrics['FCF_per_share'] is not None else "N/A"
         fcf_yield_display = f"{metrics['FCF_Yield']:.1f}%" if metrics['FCF_Yield'] is not None else "N/A"
         
+        # Create the main row
         table_rows.append(f'''
-            <tr class="stock-row" onclick="toggleDetails('{stock}')">
+            <tr class="stock-row" data-sector="{sector}" data-valuation="{scores['valuation_score']:.1f}" data-stability="{scores['stability_score']:.1f}" data-growth="{scores['growth_score']:.1f}" onclick="toggleDetails('{stock}')">
                 <td><strong>{stock}</strong><br><small>${metrics['Price']:.2f}</small><br><small style="color: #666;">{sector}</small></td>
                 <td>{pe_display}<br><small>Fwd: {forward_pe_display}</small></td>
                 <td>{peg_display}</td>
                 <td>{f"{metrics['Debt/Eq']:.2f}" if metrics['Debt/Eq'] is not None else "N/A"}<br>
                     <small>{f"{metrics['Current_Ratio']:.1f}" if metrics['Current_Ratio'] is not None else "N/A"}</small></td>
-                <td>{f"{metrics['ROE']:.1f}%" if metrics['ROE'] is not None else "N/A"}<br>
+                <td class="hidden-mobile">{f"{metrics['ROE']:.1f}%" if metrics['ROE'] is not None else "N/A"}<br>
                     <small>{f"{metrics['Profit_Margin']:.1f}%" if metrics['Profit_Margin'] is not None else "N/A"}</small></td>
                 <td>{fcf_display}<br><small>{fcf_yield_display}</small></td>
                 <td>{sales_5y_cagr}</td>
                 <td>{eps_5y_cagr}</td>
-                <td>{recent_growth if recent_growth else "N/A"}</td>
+                <td class="hidden-mobile">{recent_growth if recent_growth else "N/A"}</td>
                 <td class="{valuation_class}">{scores['valuation_score']:.1f}</td>
                 <td class="{stability_class}">{scores['stability_score']:.1f}</td>
                 <td class="{growth_class}">{scores['growth_score']:.1f}</td>
                 <td class="{total_class}"><strong>{scores['total_score']:.1f}</strong></td>
             </tr>
+        ''')
+        
+        # Create the details row
+        table_rows.append(f'''
             <tr id="details-{stock}" class="details-row" style="display: none;">
                 <td colspan="13">
                     <div class="details-content">
@@ -1198,45 +1211,25 @@ def create_enhanced_html(stock_data):
             </tr>
         ''')
     
-    # Generate performance summary
-    performance_summary = ""
-    if sorted_data:
-        best_stock = sorted_data[0]
-        fcf_info = ""
-        if best_stock[1]['FCF_per_share'] is not None and best_stock[1]['FCF_Yield'] is not None:
-            fcf_info = f"<p>FCF per Share: <strong>${best_stock[1]['FCF_per_share']:.2f}</strong> | FCF Yield: <strong>{best_stock[1]['FCF_Yield']:.1f}%</strong></p>"
-        
-        performance_summary = f'''
-        <div class="summary-box">
-            <h3>🏆 Top Performer: {best_stock[0]}</h3>
-            <p>Total Score: <strong>{best_stock[2]['total_score']:.1f}/10</strong></p>
-            <p>Valuation: {best_stock[2]['valuation_score']:.1f} | 
-               Stability: {best_stock[2]['stability_score']:.1f} | 
-               Growth: {best_stock[2]['growth_score']:.1f}</p>
-            <p>Current Price: <strong>${best_stock[1]['Price']:.2f}</strong></p>
-            <p>Sector: <strong>{best_stock[3]}</strong></p>
-            {fcf_info}
-        </div>
-        '''
+    # Find and replace the table body content
+    import re
+    # Find the table body in the HTML
+    pattern = r'<tbody id="stockTableBody">(.*?)</tbody>'
+    replacement = f'<tbody id="stockTableBody">{"".join(table_rows)}</tbody>'
     
-    # Read HTML template
-    try:
-        with open(HTML_TEMPLATE_FILE, 'r', encoding='utf-8') as f:
-            html_template = f.read()
-    except IOError as e:
-        print(f"❌ Error reading HTML template file: {e}")
-        return
+    # Replace the table body
+    html_content = re.sub(pattern, replacement, html_content, flags=re.DOTALL)
     
-    # Replace placeholders with actual content
-    html_content = html_template.replace('{{ performance_summary }}', performance_summary)
-    html_content = html_content.replace('{{ table_rows }}', ''.join(table_rows))
-    html_content = html_content.replace('{{ timestamp }}', timestamp)
+    # Update the timestamp
+    timestamp_pattern = r'<div class="timestamp".*?>⏰ Last updated:.*?</div>'
+    timestamp_replacement = f'<div class="timestamp" style="color: #ffffff; background: rgba(255, 255, 255, 0.15); padding: 10px 15px; border-radius: 8px; text-align: right; margin-top: 20px; backdrop-filter: blur(5px);">⏰ Last updated: {timestamp}</div>'
+    html_content = re.sub(timestamp_pattern, timestamp_replacement, html_content, flags=re.DOTALL)
     
-    # Write to file
+    # Write the updated HTML back to the file
     try:
         with open(HTML_FILE, 'w', encoding='utf-8') as f:
             f.write(html_content)
-        print(f"✅ Successfully created {HTML_FILE}")
+        print(f"✅ Successfully updated {HTML_FILE}")
         print(f"📊 Open {HTML_FILE} in your browser to view the enhanced sector-specific report")
     except IOError as e:
         print(f"❌ Error writing HTML file: {e}")
