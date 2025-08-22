@@ -1131,9 +1131,9 @@ def create_enhanced_html(stock_data):
                     <small>{f"{metrics['Current_Ratio']:.1f}" if metrics['Current_Ratio'] is not None else "N/A"}</small></td>
                 <td class="hidden-mobile">{f"{metrics['ROE']:.1f}%" if metrics['ROE'] is not None else "N/A"}<br>
                     <small>{f"{metrics['Profit_Margin']:.1f}%" if metrics['Profit_Margin'] is not None else "N/A"}</small></td>
-                <td>{fcf_display}<br><small>{fcf_yield_display}</small></td>
-                <td>{sales_5y_cagr}</td>
-                <td>{eps_5y_cagr}</td>
+                <td class="hidden-mobile">{fcf_display}<br><small>{fcf_yield_display}</small></td>
+                <td class="hidden-mobile">{sales_5y_cagr}</td>
+                <td class="hidden-mobile">{eps_5y_cagr}</td>
                 <td class="hidden-mobile">{recent_growth if recent_growth else "N/A"}</td>
                 <td class="{valuation_class}">{scores['valuation_score']:.1f}</td>
                 <td class="{stability_class}">{scores['stability_score']:.1f}</td>
