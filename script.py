@@ -7,27 +7,9 @@ from bs4 import BeautifulSoup
 
 # Configuration
 STOCKS = [
-     "MSFT", "AAPL", "NVDA", "GOOGL", "META", "AMZN", "ADBE", "CRM", "NOW", "INTU",
-    "ORCL", "CDNS", "SNPS", "ADSK", "SPGI", "MCO", "MSCI", "FICO", "TYL", "VEEV",
-    "VRSK", "MA", "V", "ICE", "CME", "PAYX", "ADP", "ASML", "AVGO", "EQIX",
-    "PG", "HD", "LOW", "COST", "PEP", "MCD", "SBUX", "JNJ", "ABT", "SYK",
-    "BSX", "ZTS", "DHR", "REGN", "PGR", "CB", "WRB", "BRK-B", "SCHW", "ITW",
-    "UNP", "GWW", "TT", "IR", "ECL", "NOC", "BKNG", "MAR", "HLT", "LRCX",
-    "KLAC", "CSGP", "ABBV", "WST", "POOL", "ISRG", "TMO", "IDXX", "ROP", "AMT",
-    "SBAC", "MNST", "YUM", "MKTX", "TDG", "ORLY", "AZO", "FAST", "CTAS", "AME",
-    "IEX", "TDY", "KEYS", "CHD", "SHW", "MKC", "DPZ", "CMG", "QSR", "KO",
-    "WMT", "ROST", "NDAQ", "TRI", "CTSH", "EPAM", "CHKP", "CINF", "BR",
-    "DLR", "PSA", "EXR", "O", "KMI", "ENB", "WM", "RSG", "UPS", "FDX",
-    "LHX", "HEI", "XYL", "ETN", "PH", "VMC", "MLM", "SAP", "NVO",
-    "UL", "GILD", "MDT", "EW", "HOLX", "ON",
-    "WDAY", "DDOG", "PANW", "FTNT", "NFLX", "DXCM", "SQ", "SHOP", "MELI", "ABNB",
-    "ETSY", "DASH", "PLTR", "ANET", "OKTA", "DOCU", "DUOL", "LULU", "ULTA", "CELH",
-    "PODD", "TOST", "CPRT", "ENPH", "PINS", "APP", "QFIN", "GDDY", "HIMS", "SMCI",
-    "PWP", "PYPL", "ILMN", "TRMB", "FSLR", "ZM", "TSM", "TXN", "ADI", "QCOM",
-    "JPM", "GS", "BLK", "AXP", "MS", "CAT", "LIN", "APD", "EMR", "HON",
-    "XOM", "CVX", "COP", "EOG", "LMT", "RTX", "GD", "NKE", "TJX", "TSLA",
-    "SOFI", "HOOD", "BABA", "SE", "DIS",
-    "CMCSA", "CHTR", "EA"
+     final_quality_us_tickers = [
+    "AWI", "AAPL", "ABBV", "ABNB", "ABT", "ACAD", "ADBE", "ADP", "ADSK", "AMAT", "AMD", "AME", "AMT", "AMZN", "ANET", "APH", "APP", "APPF", "APD", "ASML", "ATEN", "AVGO", "AXON", "AXP", "AZO", "BABA", "BMRN", "BKNG", "BLK", "BMI", "BRO", "BR", "BRK-B", "BSX", "CARG", "CAT", "CB", "CDNS", "CELH", "CINF", "CHD", "CHKP", "CHTR", "CMCSA", "CME", "CMG", "CMI", "COF", "COP", "COST", "CPNG", "CPRT", "CPRX", "CRM", "CRWD", "CSGP", "CTAS", "CTSH", "DAL", "DASH", "DDOG", "DECK", "DHR", "DIS", "DLR", "DOCS", "DOCU", "DPZ", "DT", "DUOL", "DXCM", "EA", "ECL", "ELF", "EMR", "ENB", "ENPH", "EPAM", "ETN", "ETSY", "EW", "EXEL", "EXLS", "EXR", "FAST", "FANG", "FICO", "FIS", "FITB", "FSLR", "FTNT", "GATX", "GD", "GGG", "GDDY", "GILD", "GOOGL", "GS", "GWW", "HALO", "HD", "HEI", "HIMS", "HLT", "HOLX", "HON", "HOOD", "ICE", "IDCC", "IDXX", "IEX", "ILMN", "INTU", "IR", "IRMD", "ISRG", "ITW", "JNJ", "JKHY", "JPM", "KEYS", "KLAC", "KMI", "KNSA", "KO", "LHX", "LIN", "LMAT", "LMT", "LOW", "LRCX", "LRN", "LULU", "MA", "MANH", "MAR", "MCD", "MCO", "MCSI", "MDT", "MEDP", "MELI", "META", "MKC", "MLI", "MLM", "MNST", "MPWR", "MS", "MSFT", "MSI", "MTB", "MKTX", "NFLX", "NDAQ", "NKE", "NOC", "NOW", "NSSC", "NVDA", "NVMI", "O", "ODD", "OKTA", "ON", "ONTO", "ORCL", "ORLY", "PANW", "PAYC", "PAYX", "PCTY", "PEP", "PGR", "PH", "PINS", "PODD", "POOL", "PSA", "PTC", "PTON", "PWR", "PYPL", "QFIN", "QLYS", "QCOM", "QSR", "RBA", "RDDT", "REGN", "RMD", "ROL", "ROP", "ROK", "ROST", "RSG", "RTX", "SBAC", "SBUX", "SCHW", "SE", "SHOP", "SHW", "SLB", "SMCI", "SNOW", "SNPS", "SOFI", "SAP", "SPGI", "SQ", "SYK", "TDG", "TDY", "TMO", "TJX", "TRI", "TRMB", "TSLA", "TSM", "TT", "TTD", "TTWO", "TXN", "TYL", "UBER", "UI", "UL", "ULTA", "UNP", "UPS", "USLM", "V", "VEEV", "VICI", "VMC", "VRSK", "VRSN", "VRTX", "VRTX", "WDAY", "WM", "WMT", "WPM", "WST", "WRB", "XOM", "XYL", "YOU", "ZS", "ZTS", "ZM"
+]
 ]
 USER_AGENTS = [
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
