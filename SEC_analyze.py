@@ -1,8 +1,5 @@
 import requests
-import pandas as pd
-import numpy as np
-from collections import defaultdict
-from datetime import datetime, date
+from datetime import datetime
 
 HEADERS = {
     'User-Agent': 'Financial Analysis Tool contact@example.com',
