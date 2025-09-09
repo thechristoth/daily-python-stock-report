@@ -1,4 +1,4 @@
-name: Run Python script daily
+name: SEC_run
 
 on:
   schedule:
