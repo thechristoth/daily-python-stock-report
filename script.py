@@ -80,8 +80,8 @@ USER_AGENTS = [
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.15 Safari/605.1.15'
 ]
 DELAY_BETWEEN_REQUESTS = 5  # seconds
-HTML_FILE = os.path.join(os.getcwd(), 'enhanced_stock_analysis.html')
-HTML_TEMPLATE_FILE = os.path.join(os.getcwd(), 'enhanced_stock_analysis.html')
+HTML_FILE = os.path.join(os.getcwd(), 'index.html')
+HTML_TEMPLATE_FILE = os.path.join(os.getcwd(), 'index.html')
 MAX_RETRIES = 3
 
 def calculate_revenue_growth_score(metrics, config):
