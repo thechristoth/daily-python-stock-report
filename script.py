@@ -550,7 +550,7 @@ USER_AGENTS = [
 ]
 DELAY_BETWEEN_REQUESTS = 5  # seconds
 HTML_FILE = os.path.join(os.getcwd(), 'index.html')
-HTML_TEMPLATE_FILE = os.path.join(os.getcwd(), 'index.html')
+HTML_TEMPLATE_FILE = os.path.join(os.getcwd(), 'template_dual.html')
 MAX_RETRIES = 3
 
 def calculate_revenue_growth_score(metrics, config):
