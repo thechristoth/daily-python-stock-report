@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Stock Analysis Dashboard</title>
+    <style>
+        :root {
+            --primary-blue: #1e3a8a;
+            --secondary-blue: #3b82f6;
+            --accent-blue: #60a5fa;
+            --light-blue: #dbeafe;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-glass: rgba(255, 255, 255, 0.8);
+            --border: rgba(59, 130, 246, 0.2);
+            --shadow: rgba(0, 0, 0, 0.1);
+            --positive: #059669;
+            --neutral: #d97706;
+            --negative: #dc2626;
+            --positive-bg: #d1fae5;
+            --neutral-bg: #fef3c7;
+            --negative-bg: #fee2e2;
+        }
+
+        thead tr {
+            position: sticky;
+            top: 0;
+            background-color: white; /* or whatever your page background color is */
+            z-index: 10;
+        }
+
+        /* Optional: Add a subtle shadow for better visual separation */
+        thead tr {
+            position: sticky;
+            top: 0;
+            background-color: white;
+            z-index: 10;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+
+        [data-theme="dark"] {
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --bg-primary: #111827;
+            --bg-secondary: #1f2937;
+            --bg-glass: rgba(31, 41, 55, 0.8);
+            --border: rgba(96, 165, 250, 0.3);
+            --shadow: rgba(0, 0, 0, 0.3);
+            --positive-bg: #064e3b;
+            --neutral-bg: #78350f;
+            --negative-bg: #7f1d1d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .glass-card {
+            background: var(--bg-glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px var(--shadow);
+            transition: all 0.3s ease;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px;
+        }
+
+        .header h1 {
+            color: var(--text-primary);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+
+        .filter-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .filter-group label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        select, input {
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            min-width: 120px;
+        }
+
+        .theme-toggle {
+            background: var(--secondary-blue);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: var(--primary-blue);
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, var(--secondary-blue), var(--accent-blue));
+            color: white;
+            padding: 25px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .summary-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .info-box {
+            padding: 25px;
+        }
+        
+        .info-box h3 {
+            color: var(--secondary-blue);
+            margin-bottom: 15px;
+            font-size: 1.25rem;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            border-radius: 16px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-primary);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        
+        th, td {
+            padding: 12px 8px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.875rem;
+        }
+        
+        th {
+            background: var(--primary-blue);
+            color: white;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        th small {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.75rem;
+            font-weight: 400;
+            display: block;
+            margin-top: 2px;
+        }
+        
+        .stock-row {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .stock-row:hover {
+            transform: translateY(-3x);
+            opacity: 0.6;
+            z-index: -1; /* Behind content */
+        }
+        
+        .details-row {
+            background: var(--bg-secondary);
+        }
+        
+        .details-content {
+            padding: 25px;
+            text-align: left;
+        }
+        
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .metric-section {
+            background: var(--bg-primary);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+        
+        .metric-section h4 {
+            color: var(--secondary-blue);
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+        
+        .metric-section p {
+            margin: 8px 0;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .positive {
+            background: var(--positive-bg) !important;
+            color: var(--positive);
+            font-weight: 600;
+            border-radius: 6px;
+            padding: 4px 8px;
+        }
+        
+        .neutral {
+            background: var(--neutral-bg) !important;
+            color: var(--neutral);
+            font-weight: 500;
+            border-radius: 6px;
+            padding: 4px 8px;
+        }
+        
+        .negative {
+            background: var(--negative-bg) !important;
+            color: var(--negative);
+            font-weight: 600;
+            border-radius: 6px;
+            padding: 4px 8px;
+        }
+
+        .hidden-mobile {
+            display: table-cell;
+        }
+
+        .usage-guide {
+            background: var(--bg-secondary);
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 25px;
+            border: 1px solid var(--border);
+        }
+
+        .usage-guide h4 {
+            color: var(--secondary-blue);
+            margin-bottom: 15px;
+        }
+
+        .timestamp {
+            text-align: right;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-section {
+                justify-content: center;
+            }
+
+            .filter-group {
+                flex: 1;
+                min-width: 120px;
+            }
+
+            .hidden-mobile {
+                display: none;
+            }
+
+            th, td {
+                padding: 8px 4px;
+                font-size: 0.75rem;
+            }
+
+            .metric-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            th, td {
+                padding: 6px 2px;
+                font-size: 0.7rem;
+            }
+
+            select, input {
+                min-width: 100px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="container">
+        <div class="glass-card header">
+            <h1>Stock Analysis Dashboard</h1>
+            <p style="color: var(--text-secondary);">Professional sector-specific stock evaluation</p>
+            <div style="margin-top: 20px;">
+                <button class="theme-toggle" onclick="toggleTheme()">Dark Mode Toggle</button>
+            </div>
+        </div>
+        <div class="glass-card" style="margin-bottom: 20px; padding: 20px;">
+            <h3 style="color: var(--secondary-blue); margin-bottom: 15px;">🔬 Research Profile Active: <span id="activeProfile">Academic Research</span></h3>
+            <p id="profileDescription" style="margin-bottom: 10px;">McKinsey ROIC persistence study + Damodaran value framework - Quality-focused approach where ROIC dominance drives long-term returns.</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
+                <div style="background: var(--positive-bg); padding: 15px; border-radius: 8px;">
+                    <strong>Quality Weight:</strong> <span id="qualityWeight">50%</span>
+                </div>
+                <div style="background: var(--neutral-bg); padding: 15px; border-radius: 8px;">
+                    <strong>Growth Weight:</strong> <span id="growthWeight">20%</span>
+                </div>
+                <div style="background: var(--light-blue); padding: 15px; border-radius: 8px;">
+                    <strong>Valuation Weight:</strong> <span id="valuationWeight">15%</span>
+                </div>
+                <div style="background: var(--bg-secondary); padding: 15px; border-radius: 8px; border: 1px solid var(--border);">
+                    <strong>Historical Weight:</strong> <span id="historicalWeight">15%</span>
+                </div>
+            </div>
+        </div>
+        <div class="glass-card info-box" style="margin-bottom: 30px;">
+            <h3>Professional Stock Analysis Platform</h3>
+            <p>Our advanced dashboard provides <strong>sector-specific stock evaluation</strong> using industry-appropriate metrics and thresholds. Each stock is analyzed across three key dimensions: <strong>Valuation</strong> (P/E, PEG ratios), <strong>Stability</strong> (ROE, ROIC, margins), and <strong>Growth</strong> (sales and earnings trends).</p>
+            <p><strong>Sector Intelligence:</strong> Technology stocks are evaluated with high growth expectations and P/E tolerance, while Utilities focus on value and income. Financials emphasize quality metrics with special debt handling, and Energy sectors use cyclical adjustments with high FCF expectations.</p>
+        </div>
+
+        <div class="glass-card controls">
+            <div class="filter-group">
+                <label for="researchProfile">Research Model</label>
+                <select id="researchProfile" onchange="switchResearchProfile()">
+                    <option value="academic" selected>Academic (ROIC-focused)</option>
+                    <option value="growth_based">Growth-Based (S&P 500)</option>
+                </select>
+            </div>
+            <div class="filter-section">
+                <div class="filter-group">
+                    <label for="sectorFilter">Sector</label>
+                    <select id="sectorFilter">
+                        <option value="">All Sectors</option>
+                        <option value="Communication Services">Communication Services</option>
+                        <option value="Technology">Technology</option>
+                        <option value="Healthcare">Healthcare</option>
+                        <option value="Financial">Financial</option>
+                        <option value="Consumer Cyclical">Consumer Cyclical</option>
+                        <option value="Industrials">Industrials</option>
+                        <option value="Energy">Energy</option>
+                        <option value="Consumer Defensive">Consumer Defensive</option>
+                        <option value="Basic Materials">Basic Materials</option>
+                        <option value="Real Estate">Real Estate</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="valuationFilter">Min Valuation Score</label>
+                    <input type="number" id="valuationFilter" placeholder="0-10" min="0" max="10" step="0.1">
+                </div>
+                
+                <div class="filter-group">
+                    <label for="stabilityFilter">Min Stability Score</label>
+                    <input type="number" id="stabilityFilter" placeholder="0-10" min="0" max="10" step="0.1">
+                </div>
+                
+                <div class="filter-group">
+                    <label for="growthFilter">Min Growth Score</label>
+                    <input type="number" id="growthFilter" placeholder="0-10" min="0" max="10" step="0.1">
+                </div>
+            </div>
+            
+            <button class="theme-toggle" onclick="applyFilters()" style="background: var(--accent-blue);">Apply Filters</button>
+        </div>
+        
+        <div class="glass-card table-container" style="margin-bottom: 30px;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Stock<br><small>Price | Sector</small></th>
+                        <th>P/E<br><small>Forward</small></th>
+                        <th>PEG</th>
+                        <th>Debt/Eq<br><small>Current R.</small></th>
+                        <th class="hidden-mobile">ROE<br><small>Profit M.</small></th>
+                        <th class="hidden-mobile">FCF/Share<br><small>FCF Yield</small></th>
+                        <th class="hidden-mobile">Sales<br><small>5Y CAGR</small></th>
+                        <th class="hidden-mobile">EPS<br><small>5Y CAGR</small></th>
+                        <th class="hidden-mobile">Recent Growth<br><small>TTM</small></th>
+                        <th>Val<br>(0-10)</th>
+                        <th>Quality<br>(0-10)</th>
+                        <th>Growth<br>(0-10)</th>
+                        <th>Historical<br>(0-10)</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody id="stockTableBody">
+                    <!-- Python writes ALL rows here -->
+                    <!-- MUST include BOTH academic AND growth_based rows -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="timestamp" style="color: #ffffff; background: rgba(255, 255, 255, 0.15); padding: 10px 15px; border-radius: 8px; text-align: right; margin-top: 20px; backdrop-filter: blur(5px);">
+        ⏰ Last updated: 2025-10-19 23:32:41<br>
+        <small>📊 Academic: 12 stocks | Growth: 12 stocks</small>
+    </div>
+    </div>
+
+<script>
+    let currentProfile = 'academic';  // Track current active profile
+
+    function switchResearchProfile() {
+        const profile = document.getElementById('researchProfile').value;
+        currentProfile = profile;
+        
+        console.log(`Switching to profile: ${profile}`);
+        
+        // Profile configurations
+        const profiles = {
+            'academic': {
+                name: 'Academic Research (ROIC-focused)',
+                description: 'McKinsey ROIC persistence study + Damodaran value framework - Quality-focused approach where ROIC dominance drives long-term returns.',
+                weights: { quality: '50%', growth: '20%', valuation: '15%', historical: '15%' }
+            },
+            'growth_based': {
+                name: 'Growth-Based Research (S&P 500 Empirical)',
+                description: 'Based on S&P 500 historical data (1987-2005): Revenue and profit growth drive share price gains over 10+ year periods. Growth becomes PRIMARY driver.',
+                weights: { quality: '30%', growth: '40%', valuation: '15%', historical: '15%' }
+            }
+        };
+        
+        const selectedProfile = profiles[profile];
+        
+        // Update UI display with animation
+        fadeOutAndUpdate([
+            { id: 'activeProfile', value: selectedProfile.name },
+            { id: 'profileDescription', value: selectedProfile.description },
+            { id: 'qualityWeight', value: selectedProfile.weights.quality },
+            { id: 'growthWeight', value: selectedProfile.weights.growth },
+            { id: 'valuationWeight', value: selectedProfile.weights.valuation },
+            { id: 'historicalWeight', value: selectedProfile.weights.historical }
+        ]);
+        
+        // Switch table data - THIS IS THE CRITICAL PART
+        switchTableData(profile);
+        
+        // Save preference
+        localStorage.setItem('research-profile', profile);
+    }
+
+    function switchTableData(profile) {
+        console.log(`Switching table data to: ${profile}`);
+        
+        // Hide ALL rows first
+        const allRows = document.querySelectorAll('.stock-row, .details-row');
+        allRows.forEach(row => {
+            row.style.display = 'none';
+        });
+        
+        // Show only rows matching the selected profile
+        const profileClass = `profile-${profile}`;
+        const visibleRows = document.querySelectorAll(`.${profileClass}`);
+        
+        console.log(`Found ${visibleRows.length} rows for profile ${profile}`);
+        
+        visibleRows.forEach(row => {
+            // Show stock rows, but keep details hidden
+            if (row.classList.contains('stock-row')) {
+                row.style.display = '';  // Show as table-row
+            }
+            // Details rows stay hidden until clicked
+        });
+    }
+
+    function fadeOutAndUpdate(elements) {
+        elements.forEach(({id, value}) => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.style.transition = 'opacity 0.3s';
+                el.style.opacity = '0.3';
+                setTimeout(() => {
+                    el.textContent = value;
+                    el.style.opacity = '1';
+                }, 150);
+            }
+        });
+    }
+
+    function toggleDetails(stock, profile) {
+        const detailsId = `details-${stock}-${profile}`;
+        const detailsRow = document.getElementById(detailsId);
+        
+        console.log(`Toggling details for ${stock} in ${profile} profile`);
+        
+        // Hide all other details rows for current profile
+        const currentProfileClass = `profile-${profile}`;
+        document.querySelectorAll(`.details-row.${currentProfileClass}`).forEach(row => {
+            if (row.id !== detailsId) {
+                row.style.display = 'none';
+            }
+        });
+        
+        // Toggle the clicked row
+        if (detailsRow) {
+            if (detailsRow.style.display === 'none' || !detailsRow.style.display) {
+                detailsRow.style.display = '';  // Show as table-row
+            } else {
+                detailsRow.style.display = 'none';
+            }
+        } else {
+            console.error(`Details row not found: ${detailsId}`);
+        }
+    }
+
+    function applyFilters() {
+        const sectorFilter = document.getElementById('sectorFilter').value;
+        const valuationFilter = parseFloat(document.getElementById('valuationFilter').value) || 0;
+        const growthFilter = parseFloat(document.getElementById('growthFilter').value) || 0;
+        
+        console.log(`Applying filters for ${currentProfile} profile`);
+        
+        const profileClass = `profile-${currentProfile}`;
+        const stockRows = document.querySelectorAll(`.stock-row.${profileClass}`);
+        
+        stockRows.forEach(row => {
+            const sector = row.dataset.sector;
+            const valuation = parseFloat(row.dataset.valuation);
+            const growth = parseFloat(row.dataset.growth);
+            
+            let show = true;
+            if (sectorFilter && sector !== sectorFilter) show = false;
+            if (valuation < valuationFilter) show = false;
+            if (growth < growthFilter) show = false;
+            
+            row.style.display = show ? '' : 'none';
+        });
+    }
+
+    function toggleTheme() {
+        const body = document.body;
+        const currentTheme = body.getAttribute('data-theme');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        body.setAttribute('data-theme', newTheme);
+        localStorage.setItem('preferred-theme', newTheme);
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Page loaded, initializing...');
+        
+        const savedProfile = localStorage.getItem('research-profile') || 'academic';
+        document.getElementById('researchProfile').value = savedProfile;
+        currentProfile = savedProfile;
+        
+        // Initialize display
+        switchResearchProfile();
+        
+        const savedTheme = localStorage.getItem('preferred-theme') || 'light';
+        document.body.setAttribute('data-theme', savedTheme);
+        
+        console.log(`Initialized with profile: ${savedProfile}`);
+    });
+
+    // Debug helper
+    window.debugProfiles = function() {
+        console.log('=== Profile Debug Info ===');
+        console.log(`Current profile: ${currentProfile}`);
+        console.log('Academic rows:', document.querySelectorAll('.profile-academic').length);
+        console.log('Growth rows:', document.querySelectorAll('.profile-growth_based').length);
+        console.log('Visible rows:', document.querySelectorAll('.stock-row:not([style*="display: none"])').length);
+    };
+</script>
+</body>
+</html>
