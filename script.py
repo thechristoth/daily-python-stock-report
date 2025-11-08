@@ -7,11 +7,10 @@ from bs4 import BeautifulSoup
 import historical_fundamental_scores
 
 # Configuration
-STOCKS = ['MA', 'MSFT', 'GOOGL', 'MLI', 'KO', 'SPGI', 'PGR', 'AXP', 'MNST', 'DUOL', 'PINS', 'EXEL', 'DECK', 'AWI', 'AAPL', 'ABBV', 'ABNB', 'ABT', 'ACAD', 'ADBE', 'ADP', 'ADSK', 'AMAT', 'AMD', 'AME', 'AMT', 'AMZN', 'ANET', 'APH', 'APP', 'APPF', 'APD', 'ASML', 'ATEN', 'AVGO', 'AXON', 'AZO', 'BABA', 'BMRN', 'BKNG', 'BLK', 'BMI', 'BRO', 'BR', 'BRK-B', 'BSX', 'CARG', 'CAT', 'CB', 'CDNS', 'CELH', 'CINF', 'CHD', 'CHKP', 'CHTR', 'CMCSA', 'CME', 'CMG', 'CMI', 'COF', 'COP', 'COST', 'CPNG', 'CPRT', 'CPRX', 'CRM', 'CSGP', 'CTAS', 'CTSH', 'DAL', 'DASH', 'DDOG', 'DHR', 'DIS', 'DLR', 'DOCS', 'DOCU', 'DPZ', 'DT', 'DXCM', 'EA', 'ECL', 'ELF', 'EMR', 'ENB', 'ENPH', 'EPAM', 'ETN', 'ETSY', 'EW', 'EXLS', 'EXR', 'FAST', 'FICO', 'FIS', 'FITB', 'FSLR', 'FTNT', 'GATX', 'GD', 'GGG', 'GDDY', 'GILD', 'GS', 'GWW', 'HALO', 'HD', 'HEI', 'HIMS', 'HLT', 'HOLX', 'HON', 'HOOD', 'ICE', 'IDXX', 'IEX', 'ILMN', 'INTU', 'IR', 'ISRG', 'ITW', 'JNJ', 'JKHY', 'JPM', 'KEYS', 'KLAC', 'KMI', 'LHX', 'LIN', 'LMAT', 'LMT', 'LOW', 'LRCX', 'LRN', 'LULU', 'MANH', 'MAR', 'MCD', 'MCO', 'MDT', 'MEDP', 'MELI', 'META', 'MKC', 'MLM', 'MPWR', 'MS', 'MSI', 'MTB', 'MKTX', 'NFLX', 'NDAQ', 'NKE', 'NOC', 'NOW', 'NSSC', 'NVDA', 'NVMI', 'O', 'ODD', 'OKTA', 'ON', 'ONTO', 'ORCL', 'ORLY', 'PANW', 'PAYC', 'PAYX', 'PCTY', 'PEP', 'PH', 'PODD', 'POOL', 'PSA', 'PTC', 'PWR', 'PYPL', 'QFIN', 'QLYS', 'QCOM', 'QSR', 'REGN', 'RMD', 'ROL', 'ROP', 'ROK', 'ROST', 'RSG', 'RTX', 'SBAC', 'SBUX', 'SCHW', 'SE', 'SHOP', 'SHW', 'SLB', 'SMCI', 'SNPS', 'SOFI', 'SAP', 'SQ', 'SYK', 'TDG', 'TDY', 'TMO', 'TJX', 'TRI', 'TRMB', 'TSLA', 'TSM', 'TT', 'TXN', 'TYL', 'UL', 'ULTA', 'UNP', 'UPS', 'USLM', 'V', 'VEEV', 'VICI', 'VMC', 'VRSK', 'VRSN', 'WDAY', 'WM', 'WMT', 'WPM', 'WST', 'WRB', 'XOM', 'XYL', 'YOU', 'ZTS', 'ZM']
+STOCKS = [
+     "MA","MSFT", "GOOGL", "MLI", "KO", "SPGI", "PGR", "AXP", "MNST", "DUOL", "PINS", "EXEL", "DECK", "SCHW", "AWI", "AAPL", "ABBV", "ABNB", "ABT", "ACAD", "ADBE", "ADP", "ADSK", "AMAT", "AMD", "AME", "AMT", "AMZN", "ANET", "APH", "APP", "APPF", "APD", "ASML", "ATEN", "AVGO", "AXON", "AZO", "BABA", "BMRN", "BKNG", "BLK", "BMI", "BRO", "BR", "BRK-B", "BSX", "CARG", "CAT", "CB", "CDNS", "CELH", "CINF", "CHD", "CHKP", "CHTR", "CMCSA", "CME", "CMG", "CMI", "COF", "COP", "COST", "CPNG", "CPRT", "CPRX", "CRM", "CSGP", "CTAS", "CTSH", "DAL", "DASH", "DDOG", "DHR", "DIS", "DLR", "DOCS", "DOCU", "DPZ", "DT", "DXCM", "EA", "ECL", "ELF", "EMR", "ENB", "ENPH", "EPAM", "ETN", "ETSY", "EW", "EXLS", "EXR", "FAST", "FICO", "FIS", "FITB", "FSLR", "FTNT", "GATX", "GD", "GGG", "GDDY", "GILD", "GS", "GWW", "HALO", "HD", "HEI", "HIMS", "HLT", "HOLX", "HON", "HOOD", "ICE", "IDXX", "IEX", "ILMN", "INTU", "IR", "ISRG", "ITW", "JNJ", "JKHY", "JPM", "KEYS", "KLAC", "KMI", "LHX", "LIN", "LMAT", "LMT", "LOW", "LRCX", "LRN", "LULU", "MANH", "MAR", "MCD", "MCO", "MDT", "MEDP", "MELI", "META", "MKC", "MLM", "MPWR", "MS", "MSI", "MTB", "MKTX", "NFLX", "NDAQ", "NKE", "NOC", "NOW", "NSSC", "NVDA", "NVMI", "O", "ODD", "OKTA", "ON", "ONTO", "ORCL", "ORLY", "PANW", "PAYC", "PAYX", "PCTY", "PEP", "PH", "PODD", "POOL", "PSA", "PTC", "PWR", "PYPL", "QFIN", "QLYS", "QCOM", "QSR", "REGN", "RMD", "ROL", "ROP", "ROK", "ROST", "RSG", "RTX", "SBAC", "SBUX", "SE", "SHOP", "SHW", "SLB", "SMCI", "SNPS", "SOFI", "SAP", "SQ", "SYK", "TDG", "TDY", "TMO", "TJX", "TRI", "TRMB", "TSLA", "TSM", "TT", "TXN", "TYL", "UL", "ULTA", "UNP", "UPS", "USLM", "V", "VEEV", "VICI", "VMC", "VRSK", "VRSN", "WDAY", "WM", "WMT", "WPM", "WST", "WRB", "XOM", "XYL", "YOU", "ZTS", "ZM"
+]
 
-red_flags = []
-warnings = []
-    
 def calculate_roic_growth_score(metrics):
     """Calculate ROIC growth score - MOST important growth metric per research"""
     roic = metrics.get('ROIC')
@@ -35,89 +34,101 @@ def calculate_roic_growth_score(metrics):
         else:               return 4
     return 5
 
-def calculate_peg_score_improved(peg, is_elite=False, actual_growth=None, roic=None, roe=None, profit_margin=None, historical_score=None):
+def calculate_peg_score_improved(peg, is_elite=False, actual_growth=None):
     """
-    Peter Lynch PEG scoring - TRUE to "One Up on Wall Street"
+    Improved PEG scoring with better granularity
     
-    Research: Lynch said "PEG = 1.0 is fair value"
-    - PEG < 0.5 = exceptional bargain
-    - PEG 0.5-1.0 = good value  
-    - PEG 1.0-1.5 = fair/slightly expensive
-    - PEG > 2.0 = very expensive (avoid)
-    
-    Elite companies get premium for proven moat durability
+    Key insight: PEG 1.5-2.0 should NOT be "expensive"
+    - PEG < 1.0 = undervalued
+    - PEG 1.0-2.0 = fairly valued (acceptable range)
+    - PEG > 2.0 = overvalued
     """
     
     if peg <= 0:
-        return 1.0  # Negative/zero growth = avoid
-    
-    # Determine elite premium multiplier
-    elite_premium = 0
-    if is_elite:
-        # Base premium
-        elite_premium = 1.5
-        
-        # Extra premium for super-elite (ROIC ≥ 35 or ROE ≥ 50)
-        if (roic and roic >= 35) or (roe and roe >= 50):
-            elite_premium = 2.0
-        
-        # Historical persistence adds credibility
-        if historical_score and historical_score >= 8.5:
-            elite_premium += 0.3
+        return 1.0, "Invalid PEG (negative/zero growth)"
     
     # ========== BARGAIN ZONE (PEG < 1.0) ==========
-    if peg < 0.3:
-        return 10.0  # Exceptional (if growth is real)
-    elif 0.3 <= peg < 0.5:
-        return 9.8   # Outstanding bargain
-    elif 0.5 <= peg < 0.7:
-        return 9.5   # Excellent value
-    elif 0.7 <= peg < 0.85:
-        return 9.0   # Very good value
-    elif 0.85 <= peg < 1.0:
-        return 8.5   # Good value
+    if peg < 0.5:
+        if actual_growth and actual_growth > 25:
+            return 10.0
+        else:
+            return 8.5
     
-    # ========== FAIR VALUE ZONE (PEG 1.0-1.5) ==========
-    elif 1.0 <= peg < 1.1:
-        return 8.0   # Lynch: "Fair value"
-    elif 1.1 <= peg < 1.25:
-        return 7.0   # Slightly expensive but acceptable
-    elif 1.25 <= peg < 1.4:
-        return 6.0   # Getting expensive
-    elif 1.4 <= peg < 1.5:
-        return 5.0   # Moderately expensive
+    elif 0.5 <= peg < 0.75:
+        return 10.0
     
-    # ========== EXPENSIVE ZONE (PEG 1.5-2.0) ==========
-    # Elite companies get significant premium here
+    elif 0.75 <= peg < 1.0:
+        return 9.5
+    
+    # ========== FAIR VALUE ZONE (PEG 1.0-2.0) ==========
+    # Peter Lynch: "PEG = 1.0 is fair value"
+    # Most of this range is ACCEPTABLE for investing
+    
+    elif 1.0 <= peg < 1.15:
+        return 9.0
+    
+    elif 1.15 <= peg < 1.3:
+        return 8.5
+    
+    elif 1.3 <= peg < 1.5:
+        return 8.0
+    
     elif 1.5 <= peg < 1.7:
-        base_score = 4.0
-        return min(10.0, base_score + elite_premium)  # Elite: 5.5-6.0
+        # KEY CHANGE: This is NOT "expensive" yet
+        return 7.5
     
     elif 1.7 <= peg < 1.9:
-        # GOOGL territory (PEG 1.79): expensive but elite deserves premium
-        base_score = 3.5
-        return min(10.0, base_score + elite_premium)  # Elite: 5.0-5.5
+        # GOOGL 1.79 lands here
+        return 7.0
     
     elif 1.9 <= peg < 2.0:
-        base_score = 3.0
-        return min(10.0, base_score + elite_premium * 0.8)  # Elite: 4.2-4.6
+        return 6.5
     
-    # ========== AVOID ZONE (PEG 2.0-2.5) ==========
-    elif 2.0 <= peg < 2.25:
+    # ========== EXPENSIVE ZONE (PEG 2.0-3.0) ==========
+    # Academic consensus: PEG > 2.0 = overvalued
+    
+    elif 2.0 <= peg < 2.2:
+        base_score = 5.5
+        reason = "Expensive (above fair value threshold)"
+        
+        if is_elite:
+            base_score = min(6.5, base_score + 1.0)
+            reason += " - elite premium applied"
+        
+        return base_score
+    
+    elif 2.2 <= peg < 2.5:
+        # MSFT 2.30 lands here
+        base_score = 4.5
+        reason = "Significantly overvalued"
+        
+        if is_elite:
+            base_score = min(5.5, base_score + 1.0)
+            reason += " - elite premium applied"
+        
+        return base_score
+    
+    elif 2.5 <= peg < 3.0:
+        base_score = 3.5
+        
+        if is_elite:
+            base_score = min(4.5, base_score + 1.0)
+        
+        return base_score
+    
+    # ========== BUBBLE ZONE (PEG > 3.0) ==========
+    
+    elif 3.0 <= peg < 4.0:
         base_score = 2.5
-        # Even elite companies get less premium here
-        return min(10.0, base_score + elite_premium * 0.5)  # Elite: 3.25-3.75
+        
+        if is_elite:
+            base_score = min(3.5, base_score + 0.5)
+        
+        return base_score
     
-    elif 2.25 <= peg < 2.5:
-        base_score = 2.0
-        return min(10.0, base_score + elite_premium * 0.3)  # Elite: 2.45-2.6
-    
-    # ========== EXTREME OVERVALUATION (PEG ≥ 2.5) ==========
-    else:  # PEG >= 2.5
-        # Lynch: "Twice growth rate is very negative"
-        # No elite premium - overvalued is overvalued
+    else:  # PEG >= 4.0
         return 1.5
-    
+
 def calculate_fcf_growth_score(metrics):
     """Calculate FCF growth score"""
     fcf_per_share = metrics.get('FCF_per_share')
@@ -347,89 +358,6 @@ def create_quad_profile_html(stock_data_academic, stock_data_growth,
     except IOError as e:
         print(f"❌ Error writing HTML file: {e}")
 
-
-def calculate_novy_marx_gross_profitability_score(metrics):
-    """
-    Calculate Novy-Marx Gross Profitability Score
-    
-    Formula: Gross Profitability = (Revenue - COGS) / Total Assets
-    
-    Without balance sheet data, we approximate:
-    - Gross Profit = Revenue × Gross Margin
-    - Asset Turnover = Revenue / Total Assets ≈ ROA / Profit Margin
-    - Gross Profitability ≈ Gross Margin × Asset Turnover
-    
-    Research: Novy-Marx (2013) - Gross profitability predicts returns
-    """
-    gross_margin = metrics.get('Gross_Margin')
-    roa = metrics.get('ROA')
-    profit_margin = metrics.get('Profit_Margin')
-    roe = metrics.get('ROE')
-    
-    # Calculate asset turnover proxy
-    asset_turnover = None
-    if roa and profit_margin and profit_margin > 0:
-        # Asset Turnover = Sales/Assets = (Net Income/Assets) / (Net Income/Sales)
-        asset_turnover = roa / profit_margin  # Removed abs()
-        
-        # CRITICAL: Negative asset turnover = red flag
-        if asset_turnover < 0:
-            warnings.append(f"Negative asset turnover proxy (ROA: {roa:.1f}%, Margin: {profit_margin:.1f}%)")
-            return 2.0, None  # Fail this stock for Novy-Marx
-    elif roe and profit_margin and profit_margin > 0:
-        # Fallback using ROE
-        asset_turnover = abs(roe / profit_margin) * 0.7  # Conservative adjustment
-    
-    # Calculate gross profitability score
-    if gross_margin and asset_turnover:
-        # Gross Profitability ≈ Gross Margin × Asset Turnover
-        gross_profitability = gross_margin * asset_turnover
-        
-        # Novy-Marx benchmarks (approximate from paper)
-        # Top quartile: ~50%+, Median: ~30%, Bottom quartile: ~15%
-        if gross_profitability >= 60:
-            base_score = 10.0
-        elif gross_profitability >= 50:
-            base_score = 9.5
-        elif gross_profitability >= 45:
-            base_score = 9.0
-        elif gross_profitability >= 40:
-            base_score = 8.5
-        elif gross_profitability >= 35:
-            base_score = 8.0
-        elif gross_profitability >= 30:
-            base_score = 7.5
-        elif gross_profitability >= 25:
-            base_score = 7.0
-        elif gross_profitability >= 20:
-            base_score = 6.0
-        elif gross_profitability >= 15:
-            base_score = 5.0
-        elif gross_profitability >= 10:
-            base_score = 4.0
-        else:
-            base_score = 2.0
-        
-        print(f"      Novy-Marx Gross Profitability: {gross_profitability:.1f}% (GM: {gross_margin:.1f}% × AT: {asset_turnover:.2f})")
-        
-        return base_score, gross_profitability
-    
-    # Fallback: Use gross margin alone (less accurate)
-    elif gross_margin:
-        print(f"      ⚠️ Using Gross Margin fallback (no asset turnover data)")
-        if gross_margin >= 80:      return 9.5, gross_margin
-        elif gross_margin >= 70:    return 9.0, gross_margin
-        elif gross_margin >= 60:    return 8.5, gross_margin
-        elif gross_margin >= 50:    return 8.0, gross_margin
-        elif gross_margin >= 45:    return 7.5, gross_margin
-        elif gross_margin >= 40:    return 7.0, gross_margin
-        elif gross_margin >= 35:    return 6.5, gross_margin
-        elif gross_margin >= 30:    return 6.0, gross_margin
-        elif gross_margin >= 25:    return 5.0, gross_margin
-        else:                       return 3.0, gross_margin
-    
-    return 5.0, None
-
 def generate_table_rows(stock_data, profile_name):
     """Generate table rows for a specific profile"""
     # Sort stocks by total score
@@ -549,7 +477,7 @@ USER_AGENTS = [
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.15 Safari/605.1.15'
 ]
 DELAY_BETWEEN_REQUESTS = 5  # seconds
-HTML_FILE = os.path.join(os.getcwd(), 'index.html')
+HTML_FILE = os.path.join(os.getcwd(), 'enhanced_stock_analysis2.0.html')
 HTML_TEMPLATE_FILE = os.path.join(os.getcwd(), 'template_dual.html')
 MAX_RETRIES = 3
 
@@ -559,7 +487,7 @@ def calculate_revenue_growth_score(metrics, config):
     
     # Prioritize 5Y revenue CAGR (most predictive)
     sales_5y = metrics.get('Sales_past_5Y')
-    sales_yoy = metrics.get('Sales_YoY_TTM')  
+    sales_yoy = metrics.get('Sales_YoY_TTM')  # ✅ MOVE THIS UP
     
     if sales_5y is not None:
         if config['growth_expectations'] == 'high':
@@ -591,29 +519,7 @@ def calculate_revenue_growth_score(metrics, config):
     return revenue_score
 
 def get_historical_score(stock_symbol):
-    """
-        Get historical fundamental score for a stock
-        
-        SOURCE: historical_fundamental_scores.py
-        METHODOLOGY: 5-year trailing average of:
-            - ROIC persistence (40%)
-            - FCF growth consistency (30%)
-            - Revenue growth (20%)
-            - Debt/Equity trend (10%)
-        
-        SCORING: 0-10 scale
-            9.0+ = Elite persistent quality (top 5%)
-            8.0-8.9 = Excellent track record
-            7.0-7.9 = Good historical fundamentals
-            6.0-6.9 = Average
-            <6.0 = Weak or declining quality
-        
-        DATA RANGE: 2019-2024 (5 years)
-        LAST UPDATED: [YOUR DATE HERE]
-        
-        NOTE: Scores are STATIC and should be refreshed quarterly
-        Missing scores return None (treat as neutral 5.0 for new/small companies)
-    """
+    """Get historical fundamental score for a stock"""
     try:
         score_str = historical_fundamental_scores.STOCK_SCORES.get(stock_symbol)
         print(f"Debug: {stock_symbol} -> {score_str}")  # Add this debug line
@@ -905,49 +811,48 @@ RESEARCH_PROFILES = {
         }
     },
     'growth_based': {
-        'name': 'Growth-Based Empirical (S&P 500 Charts)',
-        'description': 'YOUR research: Chart 1 shows revenue > profit for share price gains. Chart 2: FCF peaks at 8yr (0.51 correlation). Chart 3: Revenue growth = largest component.',
+        'name': 'Growth-Based Research (S&P 500 Empirical)',
+        'description': 'Chart analysis: Revenue > Profit growth for share price gains',
         'base_weights': {
-            'growth': 0.50,       # PRIMARY driver per your charts
-            'quality': 0.25,      # FCF quality matters
-            'valuation': 0.15,    # Entry point
-            'historical': 0.10    # Consistency
+            'quality': 0.30,      # Still important but not dominant
+            'growth': 0.40,       # PRIMARY driver per charts
+            'valuation': 0.15,    # Entry point timing
+            'historical': 0.15    # Consistency check
         },
         'quality_breakdown': {
-            'fcf_positivity': 0.40,   # Chart 2: FCF peaks highest
-            'roic_absolute': 0.30,
-            'roic_stability': 0.15,
-            'debt_quality': 0.10,
-            'roe_supplementary': 0.05
+            'roic_absolute': 0.35,    # 10.5% of total (reduced)
+            'roic_stability': 0.20,   # 6% of total
+            'fcf_positivity': 0.25,   # 7.5% of total (FCF = realized growth)
+            'debt_quality': 0.15,     # 4.5% of total
+            'roe_supplementary': 0.05  # 1.5% of total
         },
         'growth_breakdown': {
-            'revenue_growth': 0.45,   # Chart 1 + Chart 3: DOMINANT
-            'fcf_growth': 0.30,       # Chart 2: Highest correlation
-            'eps_growth': 0.15,       # Chart 3: Secondary
-            'roic_growth': 0.05,
-            'roe_growth': 0.05
+            'revenue_growth': 0.50,   # 14% of total (Chart 1 dominance + Chart 3)
+            'fcf_growth': 0.30,       # 14% of total (Chart 2 peak correlation)
+            'eps_growth': 0.15,       # 10% of total (Chart 2 + Chart 3)
+            'roic_growth': 0.1,      # 1.2% of total
+            'roe_growth': 0.05        # 0.8% of total
         }
     },
      # ========== NEW PROFILE 1: Novy-Marx/Velikov 2023 ==========
     'novy_marx': {
-        'name': 'Novy-Marx Gross Profitability (2013)',
-        'description': 'Gross profitability equals book-to-market in predicting returns',
+        'name': 'Novy-Marx Profitability Model (2023)',
+        'description': 'Gross profitability has same predictive power as book-to-market. Quality + Value balanced approach.',
         'base_weights': {
-            'quality': 0.50,      # Gross profitability (PRIMARY)
-            'valuation': 0.50,    # Book-to-market factor
-            'growth': 0.00,       # Not used in original paper
-            'historical': 0.00
+            'quality': 0.35,      # Profitability focus (but not dominant)
+            'growth': 0.40,       # Growth important for profitability expansion
+            'valuation': 0.15,    # Value still matters (book-to-market)
+            'historical': 0.10    # Reduced - forward-looking model
         },
         'quality_breakdown': {
-            'gross_profitability': 0.60,  # Renamed from gross_margin
-            'roic_absolute': 0.20,
-            'fcf_positivity': 0.15,
-            'debt_quality': 0.05,
-            'roic_stability': 0.00,
-            'roe_supplementary': 0.00
+            'roic_absolute': 0.25,    # Gross profitability proxy
+            'roic_stability': 0.30,   # Consistency key
+            'fcf_positivity': 0.25,   # Cash generation
+            'debt_quality': 0.10,
+            'roe_supplementary': 0.10
         },
         'growth_breakdown': {
-            'revenue_growth': 0.35,
+            'revenue_growth': 0.35,   # Top-line drives profitability
             'fcf_growth': 0.25,
             'eps_growth': 0.20,
             'roic_growth': 0.15,
@@ -958,52 +863,52 @@ RESEARCH_PROFILES = {
     # ========== NEW PROFILE 2: Fama-French Five-Factor ==========
     'fama_french': {
         'name': 'Fama-French Five-Factor Model',
-        'description': 'Academic gold standard: Size, Value, Profitability, Investment. RMW (profitability) + CMA (conservative investment) explain 90%+ of returns.',
+        'description': 'Academic gold standard: Size, Value, Profitability, Investment, Momentum. Explains 90%+ of returns.',
         'base_weights': {
-            'quality': 0.50,      # RMW (profitability) - PRIMARY
-            'valuation': 0.25,    # HML (value premium)
-            'growth': 0.15,       # Asset growth (NOT inverted)
-            'historical': 0.10
+            'quality': 0.40,      # Profitability (RMW) + Investment (CMA)
+            'growth': 0.25,       # Conservative investment pattern
+            'valuation': 0.25,    # HML (High Minus Low book-to-market)
+            'historical': 0.10    # Momentum captured elsewhere
         },
         'quality_breakdown': {
-            'roic_absolute': 0.35,    # Operating profitability
-            'roic_stability': 0.25,    # Consistency
-            'fcf_positivity': 0.20,    # Cash generation
-            'debt_quality': 0.15,      # Financial health
+            'roic_absolute': 0.40,    # Profitability factor (RMW)
+            'roic_stability': 0.25,   # Investment factor (CMA)
+            'fcf_positivity': 0.15,
+            'debt_quality': 0.15,
             'roe_supplementary': 0.05
         },
         'growth_breakdown': {
-            'roic_growth': 0.50,       # Capital efficiency
-            'fcf_growth': 0.30,        # Conservative investment
-            'revenue_growth': 0.10,    # Organic only
-            'eps_growth': 0.05,
+            'roic_growth': 0.30,      # Conservative investment
+            'fcf_growth': 0.30,       # Avoid aggressive capex
+            'eps_growth': 0.20,
+            'revenue_growth': 0.15,
             'roe_growth': 0.05
         }
     },
 
     # ========== NEW PROFILE 3: Magic Formula + Piotroski ==========
     'magic_piotroski': {
-        'name': 'Magic Formula + Piotroski F-Score Combo',
-        'description': 'Greenblatt ROIC (50%) + Earnings Yield (25%) + Piotroski health screen (9 criteria)',
+        'name': 'Magic Formula + Piotroski Combo',
+        'description': 'Joel Greenblatt ROIC/EY + Piotroski financial health screen',
         'base_weights': {
-            'quality': 0.60,      # Increased to accommodate both
-            'valuation': 0.35,
-            'growth': 0.00,       # ← ADD THIS LINE (not used but required for consistency)
-            'historical': 0.05
+            'quality': 0.60,      # ROIC (Magic) + Health (Piotroski)
+            'valuation': 0.25,    # Earnings Yield (Magic)
+            'growth': 0.10,       # Consistency check
+            'historical': 0.05    # Trend validation
         },
         'quality_breakdown': {
-            'roic_absolute': 0.45,       # Greenblatt (reduced from 50%)
-            'piotroski_fscore': 0.25,    # Piotroski filter (NEW)
-            'fcf_positivity': 0.15,
-            'debt_quality': 0.10,
-            'roic_stability': 0.05
+            'roic_absolute': 0.40,    # Magic Formula focus
+            'fcf_positivity': 0.25,   # Piotroski cash flow
+            'debt_quality': 0.15,     # Piotroski leverage
+            'roic_stability': 0.15,   # Combined efficiency
+            'roe_supplementary': 0.05
         },
         'growth_breakdown': {
-            'roic_growth': 0.40,
+            'roic_growth': 0.30,
             'fcf_growth': 0.30,
-            'eps_growth': 0.15,
+            'eps_growth': 0.20,
             'revenue_growth': 0.10,
-            'roe_growth': 0.05
+            'roe_growth': 0.10
         }
     },
 
@@ -1038,16 +943,17 @@ RESEARCH_PROFILES = {
         'name': 'Piotroski F-Score Quality Screen',
         'description': 'Financial health checklist: 13.4% annual outperformance (1976-1996)',
         'base_weights': {
-            'quality': 0.60,      # F-Score health (primary)
-            'valuation': 0.30,    # Applied to value stocks (critical!)
-            'growth': 0.05,       # Minimal
+            'quality': 0.70,      # Financial health dominance
+            'valuation': 0.15,    # Value stocks preferred
+            'growth': 0.10,       # Growth stability
             'historical': 0.05    # Trend validation
         },
         'quality_breakdown': {
-            'piotroski_fscore': 0.60,    # NEW: F-Score primary
-            'fcf_positivity': 0.20,       # Cash flow quality
-            'debt_quality': 0.15,         # Leverage/liquidity
-            'roic_absolute': 0.05         # Supplementary
+            'roic_absolute': 0.30,    # Profitability
+            'fcf_positivity': 0.30,   # Cash flow quality
+            'debt_quality': 0.20,     # Leverage/liquidity
+            'roic_stability': 0.15,   # Efficiency
+            'roe_supplementary': 0.05
         },
         'growth_breakdown': {
             'roic_growth': 0.25,
@@ -1087,38 +993,38 @@ RESEARCH_PROFILES = {
     # ========== NEW PROFILE 7: Buffett Quality Fortress ==========
     'buffett_quality': {
         'name': 'Buffett Quality Fortress',
-        'description': 'Enduring moat with ROIC > 20%, fortress balance sheet, historical persistence. "Fair price for wonderful business."',
-            'base_weights': {
-            'quality': 0.55,      # Slightly reduce quality
-            'historical': 0.25,   # Keep persistence
-            'valuation': 0.10,    # Fair price
-            'growth': 0.10        # Organic compounding (increase from 5%)
+        'description': 'Warren Buffett: Wonderful business at fair price. Moat + ROIC > 20%',
+        'base_weights': {
+            'quality': 0.60,      # Quality dominance (Munger influence)
+            'historical': 0.25,   # Moat persistence
+            'valuation': 0.10,    # Fair price (not cheap)
+            'growth': 0.05        # Organic growth only
         },
         'quality_breakdown': {
-            'roic_absolute': 0.55,    # ROIC > 20% minimum
+            'roic_absolute': 0.50,    # "Economic moat"
             'roic_stability': 0.30,   # Moat durability
             'debt_quality': 0.10,     # Fortress balance sheet
-            'fcf_positivity': 0.03,   # Owner earnings
-            'roe_supplementary': 0.02
+            'fcf_positivity': 0.05,   # Owner earnings
+            'roe_supplementary': 0.05
         },
         'growth_breakdown': {
-            'roic_growth': 0.50,      # Compounding
+            'roic_growth': 0.40,
             'roe_growth': 0.30,
             'fcf_growth': 0.15,
-            'eps_growth': 0.03,
-            'revenue_growth': 0.02    # Not needed if ROIC high
+            'eps_growth': 0.10,
+            'revenue_growth': 0.05
         }
     },
 
     # ========== NEW PROFILE: COMBINED PERFORMANCE-WEIGHTED ==========
     'combined_performance': {
         'name': 'Combined Performance-Weighted Portfolio',
-        'description': 'Equal-weighted blend of validated factors, reducing single-model risk',
+        'description': 'Weighted combination of top performers: Greenblatt (32%), Lynch (30%), Piotroski (24%), Fama-French (14%). Based on historical CAGR performance.',
         'base_weights': {
-            'quality': 0.40,      # Consensus from all models
-            'valuation': 0.30,    # Mean-reverting factor
-            'growth': 0.20,       # Forward-looking component
-            'historical': 0.10    # Persistence validation
+            'quality': 0.45,      # Weighted average from constituents
+            'growth': 0.25,       # Weighted average from constituents
+            'valuation': 0.23,    # Weighted average from constituents
+            'historical': 0.07    # Weighted average from constituents
         },
         'quality_breakdown': {
             'roic_absolute': 0.42,
@@ -1136,125 +1042,6 @@ RESEARCH_PROFILES = {
         }
     },
 }
-
-def calculate_greenblatt_roic(metrics):
-    """
-    Greenblatt Magic Formula ROIC approximation
-    
-    Formula: ROIC = EBIT / Tangible Capital
-    
-    Since Finviz lacks balance sheet details:
-    1. Try to use operating margin * revenue as EBIT proxy
-    2. Fallback to standard ROIC with adjustments
-    """
-    roic = metrics.get('ROIC')
-    oper_margin = metrics.get('Oper_Margin')
-    profit_margin = metrics.get('Profit_Margin')
-    roe = metrics.get('ROE')
-    debt_eq = metrics.get('Debt/Eq')
-    
-    # If we have standard ROIC, adjust it for Greenblatt methodology
-    if roic is not None:
-        # Greenblatt excludes excess cash and goodwill
-        # Without balance sheet data, make conservative adjustment
-        
-        # If company has low debt, ROIC is closer to true tangible ROIC
-        if debt_eq is not None and debt_eq < 0.2:
-            # Low debt = minimal financial engineering
-            adjusted_roic = roic * 1.0  # No adjustment needed
-        elif debt_eq is not None and debt_eq > 1.0:
-            # High debt = ROIC might be inflated
-            adjusted_roic = roic * 0.95  # Slight downward adjustment
-        else:
-            adjusted_roic = roic
-        
-        return adjusted_roic
-    
-    # Fallback: estimate from ROE and operating margin
-    elif roe is not None and oper_margin is not None:
-        # Very rough approximation
-        # ROIC ≈ ROE adjusted for leverage and margins
-        if debt_eq is not None and debt_eq > 0:
-            estimated_roic = roe / (1 + debt_eq) * (oper_margin / profit_margin if profit_margin else 1.0)
-        else:
-            estimated_roic = roe * 0.8  # Conservative estimate
-        
-        return estimated_roic
-    
-    return None
-
-def calculate_piotroski_fscore(metrics):
-    """
-    Calculate Piotroski F-Score (0-9)
-    
-    ⚠️ LIMITATION: Original Piotroski uses year-over-year CHANGES
-    Without historical data, we use:
-        - Absolute levels (ROA > 0, instead of ΔROA > 0)
-        - Proxy metrics (profit margin trend, instead of actual Δmargin)
-    
-    ACCURACY: ~60-70% of original F-Score predictive power
-    
-    Profitability (4 points):
-    1. ROA > 0
-    [... rest of docstring ...]
-    """
-    score = 0
-    
-    # 1. Positive ROA
-    roa = metrics.get('ROA')
-    if roa and roa > 0:
-        score += 1
-    
-    # 2. Positive Operating Cash Flow (proxy: FCF_per_share > 0)
-    fcf = metrics.get('FCF_per_share')
-    if fcf and fcf > 0:
-        score += 1
-    
-    # 3. Change in ROA (can't calculate without historical data)
-    # Use increasing profit margin as proxy
-    profit_margin = metrics.get('Profit_Margin')
-    eps_yoy = metrics.get('EPS_YoY_TTM')
-    if profit_margin and profit_margin > 15 and eps_yoy and eps_yoy > 0:
-        score += 1
-    
-    # 4. Quality of earnings: FCF > Net Income
-    eps_ttm = metrics.get('EPS_TTM')
-    if fcf and eps_ttm and eps_ttm > 0:
-        if (fcf / eps_ttm) > 1.0:
-            score += 1
-    
-    # 5. Decreasing leverage (low debt)
-    debt_eq = metrics.get('Debt/Eq')
-    if debt_eq is not None:
-        if debt_eq < 0.5:
-            score += 1
-    
-    # 6. Increasing liquidity (good current ratio)
-    current_ratio = metrics.get('Current_Ratio')
-    if current_ratio and current_ratio >= 1.5:
-        score += 1
-    
-    # 7. No new shares (can't calculate without historical data)
-    # Give benefit of doubt if fundamentals strong
-    debt_eq = metrics.get('Debt/Eq')
-    roe = metrics.get('ROE')
-    if roe and roe > 20 and debt_eq is not None and debt_eq < 0.5:
-        score += 1  # Low debt + high ROE = likely no dilution
-    else:
-        # Cannot reliably determine - score neutrally (no point)
-        pass
-    
-    # 8. Increasing gross margin (high absolute = proxy)
-    gross_margin = metrics.get('Gross_Margin')
-    if gross_margin and gross_margin > 40:
-        score += 1
-    
-    # 9. Asset turnover (can't calculate without historical data)
-    # Use ROA as proxy for efficiency
-    if roa and roa > 10:
-        score += 1
-    
-    return score  # Returns 0-9
 
 def get_research_validated_weights(sector, research_profile='academic'):
     """
@@ -1357,7 +1144,6 @@ def calculate_enhanced_scores_with_sectors(metrics, sector=None, stock_symbol=No
     - McKinsey ROIC persistence study
     - Empirical charts showing revenue > profit growth importance
     """
-
     if not metrics:
         return None
     
@@ -1485,12 +1271,12 @@ def calculate_enhanced_scores_with_sectors(metrics, sector=None, stock_symbol=No
     config = SECTOR_CONFIGS.get(sector, DEFAULT_CONFIG) if sector else DEFAULT_CONFIG
     sector = sector or 'Unknown'
     
+    red_flags = []
+    warnings = []
+    
     # ================== VALUATION SCORING (keep structure, already good) ==================
     valuation_score = 0
     valuation_components = []
-
-    if stock_symbol == 'SPGI':
-        print(f"SPGI Debug: ROE={metrics.get('ROE')}, FCF Conv={metrics.get('FCF_per_share')/metrics.get('EPS_TTM')}")
     
     pe = metrics.get('PE')
     forward_pe = metrics.get('Forward_PE')
@@ -1513,15 +1299,7 @@ def calculate_enhanced_scores_with_sectors(metrics, sector=None, stock_symbol=No
         # Peter Lynch: "Fair value PEG = 1.0"
         # Academic research: PEG > 2.0 = significantly overvalued
         
-        peg_score = calculate_peg_score_improved(
-            peg=peg,
-            is_elite=is_elite,
-            actual_growth=actual_growth,
-            roic=roic,
-            roe=roe,
-            profit_margin=profit_margin,
-            historical_score=historical_score_
-        )
+        peg_score = calculate_peg_score_improved(peg, is_elite, actual_growth)
     
     valuation_components.append(('PEG_Ratio', peg_score, 0.60))
     
@@ -1624,308 +1402,178 @@ def calculate_enhanced_scores_with_sectors(metrics, sector=None, stock_symbol=No
     # "The key number in valuation is return on capital" - Damodaran
     # This is THE most important quality indicator
 
-    # Use Greenblatt-adjusted ROIC for Magic Formula profiles
-    if research_profile in ['greenblatt_magic', 'magic_piotroski']:
-        roic = calculate_greenblatt_roic(metrics)
-        print(f"   🎯 Using Greenblatt-adjusted ROIC: {roic}%")
-    else:
-        roic = metrics.get('ROIC')
-
     roic_absolute_score = 5
     roe = metrics.get('ROE')
     roic = metrics.get('ROIC')
     roa = metrics.get('ROA')
 
-    if research_profile == 'novy_marx':
-        roic_absolute_score, gross_prof_value = calculate_novy_marx_gross_profitability_score(metrics)
+    # Get sector context
+    sector_benchmarks = SECTOR_ROIC_BENCHMARKS.get(
+        sector,
+        {'top_quartile': 20, 'median': 12, 'bottom_quartile': 6}
+    )
+
+    if roic is not None:
+        # Absolute ROIC scoring (what matters most)
+        if roic >= 50:
+            # Super-elite (SPGI, V, MA level)
+            base_roic = 10
+        elif roic >= 40:
+            # Elite capital allocators (top 1%)
+            base_roic = 9.8
+        elif roic >= 35:
+            # Exceptional (GOOGL level)
+            base_roic = 9.5
+        elif roic >= 30:
+            # Outstanding (MSFT level)
+            base_roic = 9.2
+        elif roic >= 25:
+            # Excellent competitive advantage
+            base_roic = 8.8
+        elif roic >= 22:
+            # Very strong moat
+            base_roic = 8.3
+        elif roic >= 20:
+            # Strong moat
+            base_roic = 8.0
+        elif roic >= 18:
+            # Good moat
+            base_roic = 7.5
+        elif roic >= 15:
+            # Above average business
+            base_roic = 7.0
+        elif roic >= 12:
+            # Average business
+            base_roic = 6.0
+        elif roic >= 10:
+            # Below average
+            base_roic = 5.0
+        elif roic >= 8:
+            # Weak returns
+            base_roic = 4.0
+        elif roic >= 6:
+            # Poor returns
+            base_roic = 3.0
+        else:
+            # Value destructive
+            base_roic = 2.0
         
-        # Additional sector adjustments
-        if sector == 'Financial' and gross_prof_value:
-            gross_margin = metrics.get('Gross_Margin')
-            
-            # Novy-Marx doesn't work well for financials (intangible-heavy)
-            # Use raw gross margin instead
-            if gross_margin and gross_margin >= 60:
-                roic_absolute_score = 8.0  # Override with margin-based score
-                print(f"      Financial override: Using gross margin ({gross_margin:.1f}%) for Novy-Marx")
-            elif gross_margin and gross_margin >= 50:
-                roic_absolute_score = 7.0
-            else:
-                roic_absolute_score = 5.0
-            
-            warnings.append("Novy-Marx asset turnover less relevant for Financials")
-
-        elif sector == 'Technology' and gross_prof_value:
-            if gross_prof_value < 35:  # Tech should have high GP
-                roic_absolute_score = max(2, roic_absolute_score - 1.5)
-                warnings.append(f"Low gross profitability for Tech: {gross_prof_value:.1f}%")
-        elif sector in ['Basic Materials', 'Energy'] and gross_prof_value:
-            if gross_prof_value >= 25:  # Asset-heavy sectors
-                roic_absolute_score = min(10, roic_absolute_score + 1.0)
-
-        if sector == 'Consumer Defensive' and gross_prof_value:
-            # Consumer brands are asset-heavy (bottling, distribution)
-            # 50%+ gross profitability is excellent
-            if gross_prof_value >= 45:
-                roic_absolute_score = min(10, roic_absolute_score + 1.5)
-                print(f"      Consumer Defensive bonus: Strong gross profitability ({gross_prof_value:.1f}%)")
-            elif gross_prof_value >= 40:
-                roic_absolute_score = min(10, roic_absolute_score + 1.0)
+        # Sector-relative bonus (beating industry significantly)
+        sector_median = sector_benchmarks['median']
+        sector_top = sector_benchmarks['top_quartile']
         
-        # Consistency check: high gross profit should have high ROIC
-        roic = metrics.get('ROIC')
-        if roic and gross_prof_value:
-            if gross_prof_value >= 40 and roic < 15:
-                warnings.append(f"High gross profitability ({gross_prof_value:.1f}%) but low ROIC ({roic:.1f}%)")
-                roic_absolute_score = max(3, roic_absolute_score - 1.0)
-            elif gross_prof_value >= 50 and roic >= 25:
-                # Elite combination
-                roic_absolute_score = min(10, roic_absolute_score + 0.5)
-
-    else:
-
-        # Get sector context
-        sector_benchmarks = SECTOR_ROIC_BENCHMARKS.get(
-            sector,
-            {'top_quartile': 20, 'median': 12, 'bottom_quartile': 6}
-        )
-
-        if roic is not None:
-            # Absolute ROIC scoring (what matters most)
-            if roic >= 50:
-                # Super-elite (SPGI, V, MA level)
-                base_roic = 10
-            elif roic >= 40:
-                # Elite capital allocators (top 1%)
-                base_roic = 9.8
-            elif roic >= 35:
-                # Exceptional (GOOGL level)
-                base_roic = 9.5
-            elif roic >= 30:
-                # Outstanding (MSFT level)
-                base_roic = 9.2
-            elif roic >= 25:
-                # Excellent competitive advantage
-                base_roic = 8.8
-            elif roic >= 22:
-                # Very strong moat
-                base_roic = 8.3
-            elif roic >= 20:
-                # Strong moat
-                base_roic = 8.0
-            elif roic >= 18:
-                # Good moat
-                base_roic = 7.5
-            elif roic >= 15:
-                # Above average business
-                base_roic = 7.0
-            elif roic >= 12:
-                # Average business
-                base_roic = 6.0
-            elif roic >= 10:
-                # Below average
-                base_roic = 5.0
-            elif roic >= 8:
-                # Weak returns
-                base_roic = 4.0
-            elif roic >= 6:
-                # Poor returns
-                base_roic = 3.0
-            else:
-                # Value destructive
-                base_roic = 2.0
-
+        if sector_median > 0:
+            if roic >= sector_median * 3.0:
+                # Crushing the industry
+                base_roic = min(10, base_roic + 0.8)
+            elif roic >= sector_median * 2.5:
+                # Dominating
+                base_roic = min(10, base_roic + 0.6)
+            elif roic >= sector_median * 2.0:
+                # Well above average
+                base_roic = min(10, base_roic + 0.4)
+            elif roic >= sector_median * 1.5:
+                # Above average
+                base_roic = min(10, base_roic + 0.2)
+            elif roic < sector_benchmarks['bottom_quartile']:
+                # Below industry bottom quartile
+                base_roic = max(1, base_roic - 1.0)
+        
+        # Leverage quality check
+        if roe is not None and roic > 0:
+            leverage_ratio = roe / roic
             
-            # Sector-relative bonus (beating industry significantly)
-            sector_median = sector_benchmarks['median']
-            sector_top = sector_benchmarks['top_quartile']
-            
-            if sector_median > 0:
-                if roic >= sector_median * 3.0:
-                    # Crushing the industry
-                    base_roic = min(10, base_roic + 0.8)
-                elif roic >= sector_median * 2.5:
-                    # Dominating
-                    base_roic = min(10, base_roic + 0.6)
-                elif roic >= sector_median * 2.0:
-                    # Well above average
-                    base_roic = min(10, base_roic + 0.4)
-                elif roic >= sector_median * 1.5:
-                    # Above average
+            if leverage_ratio < 1.05:
+                # ROE ≈ ROIC = pristine balance sheet (V, MA, GOOGL style)
+                # This is EXCEPTIONAL - high returns with no debt
+                base_roic = min(10, base_roic + 0.8)
+            elif 1.05 <= leverage_ratio <= 1.3:
+                # Minimal leverage, still excellent
+                base_roic = min(10, base_roic + 0.5)
+            elif 1.3 < leverage_ratio <= 2.0:
+                # Moderate leverage - acceptable if ROIC is high
+                if roic >= sector_top:
+                    # High ROIC justifies some leverage
                     base_roic = min(10, base_roic + 0.2)
-                elif roic < sector_benchmarks['bottom_quartile']:
-                    # Below industry bottom quartile
-                    base_roic = max(1, base_roic - 1.0)
-            
-            # Leverage quality check
-            if roe is not None and roic > 0:
-                leverage_ratio = roe / roic
-                
-                if leverage_ratio < 1.05:
-                    # ROE ≈ ROIC = pristine balance sheet (V, MA, GOOGL style)
-                    # This is EXCEPTIONAL - high returns with no debt
-                    base_roic = min(10, base_roic + 0.8)
-                elif 1.05 <= leverage_ratio <= 1.3:
-                    # Minimal leverage, still excellent
-                    base_roic = min(10, base_roic + 0.5)
-                elif 1.3 < leverage_ratio <= 2.0:
-                    # Moderate leverage - acceptable if ROIC is high
-                    if roic >= sector_top:
-                        # High ROIC justifies some leverage
-                        base_roic = min(10, base_roic + 0.2)
-                    # else: no adjustment
-                elif 2.0 < leverage_ratio <= 3.0:
-                    # Elevated leverage - caution
-                    if roic < sector_median:
-                        base_roic = max(2, base_roic - 0.5)
-                        warnings.append(f"Moderate leverage with mediocre ROIC: ROE/ROIC = {leverage_ratio:.1f}")
-                elif 3.0 < leverage_ratio <= 4.5:
-                    # High leverage masking weak returns
-                    base_roic = max(2, base_roic - 1.5)
-                    warnings.append(f"High financial leverage: ROE/ROIC = {leverage_ratio:.1f}")
-                else:
-                    # Excessive leverage - red flag
-                    base_roic = max(1, base_roic - 2.5)
-                    red_flags.append(f"Excessive leverage: ROE/ROIC = {leverage_ratio:.1f}")
-            
-            roic_absolute_score = base_roic
-
-        elif roe is not None:
-            # Fallback to ROE (less reliable, but better than nothing)
-            if roe >= 100:      roic_absolute_score = 10.0  # Exceptional (SPGI level)
-            elif roe >= 80:     roic_absolute_score = 9.9
-            elif roe >= 60:     roic_absolute_score = 9.8
-            elif roe >= 45:     roic_absolute_score = 9.5
-            elif roe >= 40:     roic_absolute_score = 9.2
-            elif roe >= 35:     roic_absolute_score = 9.0
-            elif roe >= 30:     roic_absolute_score = 8.5
-            elif roe >= 25:     roic_absolute_score = 8.0
-            elif roe >= 22:     roic_absolute_score = 7.5
-            elif roe >= 20:     roic_absolute_score = 7.0
-            elif roe >= 18:     roic_absolute_score = 6.5
-            elif roe >= 15:     roic_absolute_score = 6.0
-            elif roe >= 12:     roic_absolute_score = 5.0
-            elif roe >= 10:     roic_absolute_score = 4.0
-            else:               roic_absolute_score = 3.0
-            
-            # Penalize if high leverage suspected (no ROIC to verify)
-            debt_eq = metrics.get('Debt/Eq')
-            if debt_eq is not None and sector != 'Financial':
-                if debt_eq > 2.0:
-                    roic_absolute_score = max(2, roic_absolute_score - 2.0)
-                    warnings.append(f"High ROE may be leverage-driven (D/E={debt_eq:.2f}, no ROIC data)")
-                elif debt_eq > 1.5:
-                    roic_absolute_score = max(3, roic_absolute_score - 1.0)
-                    warnings.append("ROE may be inflated by leverage (no ROIC data)")
+                # else: no adjustment
+            elif 2.0 < leverage_ratio <= 3.0:
+                # Elevated leverage - caution
+                if roic < sector_median:
+                    base_roic = max(2, base_roic - 0.5)
+                    warnings.append(f"Moderate leverage with mediocre ROIC: ROE/ROIC = {leverage_ratio:.1f}")
+            elif 3.0 < leverage_ratio <= 4.5:
+                # High leverage masking weak returns
+                base_roic = max(2, base_roic - 1.5)
+                warnings.append(f"High financial leverage: ROE/ROIC = {leverage_ratio:.1f}")
+            else:
+                # Excessive leverage - red flag
+                base_roic = max(1, base_roic - 2.5)
+                red_flags.append(f"Excessive leverage: ROE/ROIC = {leverage_ratio:.1f}")
         
-        elif roa is not None:
-            # Last resort - ROA (weakest proxy for ROIC)
-            if roa >= 25:       roic_absolute_score = 8.5
-            elif roa >= 20:     roic_absolute_score = 8.0
-            elif roa >= 18:     roic_absolute_score = 7.5
-            elif roa >= 15:     roic_absolute_score = 7.0
-            elif roa >= 12:     roic_absolute_score = 6.0
-            elif roa >= 10:     roic_absolute_score = 5.0
-            else:               roic_absolute_score = 4.0
+        roic_absolute_score = base_roic
 
-    # ========== GET QUALITY BREAKDOWN FIRST ==========
-    # Handle Piotroski profile's special structure
-    if research_profile == 'piotroski':
-        quality_breakdown = {
-            'piotroski_fscore': 0.60,
-            'fcf_positivity': 0.20,
-            'debt_quality': 0.15,
-            'roic_absolute': 0.05,
-            'roic_stability': 0.0,
-            'roe_supplementary': 0.0
-        }
-    elif research_profile == 'magic_piotroski':
-        quality_breakdown = {
-            'roic_absolute': 0.50,
-            'fcf_positivity': 0.20,
-            'debt_quality': 0.15,
-            'roic_stability': 0.10,
-            'roe_supplementary': 0.05,
-            'piotroski_fscore': 0.0  # Not used in magic_piotroski
-        }
-    else:
-        quality_breakdown = weights_info.get('quality_breakdown', {
-            'roic_absolute': 0.50,
-            'roic_stability': 0.25,
-            'fcf_positivity': 0.10,
-            'debt_quality': 0.10,
-            'roe_supplementary': 0.05
-        })
-
-    # ========== PIOTROSKI F-SCORE COMPONENT (if applicable) ==========
-    if research_profile == 'piotroski' or research_profile == 'magic_piotroski':
-        fscore = calculate_piotroski_fscore(metrics)
+    elif roe is not None:
+        # Fallback to ROE (less reliable, but better than nothing)
+        if roe >= 100:      roic_absolute_score = 10.0  # Exceptional (SPGI level)
+        elif roe >= 80:     roic_absolute_score = 9.9
+        elif roe >= 60:     roic_absolute_score = 9.8
+        elif roe >= 45:     roic_absolute_score = 9.5
+        elif roe >= 40:     roic_absolute_score = 9.2
+        elif roe >= 35:     roic_absolute_score = 9.0
+        elif roe >= 30:     roic_absolute_score = 8.5
+        elif roe >= 25:     roic_absolute_score = 8.0
+        elif roe >= 22:     roic_absolute_score = 7.5
+        elif roe >= 20:     roic_absolute_score = 7.0
+        elif roe >= 18:     roic_absolute_score = 6.5
+        elif roe >= 15:     roic_absolute_score = 6.0
+        elif roe >= 12:     roic_absolute_score = 5.0
+        elif roe >= 10:     roic_absolute_score = 4.0
+        else:               roic_absolute_score = 3.0
         
-        # Convert F-Score (0-9) to component score (0-10)
-        if fscore >= 8:
-            fscore_component_score = 10.0
-        elif fscore == 7:
-            fscore_component_score = 8.5
-        elif fscore == 6:
-            fscore_component_score = 7.0
-        elif fscore == 5:
-            fscore_component_score = 5.5
-        elif fscore == 4:
-            fscore_component_score = 4.0
-        elif fscore >= 2:
-            fscore_component_score = 2.5
-        else:  # 0-1
-            fscore_component_score = 1.0
-        
-        # Get the weight from quality_breakdown
-        fscore_weight = quality_breakdown.get('piotroski_fscore', 0)
-        
-        if fscore_weight > 0:
-            quality_components.append(('Piotroski_F-Score', fscore_component_score, fscore_weight))
-            print(f"   ✅ Piotroski F-Score: {fscore}/9 → Component Score: {fscore_component_score:.1f}/10")
+        # Penalize if high leverage suspected (no ROIC to verify)
+        debt_eq = metrics.get('Debt/Eq')
+        if debt_eq is not None and sector != 'Financial':
+            if debt_eq > 2.0:
+                roic_absolute_score = max(2, roic_absolute_score - 2.0)
+                warnings.append(f"High ROE may be leverage-driven (D/E={debt_eq:.2f}, no ROIC data)")
+            elif debt_eq > 1.5:
+                roic_absolute_score = max(3, roic_absolute_score - 1.0)
+                warnings.append("ROE may be inflated by leverage (no ROIC data)")
+    
+    elif roa is not None:
+        # Last resort - ROA (weakest proxy for ROIC)
+        if roa >= 25:       roic_absolute_score = 8.5
+        elif roa >= 20:     roic_absolute_score = 8.0
+        elif roa >= 18:     roic_absolute_score = 7.5
+        elif roa >= 15:     roic_absolute_score = 7.0
+        elif roa >= 12:     roic_absolute_score = 6.0
+        elif roa >= 10:     roic_absolute_score = 5.0
+        else:               roic_absolute_score = 4.0
+    
+    # Get quality breakdown from research profile
+    quality_breakdown = weights_info.get('quality_breakdown', {
+        'roic_absolute': 0.50,
+        'roic_stability': 0.25,
+        'fcf_positivity': 0.10,
+        'debt_quality': 0.10,
+        'roe_supplementary': 0.05
+    })
 
-    if research_profile == 'buffett_quality' and sector == 'Financial':
-            fcf_per_share = metrics.get('FCF_per_share')
-            eps_ttm = metrics.get('EPS_TTM')
-            roe = metrics.get('ROE', 0)
-            hist = get_historical_score(stock_symbol) if stock_symbol else None
-            
-            if fcf_per_share and eps_ttm and eps_ttm > 0:
-                fcf_conv = fcf_per_share / eps_ttm
-                
-                if fcf_conv > 1.3 and hist and hist >= 8.0:
-                    roic_absolute_score = min(10, roic_absolute_score + 5.0)
-                    print(f"      🏰 Buffett Elite Monopoly: FCF {fcf_conv:.1%}, Hist {hist:.1f}")
-                elif fcf_conv > 1.2 and roe >= 25 and hist and hist >= 7.5:
-                    roic_absolute_score = min(10, roic_absolute_score + 4.0)
-                    print(f"      🏰 Buffett Quality: FCF {fcf_conv:.1%}, ROE {roe:.1f}%, Hist {hist:.1f}")
-                elif fcf_conv > 1.1 and roe >= 20:
-                    roic_absolute_score = min(10, roic_absolute_score + 2.0)
-                    print(f"      🏰 Buffett Bonus: FCF {fcf_conv:.1%}, ROE {roe:.1f}%")
-
-    if quality_breakdown.get('roic_absolute', 0) > 0:
-        quality_components.append(('ROIC_Absolute', roic_absolute_score, quality_breakdown['roic_absolute']))
+    quality_components.append(('ROIC_Absolute', roic_absolute_score, quality_breakdown['roic_absolute']))
 
     # DEBUG: Show ROIC calculation
     if stock_symbol in ['MSFT', 'GOOGL', 'SPGI', 'KO']:
-        if research_profile == 'novy_marx':
-            print(f"\n   🔍 NOVY-MARX DIAGNOSTIC for {stock_symbol}:")
-            gross_margin = metrics.get('Gross_Margin')
-            roa = metrics.get('ROA')
-            profit_margin = metrics.get('Profit_Margin')
-            
-            print(f"      Gross Margin: {gross_margin}%")
-            print(f"      ROA: {roa}%")
-            print(f"      Profit Margin: {profit_margin}%")
-            
-            if roa and profit_margin and profit_margin > 0:
-                asset_turnover = abs(roa / profit_margin)
-                gross_prof = gross_margin * asset_turnover if gross_margin else None
-                print(f"      Asset Turnover (proxy): {asset_turnover:.2f}x")
-                print(f"      Gross Profitability: {gross_prof:.1f}% (Novy-Marx metric)")
-            
-            print(f"      Sector: {sector}")
-            print(f"      → Gross Profitability Score: {roic_absolute_score:.1f}/10")
+        print(f"\n   🔍 ROIC DIAGNOSTIC for {stock_symbol}:")
+        print(f"      ROIC: {roic}%")
+        print(f"      ROE: {roe}%")
+        if roic and roe and roic > 0:
+            leverage = roe / roic
+            print(f"      Leverage Ratio (ROE/ROIC): {leverage:.2f}")
+        print(f"      Sector: {sector}")
+        print(f"      Sector Median: {sector_benchmarks['median']}%")
+        print(f"      Sector Top Quartile: {sector_benchmarks['top_quartile']}%")
+        print(f"      → ROIC Score: {roic_absolute_score:.1f}/10")
+            # Show if elite business
             
     profit_margin = metrics.get('Profit_Margin')
     is_elite = (
@@ -2058,11 +1706,7 @@ def calculate_enhanced_scores_with_sectors(metrics, sector=None, stock_symbol=No
         
         roic_stability_score = base_stability
 
-    if quality_breakdown.get('roic_stability', 0) > 0:
-        quality_components.append(('ROIC_Stability', roic_stability_score, quality_breakdown['roic_stability']))
-
-    if roic is not None:
-        warnings.append("ROIC stability inferred from proxies (no historical volatility data)")
+    quality_components.append(('ROIC_Stability', roic_stability_score, quality_breakdown['roic_stability']))
 
     # ========== 3. FCF POSITIVITY (10% of quality = 5% of total) ==========
     # "FCF > Net Income = quality earnings" - Research
@@ -2080,10 +1724,7 @@ def calculate_enhanced_scores_with_sectors(metrics, sector=None, stock_symbol=No
         # Sector-adjusted conversion thresholds
         # Growth sectors need more lenient thresholds due to high CapEx/R&D
         if sector in ['Technology', 'Communication Services', 'Healthcare']:
-            # Growth sectors: Reward investment phase if high growth
-            eps_5y = metrics.get('EPS_past_5Y')
-            sales_5y = metrics.get('Sales_past_5Y')
-            
+            # Growth sectors: more lenient due to high CapEx/R&D/AI infrastructure
             if conversion >= 1.4:
                 base_fcf = 10
             elif conversion >= 1.25:
@@ -2095,39 +1736,15 @@ def calculate_enhanced_scores_with_sectors(metrics, sector=None, stock_symbol=No
             elif conversion >= 0.85:
                 base_fcf = 8.0
             elif conversion >= 0.75:
-                base_fcf = 7.5
+                base_fcf = 7.5   # Most mature tech (AAPL, MSFT)
             elif conversion >= 0.65:
-                base_fcf = 7.0
+                base_fcf = 7.0   # High CapEx tech (still healthy)
             elif conversion >= 0.55:
-                # CRITICAL FIX: Don't penalize growth companies in investment phase
-                base_fcf = 6.5
-                
-                # BONUS: If high growth + reinvesting = GOOD thing!
-                if eps_5y and eps_5y > 15:
-                    base_fcf = 8.0  # High growth justifies reinvestment
-                    print(f"      Growth bonus: {eps_5y:.1f}% EPS growth justifies 55% FCF conversion")
-                elif sales_5y and sales_5y > 12:
-                    base_fcf = 7.5
-                    
+                base_fcf = 6.5   # ← GOOGL should score here (58.66%)
             elif conversion >= 0.50:
-                base_fcf = 6.0
-                # Growth investment phase
-                if eps_5y and eps_5y > 18:
-                    base_fcf = 7.5  # Aggressive growth excuses low FCF
-                    print(f"      High growth phase: {eps_5y:.1f}% EPS growth, investing heavily")
-                elif sales_5y and sales_5y > 15:
-                    base_fcf = 7.0
-                    
+                base_fcf = 6.0   # Growth investment phase
             elif conversion >= 0.40:
-                base_fcf = 5.0
-                if eps_5y and eps_5y > 20:
-                    base_fcf = 6.5  # Exceptional growth excuses very low FCF
-                    print(f"      Exceptional growth: {eps_5y:.1f}% EPS, heavy reinvestment phase")
-                elif eps_5y and eps_5y > 15:
-                    base_fcf = 6.0
-                else:
-                    warnings.append(f"Low FCF conversion ({conversion:.2%}) without high growth")
-                    
+                base_fcf = 5.0   # Heavy investment (acceptable)
             elif conversion >= 0.30:
                 base_fcf = 4.0
                 warnings.append(f"Low FCF conversion for {sector}: {conversion:.2%}")
@@ -2136,39 +1753,31 @@ def calculate_enhanced_scores_with_sectors(metrics, sector=None, stock_symbol=No
                 warnings.append(f"Poor FCF conversion for {sector}: {conversion:.2%}")
         
         elif sector in ['Consumer Defensive', 'Utilities', 'Real Estate']:
-             # Mature sectors: balance conversion with absolute yield
+            # Mature sectors: should have high conversion (stable, low growth CapEx)
             if conversion >= 1.5:
                 base_fcf = 10
-            # ... existing thresholds ...
-            elif conversion >= 0.40:
-                base_fcf = 5.0  # ← Still acceptable for capital-intensive
-                # NO WARNING for Consumer Defensive at 40%+ conversion
-            elif conversion >= 0.30:
-                base_fcf = 4.0
+            elif conversion >= 1.35:
+                base_fcf = 9.5
+            elif conversion >= 1.2:
+                base_fcf = 9.0
+            elif conversion >= 1.1:
+                base_fcf = 8.5
+            elif conversion >= 1.0:
+                base_fcf = 8.0
+            elif conversion >= 0.90:
+                base_fcf = 7.0
+            elif conversion >= 0.80:
+                base_fcf = 6.0
+            elif conversion >= 0.70:
+                base_fcf = 5.0
                 warnings.append(f"Low FCF conversion for mature {sector}: {conversion:.2%}")
+            elif conversion >= 0.60:
+                base_fcf = 4.0
+                warnings.append(f"Poor FCF conversion for {sector}: {conversion:.2%}")
             else:
                 base_fcf = 3.0
                 red_flags.append(f"Very low FCF conversion in mature sector: {conversion:.2%}")
-            
-            # CRITICAL: Adjust upward for strong absolute FCF yield
-            if fcf_yield and fcf_yield >= 4.0:
-                base_fcf = min(10, base_fcf + 2.0)
-            elif fcf_yield and fcf_yield >= 3.0:
-                base_fcf = min(10, base_fcf + 1.5)
-            elif fcf_yield and fcf_yield >= 2.0:
-                base_fcf = min(10, base_fcf + 1.0)
-            
-            if fcf_yield:
-                if fcf_yield >= 4.0:
-                    base_fcf = min(10, base_fcf + 2.5)
-                    print(f"      Consumer Defensive bonus: Strong FCF yield ({fcf_yield:.1f}%)")
-                elif fcf_yield >= 3.0:
-                    base_fcf = min(10, base_fcf + 2.0)
-                elif fcf_yield >= 2.0:
-                    base_fcf = min(10, base_fcf + 1.5)
-                elif fcf_yield >= 1.5:
-                    base_fcf = min(10, base_fcf + 1.0)
-            
+        
         elif sector in ['Energy', 'Basic Materials']:
             # Cyclical sectors: moderate expectations
             if conversion >= 1.5:
@@ -2305,8 +1914,7 @@ def calculate_enhanced_scores_with_sectors(metrics, sector=None, stock_symbol=No
         # No data at all
         fcf_positivity_score = 5.0
 
-    if quality_breakdown.get('fcf_positivity', 0) > 0:
-        quality_components.append(('FCF_Positivity', fcf_positivity_score, quality_breakdown['fcf_positivity']))
+    quality_components.append(('FCF_Positivity', fcf_positivity_score, quality_breakdown['fcf_positivity']))
 
     # DEBUG: Show why FCF score is what it is
     if stock_symbol in ['MSFT', 'GOOGL', 'SPGI', 'KO', 'V', 'MA', 'AAPL']:
@@ -2417,8 +2025,7 @@ def calculate_enhanced_scores_with_sectors(metrics, sector=None, stock_symbol=No
         else:
             debt_quality_score = 4.0
 
-    if quality_breakdown.get('debt_quality', 0) > 0:
-        quality_components.append(('Debt_Quality', debt_quality_score, quality_breakdown['debt_quality']))
+    quality_components.append(('Debt_Quality', debt_quality_score, quality_breakdown['debt_quality']))
 
     # ========== 5. ROE SUPPLEMENTARY (5% of quality = 2.5% of total) ==========
     # Secondary metric when ROIC unavailable
@@ -2463,8 +2070,7 @@ def calculate_enhanced_scores_with_sectors(metrics, sector=None, stock_symbol=No
                 # High ROE is leverage-driven, not quality
                 roe_supplementary_score = max(3, roe_supplementary_score - 2.0)
 
-    if quality_breakdown.get('roe_supplementary', 0) > 0:
-        quality_components.append(('ROE_Supplementary', roe_supplementary_score, quality_breakdown['roe_supplementary']))
+    quality_components.append(('ROE_Supplementary', roe_supplementary_score, quality_breakdown['roe_supplementary']))
 
     # ========== CALCULATE FINAL QUALITY SCORE ==========
     quality_score = sum(score * weight for _, score, weight in quality_components)
@@ -2494,11 +2100,11 @@ def calculate_enhanced_scores_with_sectors(metrics, sector=None, stock_symbol=No
 
     # 1. ROIC Growth (20% - MOST important per research!)
     roic_growth_score = calculate_roic_growth_score(metrics)
-    growth_components.append(('ROIC_Growth', roic_growth_score, growth_breakdown.get('roic_growth', 0.20)))
+    growth_components.append(('ROIC_Growth', roic_growth_score, growth_breakdown['roic_growth']))
 
     # 2. FCF Growth (30%)
     fcf_growth_score = calculate_fcf_growth_score(metrics)
-    growth_components.append(('FCF_Growth', fcf_growth_score, growth_breakdown.get('fcf_growth', 0.30)))
+    growth_components.append(('FCF_Growth', fcf_growth_score, growth_breakdown['fcf_growth']))
 
     # 3. EPS Growth (20%)
     eps_growth_score = 5
@@ -2563,7 +2169,7 @@ def calculate_enhanced_scores_with_sectors(metrics, sector=None, stock_symbol=No
         
         warnings.append("Using YoY EPS growth (no 5-year data)")
 
-    growth_components.append(('EPS_Growth', eps_growth_score, growth_breakdown.get('eps_growth', 0.20)))
+    growth_components.append(('EPS_Growth', eps_growth_score, growth_breakdown['eps_growth']))
 
     # 4. Revenue Growth (15% - LOWEST weight per research)
     revenue_growth_score = 5
@@ -2587,11 +2193,11 @@ def calculate_enhanced_scores_with_sectors(metrics, sector=None, stock_symbol=No
             elif sales_5y >= 8:     revenue_growth_score = 6
             else:                   revenue_growth_score = 4
 
-    growth_components.append(('Revenue_Growth', revenue_growth_score, growth_breakdown.get('revenue_growth', 0.15)))
+    growth_components.append(('Revenue_Growth', revenue_growth_score, growth_breakdown['revenue_growth']))
 
     # 5. ROE Growth (15%)
     roe_growth_score = calculate_roe_growth_score(metrics)
-    growth_components.append(('ROE_Growth', roe_growth_score, growth_breakdown.get('roe_growth', 0.15)))
+    growth_components.append(('ROE_Growth', roe_growth_score, growth_breakdown['roe_growth']))
 
     # Calculate final growth score
     growth_score = sum(score * weight for _, score, weight in growth_components)
@@ -2604,22 +2210,8 @@ def calculate_enhanced_scores_with_sectors(metrics, sector=None, stock_symbol=No
     growth_score = min(max(0, growth_score), 10)
 
     # Fixed 15% historical weight per research
-    # Historical weight should ONLY apply to profiles that value persistence
-    if research_profile in ['buffett_quality', 'academic', 'piotroski', 'combined_performance']:
-        # Profiles that USE historical in calculation
-        HISTORICAL_WEIGHT = 0.15 if historical_score_ is not None else 0.0
-    elif research_profile in ['growth_based', 'novy_marx', 'fama_french', 'peter_lynch', 'magic_piotroski']:
-        # Profiles that SHOW but don't weight heavily
-        HISTORICAL_WEIGHT = 0.05 if historical_score_ is not None else 0.0
-    elif research_profile == 'greenblatt_magic':
-        # Only Greenblatt truly ignores it
-        HISTORICAL_WEIGHT = 0.0
-        historical_score_ = None  # OK to hide for pure snapshot methodology
-    else:
-        # Default: show with minimal weight
-        HISTORICAL_WEIGHT = 0.05 if historical_score_ is not None else 0.0
-
-    historical_weight = HISTORICAL_WEIGHT
+    HISTORICAL_WEIGHT = 0.15
+    historical_weight = HISTORICAL_WEIGHT if historical_score_ is not None else 0.0
     remaining_weight = 1.0 - historical_weight
 
     # Apply weights to non-historical components
