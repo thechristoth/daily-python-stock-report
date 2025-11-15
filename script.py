@@ -866,10 +866,10 @@ RESEARCH_PROFILES = {
         'name': 'Peter Lynch GARP (PEG-Primary)',
         'description': 'PEG ratio is THE core metric. Fair value PEG = 1.0. 29.2% returns (1977-1990)',
         'base_weights': {
-            'valuation': 0.35,
-            'growth': 0.40,
-            'quality': 0.20,
-            'historical': 0.05
+          'valuation': 0.70,    # PEG ratio dominates (P/E ÷ Growth)
+          'quality': 0.25,      # Cash flow + Debt quality (secondary screen)
+          'growth': 0.00,       # DO NOT DOUBLE-COUNT (already in PEG)
+          'historical': 0.05
         },
         'quality_breakdown': {
             'fcf_positivity': 0.50,   # Lynch: "Owner earnings" critical
