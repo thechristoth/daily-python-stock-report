@@ -424,7 +424,7 @@ USER_AGENTS = [
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.15 Safari/605.1.15'
 ]
 DELAY_BETWEEN_REQUESTS = 5  # seconds
-HTML_FILE = os.path.join(os.getcwd(), 'index.html')
+HTML_FILE = os.path.join(os.getcwd(), 'enhanced_stock_analysis2.0.html')
 HTML_TEMPLATE_FILE = os.path.join(os.getcwd(), 'template_dual.html')
 MAX_RETRIES = 3
 
@@ -764,10 +764,10 @@ RESEARCH_PROFILES = {
         'name': 'Growth Empirical (S&P 500 TSR Decomposition 1987-2005)',
         'description': 'TSR = Revenue (53%) + Margin improvement (16%) + Multiple expansion (26%) + Other (5%)',
         'base_weights': {
-            'growth': 0.68,      # Revenue + Margin = 68.4%
-            'valuation': 0.27,   # Multiple expansion = 26.3%
-            'quality': 0.00,     # Not in TSR decomposition
-            'historical': 0.05   # Other factors
+            'growth': 0.50,      # ✅ Balanced
+            'quality': 0.25,     # ✅ FCF quality matters
+            'valuation': 0.15,   
+            'historical': 0.10
         },
         'growth_breakdown': {
             'revenue_growth': 0.77,   # 52.6% / 68.4% = 77% of growth weight
@@ -943,17 +943,17 @@ RESEARCH_PROFILES = {
         'name': 'Buffett Quality Fortress',
         'description': 'Moat durability (ROIC > 20% for 10yr) + Fair price',
         'base_weights': {
-            'quality': 0.60,
-            'historical': 0.25,   # Moat persistence test
-            'valuation': 0.10,    # Fair price, not cheap
-            'growth': 0.05
+            'quality': 0.55,      # ✅ Slightly reduced
+            'historical': 0.25,   
+            'valuation': 0.10,    
+            'growth': 0.10        # ✅ Organic compounding (increased)
         },
         'quality_breakdown': {
-            'roic_absolute': 0.50,        # Economic moat
-            'roic_stability': 0.25,       # DECREASE - Moat durability
-            'fcf_positivity': 0.15,       # INCREASE - "Owner earnings" central to Buffett
-            'debt_quality': 0.08,         # DECREASE - Buffett tolerates some debt
-            'roe_supplementary': 0.02     # DECREASE - ROIC is better
+            'roic_absolute': 0.50,    
+            'roic_stability': 0.25,   
+            'fcf_positivity': 0.15,   # ✅ FIX: Increase
+            'debt_quality': 0.08,     
+            'roe_supplementary': 0.02 
         },
         'growth_breakdown': {
             'roic_growth': 0.40,
