@@ -866,25 +866,24 @@ RESEARCH_PROFILES = {
         'name': 'Peter Lynch GARP (PEG-Primary)',
         'description': 'PEG ratio is THE core metric. Fair value PEG = 1.0. 29.2% returns (1977-1990)',
         'base_weights': {
-          'valuation': 0.70,    # PEG ratio dominates (P/E ÷ Growth)
-          'quality': 0.25,      # Cash flow + Debt quality (secondary screen)
-          'growth': 0.00,       # DO NOT DOUBLE-COUNT (already in PEG)
-          'historical': 0.05
+            'growth': 0.40,       # ✅ FIX: Restore growth importance
+            'valuation': 0.35,    # ✅ FIX: Reduce valuation dominance
+            'quality': 0.20,      
+            'historical': 0.05
         },
         'quality_breakdown': {
-            'fcf_positivity': 0.50,   # Lynch: "Owner earnings" critical
-            'debt_quality': 0.45,      # Lynch: Avoid high debt (<0.8 D/E)
+            'fcf_positivity': 0.50,
+            'debt_quality': 0.45,
             'roic_absolute': 0.05,
             'roic_stability': 0.00,
             'roe_supplementary': 0.00
         },
         'growth_breakdown': {
-            # Growth is ALREADY in PEG denominator - don't score it separately
-            'eps_growth': 0.00,
-            'revenue_growth': 0.00,
-            'roic_growth': 0.00,
-            'fcf_growth': 0.00,
-            'roe_growth': 0.00
+            'eps_growth': 0.50,       # ✅ FIX: Re-enable
+            'revenue_growth': 0.30,   # ✅ FIX: Re-enable
+            'roe_growth': 0.10,       # ✅ FIX: Re-enable
+            'roic_growth': 0.05,
+            'fcf_growth': 0.05
         }
     },
     
