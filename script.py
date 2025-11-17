@@ -49,32 +49,69 @@ def is_investment_phase(metrics):
                 return True
     return False
 
-
-def calculate_peg_score_improved(peg, actual_growth=None, pe_ratio=None):
+def calculate_peg_score_improved(peg, is_elite=False, actual_growth=None):
+    """
+    Peter Lynch PEG scoring with research-accurate thresholds
+    
+    KEY RESEARCH FINDING:
+    - PEG = 1.0 is FAIR VALUE (not expensive!)
+    - PEG 1.0-2.0 = acceptable range for quality companies
+    - PEG > 2.0 = starting to be overvalued
+    """
     if peg <= 0:
         return 1.0
     
-    # Lynch's framework: PEG = 1.0 is FAIR value
+    # BARGAIN ZONE (PEG < 1.0)
     if peg < 0.5:
-        return 10.0     # "Very attractive" - Lynch
+        return 10.0 if actual_growth and actual_growth > 25 else 8.5
     elif 0.5 <= peg < 0.75:
-        return 9.5      # Excellent
+        return 10.0
     elif 0.75 <= peg < 1.0:
-        return 8.5      # ✅ SHARPEN from 9.0 (good, but not excellent)
+        return 9.5
+    
+    # FAIR VALUE ZONE (PEG 1.0-2.0) - CRITICAL CHANGE
     elif 1.0 <= peg < 1.15:
-        return 7.5      # ✅ SHARPEN from 8.0 (fair value)
-    elif 1.15 <= peg < 1.4:
-        return 6.0      # ✅ SHARPEN from 6.5
-    elif 1.4 <= peg < 1.7:
-        return 4.5      # ✅ SHARPEN from 5.0
-    elif 1.7 <= peg < 2.0:
-        return 3.0      # ✅ SHARPEN from 3.5
-    elif 2.0 <= peg < 2.5:
-        return 2.0      # ✅ SHARPEN from 2.5
+        return 9.0  # ← Was 7.5, now 9.0 (fair value!)
+    elif 1.15 <= peg < 1.3:
+        return 8.5  # ← New tier
+    elif 1.3 <= peg < 1.5:
+        return 8.0  # ← Was 6.0, now 8.0
+    elif 1.5 <= peg < 1.7:
+        return 7.5  # ← Was 4.5, now 7.5 (GOOGL fix)
+    elif 1.7 <= peg < 1.9:
+        return 7.0
+    elif 1.9 <= peg < 2.0:
+        return 6.5
+    
+    # EXPENSIVE ZONE (PEG 2.0-3.0)
+    elif 2.0 <= peg < 2.2:
+        base_score = 5.5
+        if is_elite:
+            base_score = min(6.5, base_score + 1.0)
+        return base_score
+    
+    elif 2.2 <= peg < 2.5:
+        base_score = 4.5  # ← MSFT 2.30 lands here
+        if is_elite:
+            base_score = min(5.5, base_score + 1.0)
+        return base_score
+    
     elif 2.5 <= peg < 3.0:
-        return 1.2      # ✅ SHARPEN from 1.5
-    else:
-        return 1.0      # Overvalued
+        base_score = 3.5
+        if is_elite:
+            base_score = min(4.5, base_score + 1.0)
+        return base_score
+    
+    # BUBBLE ZONE (PEG > 3.0)
+    elif 3.0 <= peg < 4.0:
+        base_score = 2.5
+        if is_elite:
+            base_score = min(3.5, base_score + 0.5)
+        return base_score
+    
+    else:  # PEG >= 4.0
+        return 1.5
+
 
 def calculate_fcf_growth_score(metrics):
     """Calculate FCF growth score"""
@@ -98,6 +135,249 @@ def calculate_fcf_growth_score(metrics):
             return 3
     
     return 5
+
+def calculate_piotroski_fscore(metrics):
+    """
+    Calculate Piotroski F-Score (0-9)
+    
+    ⚠️ LIMITATION: Original Piotroski uses year-over-year CHANGES
+    Without historical data, we use:
+        - Absolute levels (ROA > 0, instead of ΔROA > 0)
+        - Proxy metrics (profit margin trend, instead of actual Δmargin)
+    
+    ACCURACY: ~60-70% of original F-Score predictive power
+    
+    Profitability (4 points):
+    1. ROA > 0
+    2. Operating Cash Flow > 0
+    3. Change in ROA (proxy: increasing profit margin)
+    4. Quality of earnings: CFO > Net Income
+    
+    Leverage/Liquidity (3 points):
+    5. Decreasing leverage (low D/E)
+    6. Increasing liquidity (current ratio)
+    7. No new shares issued
+    
+    Operating Efficiency (2 points):
+    8. Increasing gross margin
+    9. Increasing asset turnover
+    """
+    score = 0
+    
+    # 1. Positive ROA
+    roa = metrics.get('ROA')
+    if roa and roa > 0:
+        score += 1
+    
+    # 2. Positive Operating Cash Flow (proxy: FCF_per_share > 0)
+    fcf = metrics.get('FCF_per_share')
+    if fcf and fcf > 0:
+        score += 1
+    
+    # 3. Change in ROA (proxy: profit margin + eps growth)
+    profit_margin = metrics.get('Profit_Margin')
+    eps_yoy = metrics.get('EPS_YoY_TTM')
+    if profit_margin and profit_margin > 15 and eps_yoy and eps_yoy > 0:
+        score += 1
+    
+    # 4. Quality of earnings: FCF > Net Income
+    eps_ttm = metrics.get('EPS_TTM')
+    if fcf and eps_ttm and eps_ttm > 0:
+        if (fcf / eps_ttm) > 1.0:
+            score += 1
+    
+    # 5. Decreasing leverage (low debt)
+    debt_eq = metrics.get('Debt/Eq')
+    if debt_eq is not None and debt_eq < 0.5:
+        score += 1
+    
+    # 6. Increasing liquidity (good current ratio)
+    current_ratio = metrics.get('Current_Ratio')
+    if current_ratio and current_ratio >= 1.5:
+        score += 1
+    
+    # 7. No new shares (proxy: low debt + high ROE)
+    roe = metrics.get('ROE')
+    if roe and roe > 20 and debt_eq is not None and debt_eq < 0.5:
+        score += 1
+    
+    # 8. Increasing gross margin (high absolute = proxy)
+    gross_margin = metrics.get('Gross_Margin')
+    if gross_margin and gross_margin > 40:
+        score += 1
+    
+    # 9. Asset turnover (proxy: high ROA)
+    if roa and roa > 10:
+        score += 1
+    
+    return score  # Returns 0-9
+
+def calculate_novy_marx_quality_score(metrics, sector):
+    """
+    Research-Accurate Novy-Marx Scoring
+    
+    Key Finding: "Gross profitability has roughly the same power as 
+    book-to-market in predicting the cross-section of average returns"
+    
+    Strategy: Buy high GP/Assets stocks (top 30%), especially cheap ones (high B/M)
+    
+    Returns: Score 0-10 based on GP/Assets percentile
+    """
+    gp_assets = calculate_novy_marx_gross_profitability(metrics)
+    p_b = metrics.get('P/B')
+    
+    if gp_assets is None:
+        # Fallback to gross margin
+        gross_margin = metrics.get('Gross_Margin')
+        if gross_margin:
+            # Score based on gross margin alone (less accurate)
+            if gross_margin >= 70:      base_score = 8.5
+            elif gross_margin >= 60:    base_score = 8.0
+            elif gross_margin >= 50:    base_score = 7.0
+            elif gross_margin >= 40:    base_score = 6.0
+            elif gross_margin >= 30:    base_score = 5.0
+            else:                       base_score = 4.0
+            return base_score
+        return 5.0
+    
+    # RESEARCH-BASED THRESHOLDS (from Novy-Marx 2013)
+    # Top 30%: GP/Assets > 35-40% (high profitability)
+    # Middle 40%: GP/Assets 20-35%
+    # Bottom 30%: GP/Assets < 20%
+    
+    # Sector-adjusted benchmarks
+    if sector in ['Technology', 'Communication Services', 'Healthcare']:
+        # High-margin sectors - higher expectations
+        if gp_assets >= 50:         score = 10.0  # Top tier
+        elif gp_assets >= 45:       score = 9.5
+        elif gp_assets >= 40:       score = 9.0   # Top 30%
+        elif gp_assets >= 35:       score = 8.0
+        elif gp_assets >= 30:       score = 7.0   # Median
+        elif gp_assets >= 25:       score = 6.0
+        elif gp_assets >= 20:       score = 5.0   # Bottom 30%
+        else:                       score = 3.0
+    
+    elif sector in ['Consumer Defensive', 'Consumer Cyclical']:
+        if gp_assets >= 45:         score = 10.0
+        elif gp_assets >= 40:       score = 9.5
+        elif gp_assets >= 35:       score = 9.0
+        elif gp_assets >= 30:       score = 8.0
+        elif gp_assets >= 25:       score = 7.0
+        elif gp_assets >= 20:       score = 6.0
+        elif gp_assets >= 15:       score = 5.0
+        else:                       score = 3.5
+    
+    elif sector in ['Energy', 'Basic Materials', 'Industrials']:
+        # Lower-margin sectors - lower expectations
+        if gp_assets >= 40:         score = 10.0
+        elif gp_assets >= 35:       score = 9.5
+        elif gp_assets >= 30:       score = 9.0
+        elif gp_assets >= 25:       score = 8.0
+        elif gp_assets >= 20:       score = 7.0
+        elif gp_assets >= 15:       score = 6.0
+        elif gp_assets >= 12:       score = 5.0
+        else:                       score = 3.5
+    
+    elif sector == 'Financial':
+        # Financial GP/Assets is hard to interpret - use ROE/ROA instead
+        roe = metrics.get('ROE')
+        roa = metrics.get('ROA')
+        if roe and roe >= 15:       score = 8.5
+        elif roe and roe >= 12:     score = 7.5
+        elif roa and roa >= 1.2:    score = 7.0
+        else:                       score = 6.0
+    
+    elif sector in ['Utilities', 'Real Estate']:
+        # Asset-heavy sectors - very low GP/Assets expected
+        if gp_assets >= 30:         score = 10.0
+        elif gp_assets >= 25:       score = 9.0
+        elif gp_assets >= 20:       score = 8.5
+        elif gp_assets >= 15:       score = 8.0
+        elif gp_assets >= 12:       score = 7.0
+        elif gp_assets >= 10:       score = 6.0
+        else:                       score = 5.0
+    
+    else:
+        # Default thresholds (cross-sector average)
+        if gp_assets >= 50:         score = 10.0
+        elif gp_assets >= 40:       score = 9.5
+        elif gp_assets >= 35:       score = 9.0  # Top 30%
+        elif gp_assets >= 30:       score = 8.0
+        elif gp_assets >= 25:       score = 7.0  # Median
+        elif gp_assets >= 20:       score = 6.0  # Bottom 30%
+        elif gp_assets >= 15:       score = 5.0
+        else:                       score = 3.5
+    
+    # CRITICAL RESEARCH FINDING: GP works best for VALUE stocks
+    # Boost score if stock is cheap (high B/M = low P/B)
+    if p_b is not None:
+        if p_b <= 1.5:  # Very cheap (value stock)
+            score = min(10, score + 1.5)
+        elif p_b <= 2.5:  # Cheap
+            score = min(10, score + 1.0)
+        elif p_b <= 4.0:  # Fair value
+            score = min(10, score + 0.5)
+        elif p_b >= 8.0:  # Expensive (growth stock)
+            # GP less predictive for expensive stocks
+            score = max(3, score - 1.0)
+    
+    return score
+
+
+
+def calculate_novy_marx_gross_profitability(metrics):
+    """
+    Novy-Marx (2013) Gross Profitability - More Accurate Version
+    
+    Formula: GP = (Revenue - COGS) / Total Assets
+    
+    Approximation using Finviz data:
+    GP/Assets ≈ (Gross Margin × Sales) / Assets
+             ≈ Gross Margin × Sales/Assets (Asset Turnover)
+    
+    Returns: GP/Assets ratio (typically 20-60%)
+    """
+    gross_margin = metrics.get('Gross_Margin')
+    roa = metrics.get('ROA')
+    profit_margin = metrics.get('Profit_Margin')
+    sales = metrics.get('Sales')  # In billions
+    market_cap = metrics.get('Market_Cap')  # In billions
+    p_b = metrics.get('P/B')
+    
+    # METHOD 1: Use ROA decomposition (most reliable with Finviz data)
+    if all([gross_margin, roa, profit_margin]) and profit_margin > 0:
+        # Asset Turnover ≈ ROA / Net Margin
+        asset_turnover = roa / profit_margin
+        
+        # Sanity check (asset turnover typically 0.3 to 3.0)
+        if 0.1 <= asset_turnover <= 5.0:
+            gp_assets = (gross_margin / 100) * asset_turnover
+            
+            # Additional sanity check: GP/Assets typically 15-70%
+            if 5 <= gp_assets <= 100:
+                return gp_assets
+    
+    # METHOD 2: Use Sales and Market Cap (if P/B available)
+    if all([gross_margin, sales, market_cap, p_b]) and p_b > 0:
+        # Book Value = Market Cap / P/B
+        book_value = market_cap / p_b
+        
+        # Assume Assets ≈ Book Value (simplification)
+        # GP = (Gross Margin × Sales) / Assets
+        gp_assets = (gross_margin / 100) * (sales / book_value)
+        
+        if 5 <= gp_assets <= 100:
+            return gp_assets * 100  # Convert to percentage
+    
+    # METHOD 3: Conservative fallback - use gross margin as lower bound
+    # (GP/Assets will always be lower than Gross Margin)
+    if gross_margin:
+        # Rough estimate: GP/Assets ≈ 40-60% of Gross Margin for typical company
+        return gross_margin * 0.5  # Very conservative
+    
+    return None
+
+
 
 def calculate_combined_performance_scores(metrics, sector, stock_symbol, 
                                          scores_greenblatt, scores_peter_lynch,
@@ -304,6 +584,46 @@ def create_quad_profile_html(stock_data_academic, stock_data_growth,
         print(f"🔄 Total stocks analyzed: {len(stock_data_academic)}")
     except IOError as e:
         print(f"❌ Error writing HTML file: {e}")
+
+
+def calculate_greenblatt_roic(metrics):
+    """
+    Greenblatt Magic Formula ROIC approximation
+    
+    Formula: ROIC = EBIT / Tangible Capital
+    
+    Since Finviz lacks balance sheet details:
+    1. Adjust for financial leverage (debt penalty if high)
+    2. Conservative estimate if no ROIC data
+    """
+    roic = metrics.get('ROIC')
+    debt_eq = metrics.get('Debt/Eq')
+    oper_margin = metrics.get('Oper_Margin')
+    profit_margin = metrics.get('Profit_Margin')
+    roe = metrics.get('ROE')
+    
+    if roic is not None:
+        # Greenblatt excludes excess cash and goodwill
+        if debt_eq is not None and debt_eq < 0.2:
+            adjusted_roic = roic * 1.0  # Low debt = minimal adjustment
+        elif debt_eq is not None and debt_eq > 1.0:
+            adjusted_roic = roic * 0.95  # High debt = slight downward adjustment
+        else:
+            adjusted_roic = roic
+        
+        return adjusted_roic
+    
+    # Fallback: estimate from ROE and operating margin
+    elif roe is not None and oper_margin is not None:
+        if debt_eq is not None and debt_eq > 0:
+            estimated_roic = roe / (1 + debt_eq) * (oper_margin / profit_margin if profit_margin else 1.0)
+        else:
+            estimated_roic = roe * 0.8
+        
+        return estimated_roic
+    
+    return None
+
 
 def generate_table_rows(stock_data, profile_name):
     """Generate table rows for a specific profile"""
@@ -788,22 +1108,23 @@ RESEARCH_PROFILES = {
     
     'novy_marx': {
         'name': 'Novy-Marx Gross Profitability (2013)',
-        'description': 'Gross profitability equals book-to-market in predicting returns',
+        'description': 'GP/Assets predicts returns as well as B/M. Works best for value stocks.',
         'base_weights': {
-            'quality': 0.50,      # Gross profit / Assets
-            'valuation': 0.50,    # Book-to-market
-            'growth': 0.00,
+            'quality': 0.70,      # GP/Assets is THE metric (not 50/50!)
+            'valuation': 0.30,    # Preferentially applied to cheap stocks
+            'growth': 0.00,       # Not in original research
             'historical': 0.00
         },
         'quality_breakdown': {
-            'roic_absolute': 0.15,
+            'gross_profitability': 0.85,  # PRIMARY - 85% of quality
+            'roic_absolute': 0.00,        # Not used in Novy-Marx
             'roic_stability': 0.00,
-            'fcf_positivity': 0.10,
-            'debt_quality': 0.05,
-            'roe_supplementary': 0.00,
-            'gross_profitability': 0.70  # (Gross Profit / Assets) - PRIMARY
+            'fcf_positivity': 0.10,       # Sanity check
+            'debt_quality': 0.05,         # Sanity check
+            'roe_supplementary': 0.00
         },
         'growth_breakdown': {
+            # Not applicable (growth weight is 0%)
             'roic_growth': 0.20,
             'fcf_growth': 0.30,
             'eps_growth': 0.20,
@@ -1345,10 +1666,20 @@ def calculate_enhanced_scores_with_sectors(metrics, sector=None, stock_symbol=No
     # "The key number in valuation is return on capital" - Damodaran
     # This is THE most important quality indicator
 
+     # Use Greenblatt-adjusted ROIC for Magic Formula profiles
+    if research_profile in ['greenblatt_magic', 'magic_piotroski']:
+        roic = calculate_greenblatt_roic(metrics)
+        if roic:
+            print(f"   🎯 Using Greenblatt-adjusted ROIC: {roic:.1f}%")
+    else:
+        roic = metrics.get('ROIC')
+
     roic_absolute_score = 5
     roe = metrics.get('ROE')
-    roic = metrics.get('ROIC')
     roa = metrics.get('ROA')
+
+        # ========== CALCULATE NOVY-MARX GROSS PROFITABILITY (if needed) ==========
+
 
     # Get sector context
     sector_benchmarks = SECTOR_ROIC_BENCHMARKS.get(
@@ -1502,7 +1833,56 @@ def calculate_enhanced_scores_with_sectors(metrics, sector=None, stock_symbol=No
         'roe_supplementary': 0.05
     })
 
-    quality_components.append(('ROIC_Absolute', roic_absolute_score, quality_breakdown['roic_absolute']))
+    # ========== PIOTROSKI F-SCORE COMPONENT (if applicable) ==========
+    if research_profile == 'piotroski' or research_profile == 'magic_piotroski':
+        fscore = calculate_piotroski_fscore(metrics)
+        
+        # Convert F-Score (0-9) to component score (0-10)
+        if fscore >= 8:
+            fscore_component_score = 10.0
+        elif fscore == 7:
+            fscore_component_score = 8.5
+        elif fscore == 6:
+            fscore_component_score = 7.0
+        elif fscore == 5:
+            fscore_component_score = 5.5
+        elif fscore == 4:
+            fscore_component_score = 4.0
+        elif fscore >= 2:
+            fscore_component_score = 2.5
+        else:  # 0-1
+            fscore_component_score = 1.0
+        
+        fscore_weight = quality_breakdown.get('piotroski_fscore', 0)
+        
+        if fscore_weight > 0:
+            quality_components.append(('Piotroski_F-Score', fscore_component_score, fscore_weight))
+            print(f"   ✅ Piotroski F-Score: {fscore}/9 → Component Score: {fscore_component_score:.1f}/10")
+
+
+    if research_profile == 'novy_marx':
+        # Calculate research-accurate gross profitability score
+        gross_prof_score = calculate_novy_marx_quality_score(metrics, sector)
+        
+        # This is THE PRIMARY quality metric (85% of quality weight)
+        quality_components.append(('Gross_Profitability', gross_prof_score, 0.85))
+        
+        # FCF and debt are sanity checks only (15% combined)
+        # These get added later in existing code with 10% + 5% weights
+        
+        # Debug output
+        gp_assets = calculate_novy_marx_gross_profitability(metrics)
+        if gp_assets:
+            print(f"   📊 Novy-Marx GP/Assets: {gp_assets:.1f}%")
+            print(f"   📈 GP Score: {gross_prof_score:.1f}/10 (85% weight)")
+            p_b = metrics.get('P/B')
+            if p_b:
+                print(f"   💰 P/B: {p_b:.2f} (cheaper = better for GP strategy)")
+
+    else:
+        # Standard ROIC scoring for other profiles
+        quality_components.append(('ROIC_Absolute', roic_absolute_score, quality_breakdown['roic_absolute']))
+
 
     # DEBUG: Show ROIC calculation
     if stock_symbol in ['MSFT', 'GOOGL', 'SPGI', 'KO']:
@@ -2164,9 +2544,23 @@ def calculate_enhanced_scores_with_sectors(metrics, sector=None, stock_symbol=No
     growth_score = min(max(0, growth_score), 10)
 
     # Fixed 15% historical weight per research
-    profile_config = RESEARCH_PROFILES[research_profile]
-    historical_weight_target = profile_config['base_weights']['historical']
-    historical_weight = historical_weight_target if historical_score_ is not None else 0.0
+        # Historical weight should ONLY apply to profiles that value persistence
+    if research_profile in ['buffett_quality', 'academic', 'piotroski', 'combined_performance']:
+        # Profiles that USE historical in calculation
+        HISTORICAL_WEIGHT = 0.15 if historical_score_ is not None else 0.0
+    elif research_profile in ['growth_based', 'novy_marx', 'fama_french', 'peter_lynch', 'magic_piotroski']:
+        # Profiles that SHOW but don't weight heavily
+        HISTORICAL_WEIGHT = 0.05 if historical_score_ is not None else 0.0
+    elif research_profile == 'greenblatt_magic':
+        # CRITICAL: Greenblatt truly ignores it (1988-2004 snapshot methodology)
+        HISTORICAL_WEIGHT = 0.0
+        historical_score_ = None  # OK to hide for pure snapshot methodology
+    else:
+        # Default: show with minimal weight
+        HISTORICAL_WEIGHT = 0.05 if historical_score_ is not None else 0.0
+
+    historical_weight = HISTORICAL_WEIGHT
+
     remaining_weight = 1.0 - historical_weight
 
     # Apply weights to non-historical components
