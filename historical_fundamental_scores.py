@@ -308,4 +308,9 @@ STOCK_SCORES = {
     "SAP": "0.5",  # 25%+ margins, enterprise software ERP legacy
     "TRI": "0.5",  # 30%+ margins, legal research data
     "UL": "0.5",  # 15%+ margins, consumer staples low growth
+    "CHKP": "5.2",
+    "TT": "7.0",
+    "ORLY": "8.2",
+    "XYL": "6.3",
+    "AZO": "7.3",
 }
