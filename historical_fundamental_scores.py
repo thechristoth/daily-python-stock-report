@@ -1,6 +1,9 @@
 # === STOCK RANKING METHODOLOGY ===
-# Stocks are ranked by business quality and compounding potential, NOT by the scores shown.
-# Ranking criteria (in priority order):
+# Stocks are ranked by combining business quality (60%) and brand recognition (40%).
+# This methodology balances fundamental excellence with market visibility and investor accessibility.
+#
+# === 60% QUALITY SCORE CRITERIA (In Priority Order) ===
+# Quality is determined by position in the fundamentally-ranked list:
 # 1. ROIC (Return on Invested Capital) - Higher is better, 40%+ is elite
 # 2. Operating/Net Margin Profile - Level and trend (expanding margins prioritized)
 # 3. Competitive Moat Strength - Monopolies, duopolies, network effects, switching costs
@@ -10,323 +13,358 @@
 # 7. Market Position - Dominance in niche or category leadership
 # 8. Capital Efficiency - Low capital requirements for growth
 #
-# Top tier businesses combine 40%+ ROIC with 25%+ margins, asset-light models, and structural moats.
-# Lower tiers reflect commoditization risk, cyclicality, margin pressure, or competitive threats.
+# Quality Scoring: Position in fundamental ranking list determines score
+# - Position 1-20: 100-90 points (Elite money machines)
+# - Position 21-60: 89.5-70 points (Premium quality)
+# - Position 61-120: 69.5-40 points (Strong businesses)
+# - Position 121-200: 39.5-0 points (Good to acceptable quality)
+#
+# === 40% BRAND RECOGNITION CRITERIA ===
+# Brand recognition measures consumer/investor familiarity and market visibility:
+# 1. Consumer Awareness - Household name status and product recognition
+# 2. Media Coverage - Frequency and prominence in financial/mainstream media
+# 3. Investor Accessibility - Ease of understanding business model for retail investors
+# 4. Market Presence - Geographic reach and market penetration visibility
+# 5. Cultural Impact - Brand association and mindshare in target markets
+#
+# Brand Recognition Tiers:
+# - Universal (95-100): Globally recognized consumer brands (AAPL, AMZN, GOOGL, META, MSFT, TSLA, NFLX, DIS)
+# - Very High (85-94): Major retail/financial brands known to most consumers (COST, SBUX, WMT, HD, V, MA, JPM)
+# - High (70-84): Well-known public companies with strong consumer presence (ABNB, SHOP, AMD, LULU, CMG, CROX)
+# - Moderate (55-69): Recognized by business professionals and investors (AVGO, PANW, NOW, TMO, ISRG, SPGI)
+# - Niche (40-54): Known within specific industries/B2B markets (ASML, SNPS, FTNT, industrial/specialized)
+# - Obscure (25-39): Highly specialized companies unknown to general public (PAYC, APPF, MEDP, micro-cap specialists)
+#
+# === FINAL RANKING FORMULA ===
+# Final Score = (Quality Score × 0.60) + (Brand Recognition Score × 0.40)
+#
+# This weighting ensures:
+# - Business fundamentals drive primary ranking (60% weight)
+# - Brand recognition provides meaningful differentiation (40% weight)
+# - Elite quality + universal brands score highest (90-100 range)
+# - Hidden gems with strong fundamentals but low recognition remain visible (60-75 range)
+# - Well-known but lower-quality businesses are appropriately weighted (50-65 range)
+#
+# === TIER CLASSIFICATIONS ===
+# Tier S+ (90-100): Elite quality + Universal/Very High brand - The "no-brainer" investments
+# Tier S (82-89): Premium quality + High brand - Excellent companies with strong recognition
+# Tier A+ (74-81): Strong quality + Good brand - High-quality with moderate visibility
+# Tier A (66-73): Quality companies + Moderate brand - Solid fundamentals, less known
+# Tier B+ (58-65): Good quality + Niche brand - Hidden quality, specialist recognition
+# Tier B (50-57): Profitable + Low brand - Good businesses, minimal public awareness
+# Tier C (42-49): Acceptable quality or obscure gems - Trade-offs between quality/recognition
+# Tier D (<42): Lower quality or highly specialized - Higher risk/specialized knowledge required
+#
+# Top tier businesses combine 40%+ ROIC with 25%+ margins, asset-light models, structural moats,
+# AND sufficient brand recognition to ensure liquidity, analyst coverage, and investor accessibility.
+# Lower tiers may reflect either: (1) fundamental weaknesses (commoditization, cyclicality, margin pressure),
+# or (2) low brand recognition despite strong fundamentals (hidden gems requiring specialist knowledge).
 # ==========================================
 
 STOCK_SCORES = {
-    # === TIER S: ELITE MONEY MACHINES === 
-    # 40%+ ROIC, 25%+ margins, asset-light, expanding margins, dominant moats
-    "BKNG": "6.9",  # 96% ROIC (highest), 30%+ operating margins, online travel monopoly
-    "NVDA": "8.9",  # 56% ROIC, 50%+ gross margins, AI semiconductor leader
-    "ASML": "9.1",  # EUV monopoly, 50%+ gross margins, irreplaceable technology
-    "PAYC": "9.8",  # 40%+ ROIC, SaaS margins expanding, payroll platform
-    "MSFT": "9.1",  # Cloud/AI margins 40%+, recurring revenue, productivity monopoly
-    "MA": "6.7",  # 50%+ net margins, toll-road payments network
-    "V": "6.1",  # 50%+ net margins, payments duopoly
-    "GOOGL": "8.6",  # 28% ROIC, 25%+ operating margins, search monopoly
-    "GOOG": "8.6",  # Same as GOOGL
-    "META": "8.4",  # 35%+ operating margins improving, social media dominance
-    
-    # === TIER A+: PREMIUM SOFTWARE & PLATFORMS ===
-    # 30%+ ROIC, 20%+ margins expanding, high switching costs
-    "SNPS": "9.2",  # EDA duopoly, 30%+ operating margins, design software moat
-    "CDNS": "8.8",  # EDA duopoly, 30%+ operating margins, high switching costs
-    "ADBE": "9.2",  # 35%+ operating margins, creative software monopoly
-    "INTU": "8.9",  # 30%+ margins expanding, tax software moat
-    "FTNT": "9.4",  # 25%+ margins expanding rapidly, security platform
-    "ADSK": "8.9",  # 30%+ margins, CAD software lock-in
-    "FICO": "8.2",  # 35%+ margins, credit scoring duopoly
-    "CRM": "8.7",  # Improving margins to 20%+, CRM platform leader
-    "COST": "8.9",  # 3% operating margins but 90%+ gross profit on membership
-    "CBOE": "9.4",  # 60%+ operating margins, exchange monopoly
-    "PGR": "9.4",  # 10%+ underwriting margin, 90+ combined ratio
-    
-    # === TIER A: QUALITY SOFTWARE & SPECIALIZED PLATFORMS ===
-    # 25%+ ROIC, 15-25% margins, strong competitive positions
-    "SPGI": "8.3",  # 45%+ operating margins, credit ratings duopoly
-    "MCO": "6.8",  # 45%+ operating margins, ratings duopoly with SPGI
-    "MORN": "8.3",  # 25%+ margins, investment research data moat
-    "PANW": "8.2",  # Margins expanding to 20%+, cybersecurity platform
-    "WDAY": "8.4",  # 20%+ margins expanding, HR/finance cloud
-    "VEEV": "7.7",  # 30%+ margins, life sciences cloud regulatory moat
-    "NOW": "7.5",  # 25%+ margins expanding, IT workflow automation
-    "DXCM": "8.8",  # 20%+ margins expanding, CGM data ecosystem
-    "RMD": "9.1",  # 25%+ margins, sleep apnea cloud platform
-    "AVGO": "7.2",  # 60%+ gross margins, semiconductor + software
-    "CSGP": "8.4",  # 30%+ margins, real estate data network effects
-    "TYL": "7.5",  # 20%+ margins, government software switching costs
-    "PTC": "7.8",  # 20%+ margins improving, industrial IoT
-    
-    # === TIER B+: STRONG PROFITABLE GROWERS ===
-    # 20%+ ROIC, 12-20% margins, defensible niches
-    "ORLY": "8.2",  # 20%+ ROIC, auto parts oligopoly, strong FCF
-    "PCTY": "9.1",  # 25%+ margins, payroll SaaS
-    "APPF": "9.3",  # 20%+ margins expanding, property management SaaS
-    "DECK": "9.5",  # 15%+ operating margins, brand pricing power (Hoka/UGG)
-    "REGN": "8.4",  # 40%+ operating margins, biotech ophthalmology
-    "BRO": "8.3",  # 25%+ margins, insurance broker consolidator
-    "KNSL": "9.3",  # 15%+ underwriting margin, E&S insurance
-    "RLI": "8.2",  # 10%+ underwriting margin, specialty insurance
-    "PLMR": "8.9",  # 15%+ underwriting margin, catastrophe insurance
-    "CPRT": "7.7",  # 40%+ operating margins, salvage auction network
-    "IDXX": "7.7",  # 25%+ margins, vet diagnostics monopoly
-    "ZTS": "7.7",  # 30%+ margins, animal health leader
-    "FAST": "8.5",  # 20%+ margins, industrial vending distribution
-    "GWW": "7.9",  # 12%+ margins, MRO distribution scale (Grainger)
-    "RJF": "8.6",  # 15%+ pretax margins, wealth management platform
-    "FDS": "7.9",  # 30%+ margins, financial data analytics
-    "PAYX": "8.1",  # 35%+ margins, payroll processing SMB
-    "ADP": "7.3",  # 20%+ margins, payroll scale leader
-    "FISV": "8.0",  # 30%+ margins, payment processing
-    "PODD": "8.0",  # 20%+ margins expanding, insulin pumps
-    "EXR": "8.3",  # 40%+ EBITDA margins, self-storage REIT
-    "CROX": "8.5",  # 25%+ operating margins, footwear brand
-    "ELF": "8.2",  # 15%+ margins expanding, cosmetics value brand
-    
-    # === TIER B: SOLID PROFITABLE BUSINESSES ===
-    # 15-20% ROIC, 10-15% margins, good moats
-    "NFLX": "8.0",  # 20%+ margins expanding, streaming content library
-    "LULU": "7.7",  # 20%+ margins, athletic apparel brand
-    "WING": "9.4",  # 15%+ margins, restaurant unit economics
-    "CMG": "7.7",  # 15%+ margins, fast casual digital leader
-    "TXRH": "7.8",  # 8%+ margins, casual dining experience
-    "ROL": "7.4",  # 15%+ margins, pest control route density, 34% ROIC
-    "CTAS": "7.6",  # 15%+ margins, uniform rental route density
-    "EXLS": "7.9",  # 12%+ margins, business process services
-    "QLYS": "7.8",  # 15%+ margins, cloud security compliance
-    "AMD": "8.1",  # Margins expanding to 50%+, CPU/GPU data center
-    "ICE": "6.9",  # 45%+ margins, exchange + data business
-    "MKTX": "6.6",  # 45%+ margins, bond trading network
-    "WRB": "7.0",  # 10%+ underwriting margin, specialty insurance
-    "CINF": "7.1",  # 8%+ underwriting margin, regional insurance
-    "ACGL": "7.3",  # 10%+ underwriting margin, reinsurance
-    "ERIE": "7.9",  # 8%+ underwriting margin, regional auto insurance
-    "AMAT": "6.9",  # 28%+ operating margins, wafer fab equipment
-    "KLAC": "7.1",  # 35%+ margins, inspection equipment
-    "AMZN": "7.1",  # AWS 30%+ margins offset retail, e-commerce scale
-    "ULTA": "6.9",  # 12%+ margins, beauty specialty retail
-    "DPZ": "6.9",  # 12%+ margins, pizza franchise model
-    "SBUX": "7.3",  # 15%+ margins, coffee rewards program
-    "TMO": "6.9",  # 20%+ margins, lab equipment consumables
-    "PYPL": "8.0",  # 15%+ margins, digital wallet Venmo
-    "HUBS": "6.8",  # Margins turning positive, marketing automation
-    "NET": "6.7",  # Margins improving to profitability, CDN security
-    "ZS": "7.5",  # Margins improving to 10%+, zero trust security
-    "DUOL": "7.5",  # 20%+ margins, language learning gamification
-    "TTD": "7.8",  # 25%+ margins, programmatic ad platform
-    "MPWR": "7.4",  # 20%+ margins, power management ICs
-    
-    # === TIER C+: PROFITABLE WITH GROWTH ===
-    # 12-15% ROIC or margin expansion stories
-    "AZO": "7.3",  # 20%+ ROIC, auto parts strong FCF generation
-    "TT": "7.0",  # 20%+ margins, building controls automation
-    "WMT": "6.8",  # 4%+ margins improving, omnichannel scale
-    "VMC": "6.9",  # 20%+ EBITDA margins, aggregates oligopoly
-    "MLM": "6.8",  # 20%+ EBITDA margins, aggregates duopoly
-    "SHW": "6.5",  # 15%+ margins, paint pricing power
-    "CB": "6.2",  # 10%+ underwriting margin, commercial insurance
-    "BSX": "6.1",  # 25%+ margins, medical devices cardiology
-    "ISRG": "6.0",  # 30%+ margins, surgical robotics razor-blade
-    "CME": "5.9",  # 60%+ margins, derivatives exchange
-    "NDAQ": "5.4",  # 40%+ margins, exchange technology
-    "RSG": "6.3",  # 15%+ EBITDA margins, waste local monopolies
-    "WM": "5.2",  # 18%+ EBITDA margins, waste management scale
-    "AXP": "6.2",  # 15%+ margins, closed-loop affluent network
-    "COF": "6.0",  # 25%+ ROE, credit card issuer
-    "CHWY": "6.7",  # Margins turning positive, pet e-commerce
-    "DDOG": "6.5",  # Margins improving to 10%+, observability
-    "ANET": "6.6",  # 30%+ margins, data center networking
-    "MRVL": "6.5",  # 50%+ gross margins, data infrastructure chips
-    "VRT": "6.5",  # 12%+ margins expanding, data center infrastructure
-    "DHI": "9.0",  # 15%+ margins, largest homebuilder scale
-    "CVCO": "8.2",  # 12%+ margins, modular homes niche
-    "MELI": "8.2",  # Margins improving to 10%+, LatAm e-commerce fintech
-    "IR": "7.0",  # 20%+ margins, compressor industrial
-    "PH": "6.5",  # 15%+ margins, motion control components
-    "HLT": "6.5",  # 35%+ margins, hotel franchise asset-light
-    "BOOT": "6.5",  # 12%+ margins, western wear niche
-    "DKS": "6.9",  # 10%+ margins, sporting goods retail
-    "ICLR": "7.9",  # 10%+ margins, biotech CRO services
-    
-    # === TIER C: DECENT MARGINS, COMPETITIVE ===
-    # 10-12% margins, some moat but competitive pressure
-    "TSLA": "7.5",  # 10%+ automotive margins declining, EV competition
-    "BRK-B": "6.0",  # Conglomerate, diverse margin profile
-    "HEI": "7.2",  # 20%+ margins, aerospace aftermarket components
-    "LHX": "6.9",  # 15%+ margins, defense electronics
-    "RTX": "6.3",  # 10%+ margins, aerospace defense scale
-    "TDG": "6.3",  # 50%+ margins, aircraft aftermarket monopoly
-    "LMT": "6.2",  # 10%+ margins, defense prime contractor
-    "NOC": "6.0",  # 10%+ margins, defense aerospace
-    "GD": "5.8",  # 10%+ margins, defense diversified
-    "PLTR": "6.9",  # Margins improving to 20%+, government software
-    "MEDP": "9.3",  # 15%+ margins, CRO pricing power
-    "FIX": "9.4",  # 8%+ margins, HVAC installation services
-    "XPEL": "9.2",  # 30%+ margins, paint protection film niche
-    "IDCC": "9.0",  # 50%+ margins, wireless licensing IP
-    "SSD": "8.9",  # 15%+ margins, connector products niche
-    "HLNE": "8.8",  # 40%+ margins, private markets access
-    "NXT": "8.8",  # 15%+ margins, solar tracker oligopoly
-    "GCT": "9.0",  # 5%+ margins expanding, B2B marketplace
-    "AMPH": "9.0",  # 20%+ margins, generic injectables niche
-    "NMIH": "8.6",  # 50%+ margins, mortgage insurance cyclical
-    "DORM": "8.4",  # 12%+ margins, auto aftermarket parts
-    "FN": "8.4",  # 12%+ margins, optical components manufacturing
-    "DAVE": "8.2",  # Margins turning positive, banking app fintech
-    "OSIS": "8.2",  # 15%+ margins, eye surgery equipment niche
-    "EME": "8.2",  # 8%+ margins, electrical infrastructure services
-    "EXEL": "8.2",  # 30%+ margins, oncology biotech
-    "EPAM": "8.2",  # 12%+ margins, IT services consulting
-    "LNTH": "8.2",  # 35%+ margins, medical imaging radiopharmaceuticals
-    "UPWK": "8.5",  # 15%+ margins, freelancer marketplace platform
-    "NSSC": "7.9",  # 20%+ margins, security systems niche
-    "ODD": "7.9",  # 20%+ margins, beauty tech DTC
-    "O": "7.9",  # 95%+ payout ratio, monthly dividend REIT
-    "STRL": "7.8",  # 10%+ margins, infrastructure construction
-    "TECH": "7.8",  # 35%+ margins, life science tools niche
-    "IESC": "7.8",  # 6%+ margins, infrastructure electrical services
-    "MHO": "7.8",  # 10%+ margins, homebuilder regional
-    "AX": "7.8",  # 35%+ margins, digital banking fintech
-    "OFG": "7.7",  # 25%+ ROE, Puerto Rico banking
-    "PWR": "7.7",  # 8%+ margins, utility infrastructure services
-    "SN": "7.7",  # 15%+ margins, appliances innovation
-    "APP": "7.6",  # 35%+ margins, mobile advertising adtech
-    "DT": "7.6",  # 20%+ margins, observability APM
-    "HLI": "7.5",  # 15%+ margins, middle-market investment banking
-    "QFIN": "7.4",  # 35%+ margins, China fintech lending
-    "UHS": "7.4",  # 8%+ margins, hospital behavioral health
-    "GDDY": "7.3",  # 20%+ margins, domains hosting
-    "LMAT": "7.3",  # 20%+ margins, vascular devices niche
-    "IPAR": "7.3",  # 12%+ margins, prestige fragrance licensing
-    "ESQ": "7.3",  # 30%+ ROE, commercial banking niche
-    "ELMD": "7.3",  # 25%+ margins, respiratory devices
-    "BSVN": "7.2",  # 35%+ ROE, community banking
-    "APH": "7.2",  # 20%+ margins, connector components
-    "FSS": "7.2",  # 12%+ margins, emergency vehicles manufacturing
-    "SFM": "7.2",  # 4%+ margins, grocery natural/organic
-    "BR": "7.1",  # 15%+ margins, financial communications processing
-    "VICI": "7.1",  # 70%+ EBITDA margins, gaming properties REIT
-    "TDY": "7.0",  # 20%+ margins, imaging instrumentation
-    "WST": "7.0",  # 30%+ margins, pharma drug delivery components
-    "USLM": "7.0",  # 30%+ margins, lime minerals niche
-    "HALO": "7.0",  # 60%+ margins, drug delivery enzymes
-    "BLDR": "6.8",  # 8%+ margins, building materials distribution
-    "PSA": "6.8",  # 45%+ EBITDA margins, self-storage REIT
-    "CPRX": "6.8",  # 40%+ margins, specialty pharma neurology
-    "INOD": "6.8",  # 10%+ margins, AI data services
-    "CPAY": "6.6",  # 30%+ margins, B2B payments fuel cards
-    "INMD": "6.6",  # 70%+ gross margins, aesthetic devices
-    "MSA": "6.6",  # 15%+ margins, safety equipment protective
-    "PMTS": "6.6",  # 15%+ margins, payment card production
-    "FROG": "6.5",  # Margins turning positive, DevOps platform
-    "IRMD": "6.5",  # 35%+ margins, MRI-safe devices niche
-    "HRMY": "6.5",  # 60%+ gross margins, rare disease neurology
-    "BILL": "6.4",  # Margins improving to 10%+, AP automation SMB
-    "CELH": "6.4",  # 25%+ margins, energy drinks competitive
-    "DOCS": "6.4",  # Margins turning positive, physician platform
-    
-    # === TIER D+: LOWER MARGINS OR CYCLICAL ===
-    # 8-10% margins or high cyclicality
-    "XYL": "6.3",  # 15%+ margins, water infrastructure technology
-    "ESTC": "6.3",  # Margins turning positive, search observability
-    "BLK": "6.3",  # 30%+ margins, asset management ETF scale
-    "ONTO": "6.3",  # 25%+ margins, advanced packaging equipment
-    "GGG": "6.3",  # 20%+ margins, fluid handling pumps
-    "MSI": "6.3",  # 20%+ margins, public safety communications
-    "POOL": "6.3",  # 8%+ margins, pool supply distribution
-    "INCY": "6.3",  # 25%+ margins, oncology inflammation biotech
-    "CW": "6.3",  # 15%+ margins, defense aerospace industrial
-    "NVMI": "6.2",  # 10%+ margins, semiconductor logistics
-    "IQV": "6.2",  # 12%+ margins, healthcare data CRO
-    "EXAS": "6.2",  # Margins turning positive, cancer screening Cologuard
-    "COP": "6.1",  # 15%+ margins cyclical, oil gas E&P
-    "MANH": "6.1",  # 20%+ margins, supply chain software WMS
-    "ATKR": "6.1",  # 12%+ margins, electrical mechanical products
-    "ABT": "6.0",  # 15%+ margins, diagnostics devices diversified
-    "PJT": "6.0",  # 10%+ margins, advisory boutique investment banking
-    "AWI": "6.0",  # 15%+ margins, ceiling tile architectural
-    "TPL": "6.0",  # 90%+ margins, land royalties oil gas
-    "QSR": "6.0",  # 30%+ margins, Tim Hortons Burger King franchise
-    "YUM": "5.9",  # 40%+ margins, QSR franchisor KFC Taco Bell
-    "CFLT": "5.9",  # Margins turning positive, data streaming Kafka
-    "SHOP": "5.9",  # Margins improving to 10%+, SMB e-commerce platform
-    "PINS": "5.9",  # 20%+ margins, visual discovery ads
-    "ORCL": "5.9",  # 40%+ margins, database cloud legacy transition
-    "APO": "5.8",  # 40%+ margins, alternative asset manager
-    "HD": "5.8",  # 10%+ margins, home improvement DIY pro
-    "ABBV": "5.8",  # 40%+ margins declining, Humira biosimilar risk
-    "SNA": "5.8",  # 15%+ margins, professional tools franchise
-    "KEYS": "5.8",  # 20%+ margins, test measurement equipment
-    "DLR": "5.8",  # 40%+ EBITDA margins, data center REIT
-    "A": "5.7",  # 20%+ margins, lab equipment life sciences
-    "CPNG": "5.7",  # Margins improving to 5%+, Korea e-commerce
-    "JNJ": "5.7",  # 20%+ margins, pharma devices consumer diversified
-    "ACAD": "5.7",  # Negative margins, neuropsych biotech development
-    "QCOM": "5.7",  # 25%+ margins, mobile chips licensing
-    "TRMB": "5.6",  # 15%+ margins, positioning tech construction
-    "MCD": "5.5",  # 40%+ margins, global franchise QSR
-    "MAR": "5.5",  # 10%+ margins, hotel franchise asset-light
-    "LIN": "5.5",  # 20%+ margins, industrial gases scale
-    "DHR": "5.5",  # 20%+ margins, diagnostics life sciences platform
-    "CMI": "5.5",  # 10%+ margins, diesel engines power systems
-    "JPM": "5.4",  # 35%+ ROE, universal banking scale
-    "LOW": "5.4",  # 10%+ margins, home improvement retail
-    "AAPL": "5.3",  # 25%+ margins, iPhone ecosystem mature
-    "DIS": "5.2",  # 8%+ margins pressured, streaming losses parks
-    "CARG": "5.2",  # Margins turning positive, auto marketplace
-    "CHKP": "5.2",  # 50%+ margins, legacy firewall security
-    "ROST": "5.1",  # 8%+ margins, off-price retail TJX competitor
-    "ABNB": "5.1",  # 20%+ margins, short-term rental platform
-    "IEX": "5.0",  # 15%+ margins, fluid handling industrial
-    "EA": "5.0",  # 25%+ margins, gaming sports franchises
-    "VRSK": "5.0",  # 40%+ margins, insurance analytics data
-    "LRCX": "4.9",  # 28%+ margins, wafer fab deposition equipment
-    "TJX": "4.9",  # 8%+ margins, off-price retail treasure hunt
-    "VRSN": "4.9",  # 60%+ margins, domain registry monopoly .com
-    "BMRN": "4.9",  # Negative margins, rare disease biotech
-    "AME": "4.9",  # 20%+ margins, instrumentation niche industrial
-    "UTHR": "4.8",  # 30%+ margins, pulmonary hypertension rare disease
-    "BMI": "4.7",  # 15%+ margins, water flow measurement
-    "LRN": "4.7",  # 8%+ margins, online K-12 education
-    "ROK": "4.7",  # 20%+ margins, industrial automation software
-    "AXON": "4.6",  # 20%+ margins, body cameras Tasers SaaS
-    "HOLX": "4.6",  # 25%+ margins, women's health diagnostics
-    "FSLR": "4.6",  # 15%+ margins volatile, solar panels thin-film
-    "GATX": "4.5",  # 30%+ margins, railcar leasing cyclical
-    "MLI": "4.5",  # 8%+ margins, copper brass tubes cyclical
-    "EW": "4.3",  # 25%+ margins, heart valves TAVR
-    "ETN": "4.3",  # 15%+ margins, electrical aerospace diversified
-    "EMR": "4.2",  # 15%+ margins, automation tools technology
-    "ITW": "4.1",  # 20%+ margins, industrial tools consumables
-    "CAT": "4.1",  # 15%+ margins cyclical, construction mining equipment
-    "ON": "4.0",  # 25%+ margins, automotive power sensing semiconductors
-    "HON": "3.9",  # 15%+ margins, aerospace building automation conglomerate
-    "MS": "3.9",  # 25%+ ROE, wealth management investment banking
-    "FIS": "3.9",  # 30%+ margins, banking technology merchant services
-    "GS": "3.8",  # 25%+ ROE, investment banking trading
-    "SYK": "3.8",  # 20%+ margins, orthopedic medical devices
-    "XOM": "3.8",  # 10%+ margins cyclical, integrated oil gas
-    "SLB": "3.8",  # 12%+ margins cyclical, oilfield services equipment
-    "AMT": "3.6",  # 60%+ EBITDA margins, cell tower REIT
-    "ROP": "3.5",  # 25%+ margins, software industrial conglomerate
-    "SBAC": "3.4",  # 60%+ EBITDA margins, tower REIT wireless
-    "TXN": "3.3",  # 45%+ margins, analog embedded semiconductors
-    "APD": "3.2",  # 20%+ margins, industrial gases hydrogen
-    "ATEN": "3.1",  # 15%+ margins, application networking security
-    "ECL": "3.1",  # 15%+ margins, industrial cleaning sanitation
-    "MCHP": "2.9",  # 30%+ margins, microcontrollers embedded
-    "ENB": "2.9",  # 50%+ EBITDA margins, pipeline infrastructure
-    "KMI": "2.8",  # 40%+ EBITDA margins, pipeline midstream
-    "UNP": "2.5",  # 40%+ margins, railroad transportation
-    
-    # === TIER F: COMMODITY/LOW MARGIN/HIGH RISK ===
-    # <8% margins, commodity exposure, or structural issues
-    "NEM": "6.6",  # 20%+ margins volatile, gold mining commodity
-    "EWBC": "8.0",  # 30%+ ROE, US-China corridor banking
-    "TSM": "0.5",  # 40%+ margins, semiconductor foundry geopolitical risk
-    "WPM": "0.5",  # 80%+ margins, precious metals streaming royalty
-    "SAP": "0.5",  # 25%+ margins, enterprise software ERP legacy
-    "TRI": "0.5",  # 30%+ margins, legal research data
-    "UL": "0.5",  # 15%+ margins, consumer staples low growth
+    # === TIER S+: Elite Quality + Universal Recognition ===
+    "MSFT": "9.1",  # Combined: 98.8
+    "GOOGL": "8.6",  # Combined: 97.9
+    "GOOG": "8.6",  # Combined: 97.6
+    "META": "8.4",  # Combined: 97.3
+    "NVDA": "8.9",  # Combined: 96.5
+    "MA": "6.7",  # Combined: 93.7
+    "V": "6.1",  # Combined: 93.4
+    "COST": "8.9",  # Combined: 92.6
+    "BKNG": "6.9",  # Combined: 88.8
+    "INTU": "8.9",  # Combined: 86.1
+
+    # === TIER S: Premium Quality + Very High Recognition ===
+    "ADBE": "9.2",  # Combined: 85.2
+    "CRM": "8.7",  # Combined: 83.7
+    "NFLX": "8.0",  # Combined: 82.9
+    "PANW": "8.2",  # Combined: 80.0
+    "WDAY": "8.4",  # Combined: 79.7
+    "NOW": "7.5",  # Combined: 79.1
+    "DECK": "9.5",  # Combined: 78.9
+    "PGR": "9.4",  # Combined: 78.8
+    "ASML": "9.1",  # Combined: 78.6
+    "SPGI": "8.3",  # Combined: 78.5
+    "MCO": "6.8",  # Combined: 78.2
+    "AVGO": "7.2",  # Combined: 78.2
+    "DXCM": "8.8",  # Combined: 77.6
+    "AMZN": "7.1",  # Combined: 77.5
+
+    # === TIER A+: Strong Quality + High Recognition ===
+    "LULU": "7.7",  # Combined: 76.6
+    "ADSK": "8.9",  # Combined: 76.3
+    "FICO": "8.2",  # Combined: 76.0
+    "CMG": "7.7",  # Combined: 76.0
+    "ORLY": "8.2",  # Combined: 75.8
+    "VEEV": "7.7",  # Combined: 75.4
+    "SNPS": "9.2",  # Combined: 75.0
+    "FTNT": "9.4",  # Combined: 75.0
+    "CROX": "8.5",  # Combined: 74.7
+    "CDNS": "8.8",  # Combined: 74.7
+    "SBUX": "7.3",  # Combined: 74.6
+    "PAYC": "9.8",  # Combined: 74.3
+    "ELF": "8.2",  # Combined: 73.2
+    "CBOE": "9.4",  # Combined: 72.3
+    "REGN": "8.4",  # Combined: 71.8
+    "AMD": "8.1",  # Combined: 71.4
+    "ZTS": "7.7",  # Combined: 71.3
+    "PYPL": "8.0",  # Combined: 71.2
+    "ULTA": "6.9",  # Combined: 71.2
+    "MORN": "8.3",  # Combined: 71.1
+
+    # === TIER A: Quality Software + Moderate Recognition ===
+    "ADP": "7.3",  # Combined: 70.7
+    "RMD": "9.1",  # Combined: 70.5
+    "IDXX": "7.7",  # Combined: 70.0
+    "DPZ": "6.9",  # Combined: 69.7
+    "WMT": "6.8",  # Combined: 69.3
+    "FISV": "8.0",  # Combined: 69.2
+    "PAYX": "8.1",  # Combined: 69.0
+    "CSGP": "8.4",  # Combined: 68.7
+    "TYL": "7.5",  # Combined: 68.4
+    "PTC": "7.8",  # Combined: 68.1
+    "PODD": "8.0",  # Combined: 67.3
+    "BRO": "8.3",  # Combined: 66.3
+    "EXR": "8.3",  # Combined: 65.8
+    "FAST": "8.5",  # Combined: 65.4
+    "TSLA": "7.5",  # Combined: 65.2
+    "CPRT": "7.7",  # Combined: 65.1
+    "GWW": "7.9",  # Combined: 65.1
+    "KNSL": "9.3",  # Combined: 64.8
+    "PCTY": "9.1",  # Combined: 64.7
+    "RLI": "8.2",  # Combined: 64.5
+    "PLMR": "8.9",  # Combined: 64.2
+    "AXP": "6.2",  # Combined: 64.0
+    "RJF": "8.6",  # Combined: 63.6
+    "FDS": "7.9",  # Combined: 63.3
+    "ICE": "6.9",  # Combined: 63.1
+    "NET": "6.7",  # Combined: 62.6
+    "ZS": "7.5",  # Combined: 62.3
+    "TMO": "6.9",  # Combined: 62.3
+    "APPF": "9.3",  # Combined: 62.0
+    "HUBS": "6.8",  # Combined: 61.7
+
+    # === TIER B+: Profitable Growers + Good Recognition ===
+    "TXRH": "7.8",  # Combined: 60.9
+    "CHWY": "6.7",  # Combined: 60.6
+    "CTAS": "7.6",  # Combined: 60.3
+    "WING": "9.4",  # Combined: 60.3
+    "AZO": "7.3",  # Combined: 59.9
+    "ROL": "7.4",  # Combined: 59.4
+    "BRK-B": "6.0",  # Combined: 58.9
+    "EXLS": "7.9",  # Combined: 58.8
+    "DUOL": "7.5",  # Combined: 58.8
+    "QLYS": "7.8",  # Combined: 58.5
+    "ISRG": "6.0",  # Combined: 57.5
+    "AMAT": "6.9",  # Combined: 57.3
+    "WRB": "7.0",  # Combined: 57.3
+    "CINF": "7.1",  # Combined: 57.0
+    "TT": "7.0",  # Combined: 56.8
+    "ACGL": "7.3",  # Combined: 56.7
+    "BSX": "6.1",  # Combined: 56.6
+    "MKTX": "6.6",  # Combined: 56.4
+    "ERIE": "7.9",  # Combined: 56.4
+    "SHW": "6.5",  # Combined: 56.4
+    "WM": "5.2",  # Combined: 56.3
+    "DDOG": "6.5",  # Combined: 56.3
+    "CB": "6.2",  # Combined: 56.1
+    "CME": "5.9",  # Combined: 56.0
+    "KLAC": "7.1",  # Combined: 55.8
+    "COF": "6.0",  # Combined: 55.7
+    "DKS": "6.9",  # Combined: 54.6
+    "RSG": "6.3",  # Combined: 54.6
+    "VMC": "6.9",  # Combined: 53.8
+    "TTD": "7.8",  # Combined: 53.7
+    "MLM": "6.8",  # Combined: 53.5
+    "RTX": "6.3",  # Combined: 52.8
+    "HLT": "6.5",  # Combined: 52.4
+    "LMT": "6.2",  # Combined: 52.2
+    "MPWR": "7.4",  # Combined: 52.2
+    "NDAQ": "5.4",  # Combined: 51.7
+    "MELI": "8.2",  # Combined: 51.3
+    "NOC": "6.0",  # Combined: 51.1
+    "GD": "5.8",  # Combined: 50.8
+    "IR": "7.0",  # Combined: 50.2
+
+    # === TIER B: Solid Businesses + Niche Recognition ===
+    "PH": "6.5",  # Combined: 49.9
+    "ANET": "6.6",  # Combined: 49.6
+    "PLTR": "6.9",  # Combined: 48.5
+    "MRVL": "6.5",  # Combined: 47.7
+    "DHI": "9.0",  # Combined: 47.1
+    "LHX": "6.9",  # Combined: 43.5
+    "VRT": "6.5",  # Combined: 43.4
+    "HEI": "7.2",  # Combined: 42.6
+    "TDG": "6.3",  # Combined: 41.7
+    "BOOT": "6.5",  # Combined: 41.3
+    "CVCO": "8.2",  # Combined: 38.8
+    "ICLR": "7.9",  # Combined: 38.3
+    "O": "7.9",  # Combined: 37.9
+    "UPWK": "8.5",  # Combined: 37.6
+    "EPAM": "8.2",  # Combined: 35.4
+    "MEDP": "9.3",  # Combined: 35.0
+    "GDDY": "7.3",  # Combined: 34.9
+    "XPEL": "9.2",  # Combined: 34.4
+    "DAVE": "8.2",  # Combined: 33.8
+    "CELH": "6.4",  # Combined: 33.6
+    "NXT": "8.8",  # Combined: 33.2
+    "FIX": "9.4",  # Combined: 33.1
+    "IDCC": "9.0",  # Combined: 32.5
+    "NMIH": "8.6",  # Combined: 32.3
+    "SSD": "8.9",  # Combined: 32.2
+    "DORM": "8.4",  # Combined: 32.0
+    "HLNE": "8.8",  # Combined: 31.9
+    "GCT": "9.0",  # Combined: 31.3
+    "HD": "5.8",  # Combined: 31.2
+    "AMPH": "9.0",  # Combined: 31.0
+    "YUM": "5.9",  # Combined: 31.0
+    "EME": "8.2",  # Combined: 30.8
+    "EXEL": "8.2",  # Combined: 30.5
+    "SN": "7.7",  # Combined: 30.3
+    "FN": "8.4",  # Combined: 30.1
+    "PSA": "6.8",  # Combined: 30.1
+    "UHS": "7.4",  # Combined: 30.0
+    "AAPL": "5.3",  # Combined: 29.8
+    "BLK": "6.3",  # Combined: 29.6
+    "OSIS": "8.2",  # Combined: 29.5
+    "VICI": "7.1",  # Combined: 29.5
+    "DIS": "5.2",  # Combined: 29.5
+    "ODD": "7.9",  # Combined: 29.0
+    "STRL": "7.8",  # Combined: 28.4
+    "AX": "7.8",  # Combined: 28.4
+    "LNTH": "8.2",  # Combined: 28.3
+    "TECH": "7.8",  # Combined: 28.1
+    "DT": "7.6",  # Combined: 28.1
+    "MCD": "5.5",  # Combined: 27.9
+    "NSSC": "7.9",  # Combined: 27.7
+
+    # === TIER C+: Quality with Low Recognition ===
+    "ABBV": "5.8",  # Combined: 27.7
+    "SHOP": "5.9",  # Combined: 27.6
+    "MHO": "7.8",  # Combined: 27.5
+    "JNJ": "5.7",  # Combined: 27.1
+    "PWR": "7.7",  # Combined: 26.6
+    "TDY": "7.0",  # Combined: 26.4
+    "IPAR": "7.3",  # Combined: 26.3
+    "QFIN": "7.4",  # Combined: 26.3
+    "IESC": "7.8",  # Combined: 26.2
+    "LOW": "5.4",  # Combined: 26.1
+    "APP": "7.6",  # Combined: 26.0
+    "ORCL": "5.9",  # Combined: 25.8
+    "HLI": "7.5",  # Combined: 25.4
+    "OFG": "7.7",  # Combined: 25.3
+    "BLDR": "6.8",  # Combined: 25.2
+    "APH": "7.2",  # Combined: 25.1
+    "SFM": "7.2",  # Combined: 24.5
+    "ABT": "6.0",  # Combined: 24.5
+    "JPM": "5.4",  # Combined: 24.4
+    "COP": "6.1",  # Combined: 23.4
+    "PINS": "5.9",  # Combined: 23.3
+    "BILL": "6.4",  # Combined: 23.1
+    "FROG": "6.5",  # Combined: 22.8
+    "LMAT": "7.3",  # Combined: 22.6
+    "ROST": "5.1",  # Combined: 22.6
+    "QCOM": "5.7",  # Combined: 22.5
+    "ESQ": "7.3",  # Combined: 22.0
+    "ESTC": "6.3",  # Combined: 21.9
+    "BR": "7.1",  # Combined: 21.8
+    "ELMD": "7.3",  # Combined: 21.7
+    "BSVN": "7.2",  # Combined: 21.4
+    "DOCS": "6.4",  # Combined: 21.3
+    "QSR": "6.0",  # Combined: 21.3
+    "ABNB": "5.1",  # Combined: 21.1
+    "XYL": "6.3",  # Combined: 21.0
+    "WST": "7.0",  # Combined: 20.9
+    "FSS": "7.2",  # Combined: 20.8
+    "TJX": "4.9",  # Combined: 20.8
+    "MSI": "6.3",  # Combined: 20.7
+    "ONTO": "6.3",  # Combined: 20.1
+    "GGG": "6.3",  # Combined: 19.8
+    "CPRX": "6.8",  # Combined: 19.4
+    "POOL": "6.3",  # Combined: 19.2
+    "INOD": "6.8",  # Combined: 19.1
+    "USLM": "7.0",  # Combined: 19.0
+    "CPAY": "6.6",  # Combined: 18.8
+    "HALO": "7.0",  # Combined: 18.7
+    "APO": "5.8",  # Combined: 18.7
+    "CW": "6.3",  # Combined: 18.6
+    "NVMI": "6.2",  # Combined: 18.3
+
+    # === TIER C: Decent Businesses + Obscure Brands ===
+    "MSA": "6.6",  # Combined: 18.2
+    "MAR": "5.5",  # Combined: 17.6
+    "DLR": "5.8",  # Combined: 17.2
+    "MANH": "6.1",  # Combined: 17.1
+    "DHR": "5.5",  # Combined: 17.0
+    "INMD": "6.6",  # Combined: 16.9
+    "PMTS": "6.6",  # Combined: 16.3
+    "INCY": "6.3",  # Combined: 16.1
+    "CFLT": "5.9",  # Combined: 15.9
+    "IRMD": "6.5",  # Combined: 15.7
+    "EA": "5.0",  # Combined: 15.7
+    "HRMY": "6.5",  # Combined: 15.4
+    "CPNG": "5.7",  # Combined: 15.4
+    "IQV": "6.2",  # Combined: 15.2
+    "EXAS": "6.2",  # Combined: 14.9
+    "MS": "3.9",  # Combined: 14.8
+    "GS": "3.8",  # Combined: 14.2
+    "SNA": "5.8",  # Combined: 13.8
+    "KEYS": "5.8",  # Combined: 12.3
+    "A": "5.7",  # Combined: 11.7
+    "CAT": "4.1",  # Combined: 11.7
+    "ATKR": "6.1",  # Combined: 11.6
+    "PJT": "6.0",  # Combined: 11.0
+    "AWI": "6.0",  # Combined: 10.7
+    "LIN": "5.5",  # Combined: 10.5
+    "TPL": "6.0",  # Combined: 10.4
+    "TRMB": "5.6",  # Combined: 10.2
+    "CMI": "5.5",  # Combined: 9.9
+    "HON": "3.9",  # Combined: 9.9
+    "XOM": "3.8",  # Combined: 9.6
+    "ROK": "4.7",  # Combined: 7.9
+    "CARG": "5.2",  # Combined: 7.2
+    "CHKP": "5.2",  # Combined: 6.9
+    "IEX": "5.0",  # Combined: 6.0
+    "ETN": "4.3",  # Combined: 5.8
+    "EMR": "4.2",  # Combined: 5.5
+    "VRSK": "5.0",  # Combined: 5.4
+    "AXON": "4.6",  # Combined: 5.2
+    "LRCX": "4.9",  # Combined: 5.1
+    "SYK": "3.8",  # Combined: 4.7
+    "VRSN": "4.9",  # Combined: 4.5
+    "FIS": "3.9",  # Combined: 4.5
+    "ACAD": "5.7",  # Combined: 4.0
+    "AME": "4.9",  # Combined: 3.9
+    "NEM": "6.6",  # Combined: 3.7
+    "AMT": "3.6",  # Combined: 2.2
+    "UL": "0.5",  # Combined: 1.9
+    "FSLR": "4.6",  # Combined: 1.8
+    "SLB": "3.8",  # Combined: 1.3
+    "ITW": "4.1",  # Combined: 1.2
+
+    # === TIER D+: Lower Quality or Highly Specialized ===
+    "TSM": "0.5",  # Combined: 1.1
+    "SAP": "0.5",  # Combined: 0.5
+    "LRN": "4.7",  # Combined: 0.2
+    "ON": "4.0",  # Combined: -0.6
+    "SBAC": "3.4",  # Combined: -0.8
+    "BMRN": "4.9",  # Combined: -1.0
+    "TXN": "3.3",  # Combined: -1.1
+    "UTHR": "4.8",  # Combined: -1.6
+    "EW": "4.3",  # Combined: -1.9
+    "APD": "3.2",  # Combined: -3.0
+    "HOLX": "4.6",  # Combined: -3.1
+    "ROP": "3.5",  # Combined: -3.3
+    "BMI": "4.7",  # Combined: -3.5
+    "ECL": "3.1",  # Combined: -3.6
+    "UNP": "2.5",  # Combined: -4.8
+    "MCHP": "2.9",  # Combined: -5.1
+    "GATX": "4.5",  # Combined: -5.3
+    "MLI": "4.5",  # Combined: -5.6
+    "TRI": "0.5",  # Combined: -7.8
+    "ENB": "2.9",  # Combined: -8.2
+    "KMI": "2.8",  # Combined: -8.5
+    "ATEN": "3.1",  # Combined: -11.3
+    "EWBC": "8.0",  # Combined: -11.8
+    "WPM": "0.5",  # Combined: -12.4
 }
