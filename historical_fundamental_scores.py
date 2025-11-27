@@ -1,3 +1,19 @@
+# === STOCK RANKING METHODOLOGY ===
+# Stocks are ranked by business quality and compounding potential, NOT by the scores shown.
+# Ranking criteria (in priority order):
+# 1. ROIC (Return on Invested Capital) - Higher is better, 40%+ is elite
+# 2. Operating/Net Margin Profile - Level and trend (expanding margins prioritized)
+# 3. Competitive Moat Strength - Monopolies, duopolies, network effects, switching costs
+# 4. Business Model Quality - Asset-light, recurring revenue, scalability
+# 5. Free Cash Flow Generation - Conversion rate and consistency
+# 6. Revenue Growth Sustainability - Ability to grow while maintaining/expanding margins
+# 7. Market Position - Dominance in niche or category leadership
+# 8. Capital Efficiency - Low capital requirements for growth
+#
+# Top tier businesses combine 40%+ ROIC with 25%+ margins, asset-light models, and structural moats.
+# Lower tiers reflect commoditization risk, cyclicality, margin pressure, or competitive threats.
+# ==========================================
+
 STOCK_SCORES = {
     # === TIER S: ELITE MONEY MACHINES === 
     # 40%+ ROIC, 25%+ margins, asset-light, expanding margins, dominant moats
@@ -44,6 +60,7 @@ STOCK_SCORES = {
     
     # === TIER B+: STRONG PROFITABLE GROWERS ===
     # 20%+ ROIC, 12-20% margins, defensible niches
+    "ORLY": "8.2",  # 20%+ ROIC, auto parts oligopoly, strong FCF
     "PCTY": "9.1",  # 25%+ margins, payroll SaaS
     "APPF": "9.3",  # 20%+ margins expanding, property management SaaS
     "DECK": "9.5",  # 15%+ operating margins, brand pricing power (Hoka/UGG)
@@ -102,6 +119,8 @@ STOCK_SCORES = {
     
     # === TIER C+: PROFITABLE WITH GROWTH ===
     # 12-15% ROIC or margin expansion stories
+    "AZO": "7.3",  # 20%+ ROIC, auto parts strong FCF generation
+    "TT": "7.0",  # 20%+ margins, building controls automation
     "WMT": "6.8",  # 4%+ margins improving, omnichannel scale
     "VMC": "6.9",  # 20%+ EBITDA margins, aggregates oligopoly
     "MLM": "6.8",  # 20%+ EBITDA margins, aggregates duopoly
@@ -209,6 +228,7 @@ STOCK_SCORES = {
     
     # === TIER D+: LOWER MARGINS OR CYCLICAL ===
     # 8-10% margins or high cyclicality
+    "XYL": "6.3",  # 15%+ margins, water infrastructure technology
     "ESTC": "6.3",  # Margins turning positive, search observability
     "BLK": "6.3",  # 30%+ margins, asset management ETF scale
     "ONTO": "6.3",  # 25%+ margins, advanced packaging equipment
@@ -255,6 +275,7 @@ STOCK_SCORES = {
     "AAPL": "5.3",  # 25%+ margins, iPhone ecosystem mature
     "DIS": "5.2",  # 8%+ margins pressured, streaming losses parks
     "CARG": "5.2",  # Margins turning positive, auto marketplace
+    "CHKP": "5.2",  # 50%+ margins, legacy firewall security
     "ROST": "5.1",  # 8%+ margins, off-price retail TJX competitor
     "ABNB": "5.1",  # 20%+ margins, short-term rental platform
     "IEX": "5.0",  # 15%+ margins, fluid handling industrial
@@ -303,14 +324,9 @@ STOCK_SCORES = {
     # <8% margins, commodity exposure, or structural issues
     "NEM": "6.6",  # 20%+ margins volatile, gold mining commodity
     "EWBC": "8.0",  # 30%+ ROE, US-China corridor banking
-    "WPM": "0.5",  # 80%+ margins, precious metals streaming royalty
     "TSM": "0.5",  # 40%+ margins, semiconductor foundry geopolitical risk
+    "WPM": "0.5",  # 80%+ margins, precious metals streaming royalty
     "SAP": "0.5",  # 25%+ margins, enterprise software ERP legacy
     "TRI": "0.5",  # 30%+ margins, legal research data
     "UL": "0.5",  # 15%+ margins, consumer staples low growth
-    "CHKP": "5.2",
-    "TT": "7.0",
-    "ORLY": "8.2",
-    "XYL": "6.3",
-    "AZO": "7.3",
 }
