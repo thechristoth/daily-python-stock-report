@@ -59,7 +59,7 @@
 # AND sufficient brand recognition to ensure liquidity, analyst coverage, and investor accessibility.
 # Lower tiers may reflect either: (1) fundamental weaknesses (commoditization, cyclicality, margin pressure),
 # or (2) low brand recognition despite strong fundamentals (hidden gems requiring specialist knowledge).
-# ==========================================
+# =========================================
 
 STOCK_SCORES = {
     # === TIER S+: Elite Quality + Universal Recognition ===
