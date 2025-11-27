@@ -6,7 +6,7 @@ import os
 from bs4 import BeautifulSoup
 import historical_fundamental_scores
 
-# Configuration
+# Configuration SECOND CODE
 STOCKS = [
      "MA", "MSFT", "GOOGL", "MLI", "SPGI", "PGR", "AXP", "DUOL", "PINS", "EXEL", "DECK", "AWI", "AAPL", "ABBV", "ABT", "ACAD", "ADBE", "ADP", "ADSK", "AMAT", "AMD", "AME", "AMT", "AMZN", "ANET", "APH", "APP", "APPF", "APD", "ASML", "ATEN", "AVGO", "AXON", "AZO", "BMRN", "BKNG", "BLK", "BMI", "BRO", "BR", "BRK-B", "BSX", "CARG", "CAT", "CB", "CDNS", "CELH", "CINF", "CHKP", "CME", "CMG", "CMI", "COF", "COST", "CPNG", "CPRT", "CPRX", "CRM", "CSGP", "CTAS", "DDOG", "DHR", "DLR", "DOCS", "DPZ", "DT", "DXCM", "EA", "ECL", "ELF", "EMR", "EPAM", "ETN", "EW", "EXLS", "EXR", "FAST", "FICO", "FSLR", "FTNT", "GATX", "GD", "GGG", "GDDY", "GS", "GWW", "HALO", "HD", "HEI", "HLT", "HOLX", "HON", "ICE", "IDXX", "IEX", "INTU", "IR", "ITW", "JNJ", "JPM", "KEYS", "KLAC", "LHX", "LIN", "LMAT", "LMT", "LOW", "LRCX", "LRN", "LULU", "MANH", "MAR", "MCD", "MCO", "MEDP", "MELI", "META", "MLM", "MPWR", "MS", "MSI", "MKTX", "NFLX", "NDAQ", "NOC", "NOW", "NSSC", "NVDA", "NVMI", "O", "ODD", "ON", "ONTO", "ORCL", "ORLY", "PANW", "PAYC", "PAYX", "PCTY", "PH", "PODD", "POOL", "PSA", "PTC", "PWR", "QFIN", "QLYS", "QCOM", "QSR", "REGN", "RMD", "ROL", "ROP", "ROK", "ROST", "RSG", "RTX", "SBAC", "SBUX", "SHOP", "SHW", "SNPS", "SAP", "SYK", "TDG", "TDY", "TMO", "TJX", "TRI", "TRMB", "TSLA", "TSM", "TT", "TXN", "TYL", "ULTA", "UNP", "USLM", "V", "VEEV", "VICI", "VMC", "VRSK", "VRSN", "WDAY", "WM", "WMT", "WPM", "WST", "WRB", "XYL", "ZTS", "A", "TXRH", "CROX", "PLTR", "WING", "IQV", "EXAS", "HUBS", "ESTC", "ICLR", "BILL", "FISV", "YUM", "ATKR", "MRVL", "BLDR", "CPAY", "TECH", "FROG", "DKS", "PMTS", "APO", "FDS", "SNA", "CBOE", "MORN", "RJF", "DORM", "IPAR", "TPL", "HLNE", "ISRG", "IDCC", "SSD", "UTHR", "BOOT", "OSIS", "ERIE", "STRL", "INCY", "FIX", "TTD", "VRT", "SN", "NEM", "EME", "UHS", "IESC", "IRMD", "XPEL", "UPWK", "SFM", "HRMY", "CHWY", "CW", "FSS", "INOD", "GCT", "MSA", "PJT", "DAVE", "NXT", "KNSL", "CVCO", "AMPH", "ELMD", "NMIH", "INMD", "ESQ", "OFG", "BSVN", "HLI", "LNTH", "RLI", "FN", "PLMR", "DHI", "EWBC", "MHO", "AX", "ACGL"
 ]
@@ -135,6 +135,31 @@ def calculate_fcf_growth_score(metrics):
             return 3
     
     return 5
+
+def remap(value, old_min, old_max, new_min, new_max):
+    return (value - old_min) / (old_max - old_min) * (new_max - new_min) + new_min
+
+def calculate_trust_factor(stock_symbol):
+    """Use ORIGINAL dictionary order, not sorted by score"""
+    try:
+        # Get stocks in ORIGINAL ORDER (not sorted!)
+        all_stocks_list = list(historical_fundamental_scores.STOCK_SCORES.keys())
+        
+        if stock_symbol not in all_stocks_list:
+            return None
+        
+        position = all_stocks_list.index(stock_symbol)  # This gets position in original order
+        total_stocks = len(all_stocks_list)
+        
+        if total_stocks == 1:
+            trust_factor = 10.0
+        else:
+            trust_factor = 10.0 * (1.0 - (position / (total_stocks - 1)))
+        
+        return round(trust_factor, 1)
+    except Exception as e:
+        print(f"Error calculating trust factor for {stock_symbol}: {e}")
+        return None
 
 def calculate_piotroski_fscore(metrics):
     """
@@ -273,6 +298,8 @@ def calculate_combined_performance_scores(metrics, sector, stock_symbol,
             scores_fama['historical_score'] * PERFORMANCE_WEIGHTS['fama'] +
             scores_buffett['historical_score'] * PERFORMANCE_WEIGHTS['buffett']
         )
+
+    trust_factor = scores_greenblatt.get('trust_factor')
     
     # Calculate total score using weighted averages
     # Use the base weights from combined_performance profile
@@ -294,6 +321,7 @@ def calculate_combined_performance_scores(metrics, sector, stock_symbol,
         'stability_score': None,
         'growth_score': round(combined_growth, 2),
         'historical_score': combined_historical,
+        'trust_factor': trust_factor,  # ✅ ADD THIS LINE
         'total_score': round(total_score, 2),
         'sector': sector,
         'sector_config_used': scores_greenblatt['sector_config_used'],
@@ -513,7 +541,7 @@ def generate_table_rows(stock_data, profile_name):
         # Create details row with profile-specific class
         table_rows.append(f'''
             <tr id="details-{stock}-{profile_name}" class="details-row {profile_class}" data-profile="{profile_name}" style="display: none;">
-                <td colspan="14">
+                <td colspan="15">
                     <div class="details-content">
                         <div style="background: linear-gradient(135deg, var(--secondary-blue), var(--accent-blue)); color: white; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
                             <p style="margin: 0; font-size: 1.1rem;"><strong>📊 Active Profile:</strong> {scores['research_insights']['active_profile']}</p>
@@ -572,7 +600,7 @@ USER_AGENTS = [
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.15 Safari/605.1.15'
 ]
 DELAY_BETWEEN_REQUESTS = 5  # seconds
-HTML_FILE = os.path.join(os.getcwd(), 'index.html')
+HTML_FILE = os.path.join(os.getcwd(), 'enhanced_stock_analysis3.0.html')
 HTML_TEMPLATE_FILE = os.path.join(os.getcwd(), 'template_dual.html')
 MAX_RETRIES = 3
 
@@ -1217,6 +1245,7 @@ def calculate_enhanced_scores_with_sectors(metrics, sector=None, stock_symbol=No
         return None
     
     historical_score_ = get_historical_score(stock_symbol) if stock_symbol else None
+    trust_factor_ = calculate_trust_factor(stock_symbol) if stock_symbol else None
 
     # Keep existing SECTOR_CONFIGS structure
     SECTOR_CONFIGS = {
@@ -2429,6 +2458,7 @@ def calculate_enhanced_scores_with_sectors(metrics, sector=None, stock_symbol=No
         'stability_score': None,
         'growth_score': round(growth_score, 2),
         'historical_score': historical_score_,
+        'trust_factor': trust_factor_,  # ADD THIS LINE
         'total_score': round(total_score, 2),
         'sector': sector,
         'sector_config_used': config,
@@ -2501,6 +2531,8 @@ def create_enhanced_html(stock_data, profile_name='academic'):
         historical_display = f"{scores['historical_score']:.1f}" if scores['historical_score'] is not None else "N/A"
         historical_class = "positive" if scores['historical_score'] and scores['historical_score'] >= 7 else "neutral" if scores['historical_score'] and scores['historical_score'] >= 5 else "negative" if scores['historical_score'] else "na"
 
+        trust_display = f"{scores['trust_factor']:.1f}" if scores.get('trust_factor') is not None else "N/A"
+        trust_class = "positive" if scores.get('trust_factor') and scores['trust_factor'] >= 7 else "neutral" if scores.get('trust_factor') and scores['trust_factor'] >= 4 else "negative" if scores.get('trust_factor') else "na"
         # CRITICAL FIX: Add profile class to every row
         profile_class = f"profile-{profile_name}"
         
@@ -2522,6 +2554,7 @@ def create_enhanced_html(stock_data, profile_name='academic'):
                 <td class="{quality_class}">{scores['quality_score']:.1f}</td>
                 <td class="{growth_class}">{scores['growth_score']:.1f}</td>
                 <td class="{historical_class}">{historical_display}</td>
+                <td class="{trust_class}">{trust_display}</td>
                 <td class="{total_class}"><strong>{scores['total_score']:.1f}</strong></td>
             </tr>
         ''')
@@ -2529,7 +2562,7 @@ def create_enhanced_html(stock_data, profile_name='academic'):
         # Details row with profile class
         table_rows.append(f'''
             <tr id="details-{stock}-{profile_name}" class="details-row {profile_class}" data-profile="{profile_name}" style="display: none;">
-                <td colspan="14">
+                <td colspan="15">
                     <div class="details-content">
                         <div style="background: linear-gradient(135deg, var(--secondary-blue), var(--accent-blue)); color: white; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
                             <p style="margin: 0; font-size: 1.1rem;"><strong>📊 Active Profile:</strong> {scores['research_insights']['active_profile']}</p>
@@ -2572,6 +2605,7 @@ def create_enhanced_html(stock_data, profile_name='academic'):
                             <div class="metric-section">
                                 <h4>📚 Historical Fundamentals</h4>
                                 <p>Historical Score: <strong>{historical_display}</strong></p>
+                                <p>Trust Factor: <strong>{trust_display}</strong></p>  # ADD THIS
                                 <p>Weight in Total Score: {scores['sector_adjustments']['historical_weight_used']*100:.1f}%</p>
                                 <p>Data Available: {'✅ Yes' if scores['sector_adjustments']['has_historical_data'] else '❌ No'}</p>
                                 <p><small>💡 Historical score reflects long-term fundamental consistency and quality</small></p>
