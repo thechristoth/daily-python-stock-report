@@ -376,9 +376,8 @@ STOCK_SCORES = {
 # 🟢 7.0+ = EXCEPTIONAL (~90 stocks) - Elite financials, strong moats
 # 🟡 4.0-6.9 = MIDDLE (~170 stocks) - Decent but not exceptional
 # 🔴 0-3.9 = BAD (~75 stocks) - Weak financials, high risk, structural issues
-
-TRUST_SCORES = {
-    # === 🟢 EXCEPTIONAL TIER (7.0+) - 90 stocks ===
+STOCK_SCORES = {
+    # === 🟢 EXCEPTIONAL TIER (7.0+) - 87 stocks ===
     
     # ELITE (9.0-10.0) - The Untouchables
     "NVDA": 9.7,     # AI dominance, 80% GPU share, ROIC 165%
@@ -442,6 +441,7 @@ TRUST_SCORES = {
     "FISV": 7.1,     # Payment processing scale
     "KNSL": 7.1,     # Specialty insurance edge
     "CPRT": 7.1,     # Salvage auction duopoly
+    "CSGP": 7.0,     # Real estate data monopoly (CoStar)
     "PGR": 7.0,      # Insurance underwriting edge
     "LOW": 7.0,      # Home improvement #2
     "DPZ": 7.0,      # Pizza franchise model
@@ -483,18 +483,26 @@ TRUST_SCORES = {
     # === 🟡 MIDDLE TIER (4.0-6.9) - 170 stocks ===
     
     # Upper Middle (6.5-6.9)
+    "RLI": 6.9,      # Specialty insurance quality
     "TSLA": 6.9,     # EV leader but quality concerns
     "MELI": 6.8,     # LatAm e-commerce dominance
+    "PLMR": 6.8,     # Catastrophe insurance specialist
+    "PTC": 6.8,      # CAD/PLM software
     "PLTR": 6.7,     # Gov software, controversial
+    "APPF": 6.7,     # AppFolio property management software
     "ABNB": 6.6,     # Travel platform, cyclical
     "PYPL": 6.5,     # Payments, competition rising
     "TTD": 6.5,      # Adtech leader
+    "MKTX": 6.5,     # Bond trading electronic platform
     
     # Mid-Upper (6.0-6.4)
     "APO": 6.4,      # Asset management
     "SHOP": 6.3,     # E-commerce platform
+    "AXON": 6.3,     # Axon body cameras/tasers
     "DHI": 6.2,      # Homebuilder (cyclical)
+    "QLYS": 6.2,     # Security compliance software
     "HLT": 6.1,      # Hotel franchise
+    "XPEL": 6.1,     # XPEL paint protection film
     "MAR": 6.0,      # Hotel franchise
     "AMAT": 6.0,     # Semi equipment
     "KLAC": 6.0,     # Semi equipment
@@ -508,15 +516,22 @@ TRUST_SCORES = {
     "ZTS": 6.0,      # Animal health
     "SYK": 6.0,      # Medical equipment
     "CINF": 6.0,     # Insurance
+    "MEDP": 6.0,     # Medpace clinical research
+    "ODD": 6.0,      # Oddity beauty tech
     
     # Mid (5.5-5.9)
     "LRCX": 5.9,     # Semi equipment cyclical
     "MRVL": 5.8,     # Chip design
+    "ICLR": 5.8,     # ICON clinical research
+    "BOOT": 5.8,     # Boot Barn western retail
+    "TT": 5.8,       # Trane HVAC equipment
     "TXN": 5.7,      # Analog chips
     "BSX": 5.6,      # Medical devices
+    "WST": 5.6,      # West Pharmaceutical packaging
+    "IQV": 5.6,      # IQVIA pharma data/services
+    "FIX": 5.6,      # Comfort Systems HVAC
     "COF": 5.5,      # Credit cards
     "CHKP": 5.5,     # Security software mature
-    "QLYS": 5.5,     # Security SaaS
     "PINS": 5.5,     # Social platform
     "DT": 5.5,       # Application monitoring
     "SN": 5.5,       # Small appliances
@@ -534,12 +549,29 @@ TRUST_SCORES = {
     "CPNG": 5.5,     # Korea e-commerce
     "EXLS": 5.5,     # BPO services
     "GWW": 5.5,      # MRO distribution
+    "EXEL": 5.5,     # Exelixis oncology biotech
+    "SFM": 5.5,      # Sprouts Farmers Market organic
     
     # Mid-Lower (5.0-5.4)
     "MPWR": 5.4,     # Power semis
+    "HEI": 5.4,      # Heico aerospace parts
+    "VRT": 5.4,      # Vertiv data center infrastructure
+    "TECH": 5.4,     # Bio-Techne life sciences tools
+    "IPAR": 5.4,     # Inter Parfums fragrance licensing
     "MCHP": 5.3,     # Microcontrollers
+    "MSI": 5.3,      # Motorola Solutions public safety
+    "CVCO": 5.3,     # Cavco modular homes
+    "FSS": 5.3,      # Federal Signal emergency vehicles
     "ON": 5.2,       # Power semis cyclical
+    "HOLX": 5.2,     # Hologic women's health
+    "LHX": 5.2,      # L3Harris defense electronics
+    "VMC": 5.2,      # Vulcan aggregates/construction
+    "DAVE": 5.2,     # Dave digital banking
     "APH": 5.1,      # Connectors cyclical
+    "CPRX": 5.1,     # Catalyst Pharmaceuticals
+    "TDG": 5.1,      # TransDigm aerospace (high debt)
+    "HLI": 5.1,      # Houlihan Lokey investment banking
+    "MLM": 5.1,      # Martin Marietta aggregates
     "CHWY": 5.0,     # Pet e-commerce (low margin)
     "BILL": 5.0,     # B2B payments
     "GDDY": 5.0,     # Web hosting commodity
@@ -560,7 +592,6 @@ TRUST_SCORES = {
     "EMR": 5.0,      # Industrial automation
     "ETN": 5.0,      # Electrical equipment
     "ITW": 5.0,      # Industrial tools
-    "TT": 5.0,       # HVAC cyclical
     "IR": 5.0,       # Compressors
     "PH": 5.0,       # Motion control
     "AME": 5.0,      # Instruments
@@ -572,32 +603,45 @@ TRUST_SCORES = {
     "O": 5.0,        # Retail REIT
     "VICI": 5.0,     # Casino REIT
     "SBAC": 5.0,     # Tower REIT
+    "A": 5.0,        # Agilent life sciences tools
+    "COP": 5.0,      # ConocoPhillips oil & gas
+    "DORM": 5.0,     # Dorman auto parts aftermarket
+    "AX": 5.0,       # Axos Financial online bank
     
     # Lower Middle (4.5-4.9)
-    "HEI": 4.9,      # Aerospace parts
-    "TDG": 4.8,      # Aerospace (high debt)
-    "LHX": 4.7,      # Defense electronics
-    "MSI": 4.6,      # Public safety comms
-    "VRT": 4.5,      # Data center infrastructure
-    "EW": 4.5,       # Heart valves
-    "XYL": 4.5,      # Water technology
-    "GGG": 4.5,      # Fluid handling
-    "UHS": 4.5,      # Hospital operator
-    "SAP": 4.5,      # Enterprise software legacy
-    "CSGP": 4.9,     # Real estate data
+    "QFIN": 4.9,     # 360 DigiTech China fintech
+    "FN": 4.9,       # Fabrinet optical manufacturing
+    "HLNE": 4.9,     # Hamilton Lane private equity
+    "STRL": 4.9,     # Sterling Check background checks
+    "INMD": 4.9,     # InMode medical aesthetics
+    "TRMB": 4.9,     # Trimble GPS/construction tech
     "VRSK": 4.8,     # Insurance analytics
-    "MKTX": 4.7,     # Bond trading platform
-    "AXON": 4.6,     # Body cameras (gov dependent)
+    "NXT": 4.8,      # NextEra Energy Partners renewable
+    "EWBC": 4.8,     # East West Bancorp regional bank
+    "KEYS": 4.8,     # Keysight test equipment
+    "NMIH": 4.8,     # NMI mortgage insurance
+    "NSSC": 4.8,     # Napco Security systems
+    "LNTH": 4.8,     # Lantheus medical imaging
+    "XOM": 4.8,      # ExxonMobil oil & gas
+    "CARG": 4.7,     # CarGurus auto marketplace
+    "SSD": 4.7,      # Construction products
+    "ATKR": 4.7,     # Atkore electrical products
+    "OSIS": 4.7,     # OSI Systems security screening
+    "LMAT": 4.7,     # LeMaitre Vascular devices
+    "BMI": 4.7,      # Badger Meter flow measurement
+    "PWR": 4.6,      # Utility construction
+    "GATX": 4.6,     # GATX railcar leasing
+    "IEX": 4.6,      # IDEX industrial pumps/valves
+    "HALO": 4.6,     # Halozyme drug delivery
+    "GCT": 4.6,      # GigaCloud B2B marketplace
+    "OFG": 4.6,      # OFG Bancorp Puerto Rico
+    "HRMY": 4.6,     # Harmony Biosciences rare disease
+    "IRMD": 4.6,     # IRadimed MRI-compatible devices
+    "TRI": 4.6,      # Thomson Reuters data/media
     "DOCS": 4.5,     # Physician network
     "APP": 4.5,      # Mobile gaming ads
     "UPWK": 4.5,     # Freelance marketplace
     "CPAY": 4.5,     # B2B payments
-    "BOOT": 4.5,     # Western apparel niche
-    "ODD": 4.5,      # Beauty tech startup
-    "VMC": 4.9,      # Aggregates cyclical
-    "MLM": 4.8,      # Aggregates cyclical
-    "SSD": 4.7,      # Construction products
-    "PWR": 4.6,      # Utility construction
     "EME": 4.5,      # Construction services
     "IESC": 4.5,     # Electrical construction
     "MHO": 4.5,      # Homebuilder cyclical
@@ -614,74 +658,31 @@ TRUST_SCORES = {
     "ONTO": 4.5,     # Semi inspection
     "TPL": 4.5,      # Land royalties (commodity)
     "ELF": 4.5,      # Beauty (very competitive)
-    "CVCO": 4.5,     # Modular homes
-    "EXEL": 4.5,     # Oncology biotech
-    "FIX": 4.5,      # HVAC construction
-    "XPEL": 4.5,     # Paint protection film niche
-    "MEDP": 4.5,     # CRO services
-    "ICLR": 4.5,     # CRO services
-    "IQV": 4.5,      # Pharma data services
-    "APPF": 4.5,     # Property software niche
-    "NXT": 4.5,      # Renewable partnership
-    "DAVE": 4.5,     # Fintech startup
-    "TECH": 4.5,     # Life science reagents
-    "WST": 4.5,      # Pharma packaging
-    "FSS": 4.5,      # Emergency vehicles
-    "SFM": 4.5,      # Organic grocery niche
-    "IPAR": 4.5,     # Fragrance licensing
-    "QFIN": 4.2,     # China fintech risk
-    "CARG": 4.1,     # Auto classifieds declining
-    "AX": 4.0,       # Online bank commodity
-    "HLI": 4.0,      # Investment banking (M&A)
+    "EW": 4.5,       # Heart valves
+    "XYL": 4.5,      # Water technology
+    "GGG": 4.5,      # Fluid handling
+    "UHS": 4.5,      # Hospital operator
+    "SAP": 4.5,      # Enterprise software legacy
+    "LRN": 4.5,      # Stride K-12 online education
+    "IDCC": 4.5,     # InterDigital wireless IP
+    "AWI": 4.5,      # Armstrong World Industries ceilings
+    "USLM": 4.5,     # U.S. Lime & Minerals
+    "INOD": 4.5,     # Innodata AI data services
+    "PMTS": 4.5,     # CPI Card Group payment cards
+    "ESQ": 4.5,      # Esquire Financial commercial banking
+    "AMPH": 4.4,     # Amphastar generic pharma
+    "MLI": 4.4,      # Mueller Industries copper/brass
+    "KMI": 4.3,      # Kinder Morgan pipelines
+    "ELMD": 4.3,     # Electromed respiratory therapy
+    "BSVN": 4.2,     # Bank7 Corp micro bank
+    "ENB": 4.2,      # Enbridge pipelines
+    "WPM": 4.2,      # Wheaton Precious Metals streaming
+    "ACAD": 4.1,     # Acadia Pharmaceuticals biotech
     "PJT": 4.0,      # M&A advisory
     
-    # === 🔴 BAD TIER (0-3.9) - 75 stocks ===
+    # === 🔴 BAD TIER (0-3.9) - 7 stocks ===
     
-    # Upper Bad (3.5-3.9)
-    "EWBC": 3.9,     # Regional bank risk
-    "TRI": 3.9,      # Legacy media/data
-    "KEYS": 3.9,     # Test equipment niche
-    "A": 3.9,        # Life sciences tools competitive
-    "HOLX": 3.9,     # Medical devices competitive
-    "TRMB": 3.9,     # GPS niche shrinking
-    "BMI": 3.9,      # Industrial meters commodity
-    "CPRX": 3.9,     # Rare disease limited
-    "GATX": 3.9,     # Railcar leasing cyclical
-    "LRN": 3.9,      # K-12 education regulatory
-    "WPM": 3.9,      # Gold streaming commodity
-    "DORM": 3.9,     # Auto aftermarket declining
-    "NMIH": 3.9,     # Mortgage insurance cyclical
-    "FN": 3.9,       # Contract optics low margin
-    "ATKR": 3.9,     # Electrical products commodity
-    "IEX": 3.9,      # Pumps/valves industrial
-    "HLNE": 3.9,     # PE secondaries niche
-    "KMI": 3.8,      # Pipeline commodity
-    "ENB": 3.8,      # Pipeline regulated
-    "MLI": 3.8,      # Metals commodity
-    "ACAD": 3.8,     # Biotech limited pipeline
-    "IDCC": 3.8,     # Wireless licensing volatile
-    "NSSC": 3.8,     # Security alarms commodity
-    "STRL": 3.8,     # Background checks commodity
-    "OSIS": 3.8,     # Security screening lumpy
-    "LNTH": 3.8,     # Medical imaging niche
-    "INMD": 3.8,     # Medical aesthetics competitive
-    "HALO": 3.8,     # Drug delivery partner risk
-    "LMAT": 3.7,     # Vascular devices tiny
-    "AWI": 3.7,      # Ceiling tiles commodity
-    "GCT": 3.7,      # B2B marketplace unproven
-    "USLM": 3.6,     # Lime commodity
-    "OFG": 3.6,      # Puerto Rico bank risk
-    "INOD": 3.6,     # AI data labeling low margin
-    "HRMY": 3.6,     # Single drug risk
-    "AMPH": 3.5,     # Generic pharma low margin
-    "PMTS": 3.5,     # Payment cards commodity
-    "IRMD": 3.5,     # MRI devices tiny niche
-    "ESQ": 3.5,      # Micro commercial bank
-    
-    # Mid Bad (3.0-3.4)
-    "ATEN": 3.4,     # Networking niche dying
-    "BSVN": 3.4,     # Tiny regional bank
-    "ELMD": 3.4,     # Respiratory therapy tiny
+    "ATEN": 3.9,     # A10 Networks security
     "NEM": 3.3,      # Gold miner commodity hell
     "SLB": 3.2,      # Oilfield services cyclical
     "FSLR": 3.1,     # Solar panel oversupply
@@ -689,7 +690,4 @@ TRUST_SCORES = {
     "UTHR": 3.0,     # Single drug pharma
     "INCY": 3.0,     # Biotech struggles
     "EXAS": 3.0,     # Cancer screening losses
-    
-    # Lower Bad (Below 3.0) - Severe Issues
-    # Reserved for companies with negative FCF, bankruptcy risk, or terminal decline
 }
