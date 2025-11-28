@@ -137,30 +137,9 @@ def calculate_fcf_growth_score(metrics):
     
     return 5
 
-def remap(value, old_min, old_max, new_min, new_max):
-    return (value - old_min) / (old_max - old_min) * (new_max - new_min) + new_min
-
 def calculate_trust_factor(stock_symbol):
-    """Use ORIGINAL dictionary order, not sorted by score"""
-    try:
-        # Get stocks in ORIGINAL ORDER (not sorted!)
-        all_stocks_list = list(historical_fundamental_scores.STOCK_SCORES.keys())
-        
-        if stock_symbol not in all_stocks_list:
-            return None
-        
-        position = all_stocks_list.index(stock_symbol)  # This gets position in original order
-        total_stocks = len(all_stocks_list)
-        
-        if total_stocks == 1:
-            trust_factor = 10.0
-        else:
-            trust_factor = 10.0 * (1.0 - (position / (total_stocks - 1)))
-        
-        return round(trust_factor, 1)
-    except Exception as e:
-        print(f"Error calculating trust factor for {stock_symbol}: {e}")
-        return None
+    return historical_fundamental_scores.TRUST_SCORES[stock_symbol]
+
 
 def calculate_piotroski_fscore(metrics):
     """
