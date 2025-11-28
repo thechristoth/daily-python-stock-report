@@ -491,6 +491,7 @@ TRUST_SCORES = {
     "PLTR": 6.7,     # Gov software, controversial
     "APPF": 6.7,     # AppFolio property management software
     "ABNB": 6.6,     # Travel platform, cyclical
+    "MSA": 6.6,
     "PYPL": 6.5,     # Payments, competition rising
     "TTD": 6.5,      # Adtech leader
     "MKTX": 6.5,     # Bond trading electronic platform
