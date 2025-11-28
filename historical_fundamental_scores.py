@@ -376,7 +376,7 @@ STOCK_SCORES = {
 # 🟢 7.0+ = EXCEPTIONAL (~90 stocks) - Elite financials, strong moats
 # 🟡 4.0-6.9 = MIDDLE (~170 stocks) - Decent but not exceptional
 # 🔴 0-3.9 = BAD (~75 stocks) - Weak financials, high risk, structural issues
-STOCK_SCORES = {
+TRUST_SCORES = {
     # === 🟢 EXCEPTIONAL TIER (7.0+) - 87 stocks ===
     
     # ELITE (9.0-10.0) - The Untouchables
