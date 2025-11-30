@@ -650,6 +650,109 @@ def parse_growth_value(value):
         return float(value.replace('%', ''))
     except ValueError:
         return None
+    
+def get_investor_type_classification(risk_score):
+    """
+    Classify stock by suitable investor type based on risk score
+    Returns: dict with investor types and their suitability
+    """
+    classifications = {
+        'conservative': False,
+        'balanced': False,
+        'aggressive': False,
+        'speculative': False
+    }
+    
+    # Conservative: Risk 1-3
+    if risk_score <= 3:
+        classifications['conservative'] = True
+    
+    # Balanced: Risk 3-6
+    if 3 <= risk_score <= 6:
+        classifications['balanced'] = True
+    
+    # Aggressive: Risk 5-8
+    if 5 <= risk_score <= 8:
+        classifications['aggressive'] = True
+    
+    # Speculative: Risk 7-10
+    if risk_score >= 7:
+        classifications['speculative'] = True
+    
+    return classifications
+
+def calculate_stock_risk_score(stock_symbol, metrics, sector):
+    """
+    Calculate risk score (1-10) for a stock
+    Based on volatility, sector, growth stage, and business model
+    """
+    risk_score = 5  # Base score
+    
+    # Sector risk adjustments
+    sector_risk = {
+        'Technology': 6,
+        'Communication Services': 6,
+        'Healthcare': 5,
+        'Consumer Defensive': 3,
+        'Utilities': 2,
+        'Financial': 4,
+        'Consumer Cyclical': 5,
+        'Industrials': 5,
+        'Basic Materials': 6,
+        'Energy': 7,
+        'Real Estate': 4
+    }
+    
+    risk_score = sector_risk.get(sector, 5)
+    
+    # Adjust for volatility/beta
+    beta = metrics.get('Beta')
+    if beta is not None:
+        if beta > 1.5:
+            risk_score += 2
+        elif beta > 1.2:
+            risk_score += 1
+        elif beta < 0.8:
+            risk_score -= 1
+    
+    # Adjust for profitability/stability
+    profit_margin = metrics.get('Profit_Margin')
+    if profit_margin is not None:
+        if profit_margin < 5:
+            risk_score += 2
+        elif profit_margin > 25:
+            risk_score -= 1
+    
+    # Adjust for debt
+    debt_eq = metrics.get('Debt/Eq')
+    if debt_eq is not None and sector != 'Financial':
+        if debt_eq > 1.5:
+            risk_score += 1
+        elif debt_eq < 0.3:
+            risk_score -= 1
+    
+    # Adjust for size (Market Cap)
+    market_cap = metrics.get('Market_Cap')
+    if market_cap is not None:
+        if market_cap < 2:  # Small cap
+            risk_score += 2
+        elif market_cap < 10:  # Mid cap
+            risk_score += 1
+        elif market_cap > 100:  # Mega cap
+            risk_score -= 1
+    
+    # Adjust for growth stage
+    sales_5y = metrics.get('Sales_past_5Y')
+    if sales_5y is not None:
+        if sales_5y > 25:
+            risk_score += 1
+        elif sales_5y < 5:
+            risk_score -= 1
+    
+    # Cap between 1-10
+    risk_score = max(1, min(10, risk_score))
+    
+    return risk_score
 
 def parse_percentage(value):
     """Parse percentage values"""
@@ -1226,6 +1329,8 @@ def calculate_enhanced_scores_with_sectors(metrics, sector=None, stock_symbol=No
     
     historical_score_ = get_historical_score(stock_symbol) if stock_symbol else None
     trust_factor_ = calculate_trust_factor(stock_symbol) if stock_symbol else None
+    risk_score = calculate_stock_risk_score(stock_symbol, metrics, sector)
+    investor_types = get_investor_type_classification(risk_score)
 
     # Keep existing SECTOR_CONFIGS structure
     SECTOR_CONFIGS = {
@@ -2439,6 +2544,8 @@ def calculate_enhanced_scores_with_sectors(metrics, sector=None, stock_symbol=No
         'growth_score': round(growth_score, 2),
         'historical_score': historical_score_,
         'trust_factor': trust_factor_,  # ADD THIS LINE
+        'risk_score': risk_score,  # ADD THIS
+        'investor_types': investor_types,  # ADD THIS
         'total_score': round(total_score, 2),
         'sector': sector,
         'sector_config_used': config,
@@ -2513,6 +2620,21 @@ def create_enhanced_html(stock_data, profile_name='academic'):
 
         trust_display = f"{scores['trust_factor']:.1f}" if scores.get('trust_factor') is not None else "N/A"
         trust_class = "positive" if scores.get('trust_factor') and scores['trust_factor'] >= 7 else "neutral" if scores.get('trust_factor') and scores['trust_factor'] >= 4 else "negative" if scores.get('trust_factor') else "na"
+        
+        # Safe investor type display (handles missing data)
+        
+        investor_icons = []
+        if scores.get('investor_types'):
+            if scores['investor_types'].get('conservative'):
+                investor_icons.append("🛡️")
+            if scores['investor_types'].get('balanced'):
+                investor_icons.append("⚖️")
+            if scores['investor_types'].get('aggressive'):
+                investor_icons.append("🚀")
+            if scores['investor_types'].get('speculative'):
+                investor_icons.append("🎲")
+
+        investor_display = "".join(investor_icons) if investor_icons else "—"
         # CRITICAL FIX: Add profile class to every row
         profile_class = f"profile-{profile_name}"
         
@@ -2535,6 +2657,7 @@ def create_enhanced_html(stock_data, profile_name='academic'):
                 <td class="{growth_class}">{scores['growth_score']:.1f}</td>
                 <td class="{historical_class}">{historical_display}</td>
                 <td class="{trust_class}">{trust_display}</td>
+                <td>{investor_display}</td>
                 <td class="{total_class}"><strong>{scores['total_score']:.1f}</strong></td>
             </tr>
         ''')
