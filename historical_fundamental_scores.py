@@ -367,6 +367,36 @@ STOCK_SCORES = {
     "ATEN": "3.1",  # Combined: -10.5
     "EWBC": "8.0",  # Combined: -11.0
     "WPM": "0.5",  # Combined: -11.6
+    "GEV": "6.5",
+    "MSCI": "8.5",
+    "SKY": "7.5",
+    "MCK": "7.2",
+    "JKHY": "7.0",
+    "THG": "6.9",
+    "HCA": "7.5",
+    "HIG": "6.5",
+    "FINV": "9.1",
+    "LOPE": "7.9",
+    "TRV": "6.2",
+    "NBIX": "7.0",
+    "PSMT": "8.1",
+    "SKWD": "8.8",
+    "MWA": "6.3",
+    "VCTR": "6.3",
+    "HCI": "6.2",
+    "CHE": "7.2",
+    "MNST": "7.5",
+    "GSHD": "8.2",
+    "VRTX": "6.5",
+    "MAX": "6.7",
+    "BRC": "6.0",
+    "BRBR": "8.9",
+    "BOW": "8.2",
+    "ATAT": "7.8",
+    "TGLS": "7.4",
+    "FELE": "6.7",
+    "YELP": "5.6",
+    "MGIC": "9.3",
 }
 
 # Stock Quality Scores - REALISTIC DISTRIBUTION
@@ -393,6 +423,14 @@ TRUST_SCORES = {
     "V": 8.7,        # Visa network effects
     "AMZN": 8.6,     # E-commerce + AWS cash cow
     "ASML": 8.5,     # EUV monopoly (literal 100% share)
+    "MSCI": 8.2,      # Financial data oligopoly - 90%+ margins, pricing power, but smaller scale than MSFT
+    "VRTX": 7.9,      # Biotech leader - Strong pipeline & CF, but biotech risk vs tech stability
+    "MNST": 7.7,      # Monster Energy - Strong brand/margins, but beverage competition vs tech moats
+    "MCK": 7.4,       # Healthcare distributor - Essential but lower margins than tech
+    "HCA": 7.3,       # Hospital operator - Largest chain but capital-intensive vs asset-light tech
+    "NBIX": 7.2,      # Neuroscience biotech - Growing but smaller scale, pharma risks
+    "LOPE": 7.1,      # Grand Canyon Education - Profitable niche but education sector headwinds
+    "CHE": 7.0,       # Chemed - Healthcare services, consistent but not high-growth
     
     # STRONG (8.0-8.4) - Software Monopolies
     "INTU": 8.4,     # TurboTax/QuickBooks lock-in
@@ -483,6 +521,15 @@ TRUST_SCORES = {
     # === 🟡 MIDDLE TIER (4.0-6.9) - 170 stocks ===
     
     # Upper Middle (6.5-6.9)
+    "TRV": 6.9,       # Travelers Insurance - Blue chip but insurance commoditization
+    "HIG": 6.8,       # Hartford Financial - Solid insurer but competitive market
+    "JKHY": 6.7,      # Jack Henry - Banking software, sticky but slower growth than top SaaS
+    "TGLS": 6.7,      # Tecnoglass - Good margins for industrial but cyclical exposure
+    "GSHD": 6.6,      # Goosehead Insurance - Fast-growing but small scale, fragmented market
+    "GEV": 6.5,       # GE Vernova - Energy infrastructure, unproven post-spin, execution risk
+    "PSMT": 6.3,      # PriceSmart - LatAm warehouse clubs, emerging market risks
+    "BRBR": 6.2,      # BellRing Brands - Growing protein brand but commodity input costs
+    "SKY": 6.0,       # Skyline Champion - Manufactured housing, cyclical & lower-income dependent
     "RLI": 6.9,      # Specialty insurance quality
     "TSLA": 6.9,     # EV leader but quality concerns
     "MELI": 6.8,     # LatAm e-commerce dominance
@@ -520,7 +567,22 @@ TRUST_SCORES = {
     "MEDP": 6.0,     # Medpace clinical research
     "ODD": 6.0,      # Oddity beauty tech
     
+    
     # Mid (5.5-5.9)
+
+    "SKWD": 5.9,      # Skyward Specialty - Small insurance player, needs scale
+    "THG": 5.8,       # Hanover Insurance - Regional player, commodity-like business
+    "FINV": 5.7,      # FinVolution - Chinese fintech, regulatory & geopolitical risks
+    "HCI": 5.6,       # HCI Group - Florida insurance, concentrated hurricane exposure
+    "FELE": 5.5,      # Franklin Electric - Water pumps, cyclical industrial with China exposure
+    "BOW": 5.3,       # Bowman Consulting - Engineering services, project-based volatility
+    "VCTR": 5.2,      # Victory Capital - Asset manager, market-dependent revenues
+    "MWA": 5.1,       # Mueller Water - Water infrastructure, slow-growth municipal market
+    "ATAT": 5.0,      # Atour Lifestyle - Chinese hotels, China economy + travel cyclicality
+    "BRC": 4.9,       # Brady Corp - Industrial ID solutions, mature low-growth
+    "MAX": 4.7,       # MediaAlpha - Ad tech, highly competitive with Google/Meta dominance
+    "MGIC": 4.5,      # MGIC Investment - Mortgage insurance, housing cycle dependent
+    "YELP": 4.2,      # Yelp - Local reviews, losing to Google Maps, slow growth
     "LRCX": 5.9,     # Semi equipment cyclical
     "MRVL": 5.8,     # Chip design
     "ICLR": 5.8,     # ICON clinical research
