@@ -274,6 +274,9 @@ STOCK_SCORES = {
     "BSVN": "7.2",  # Combined: 22.2
     "DOCS": "6.4",  # Combined: 22.1
     "ROST": "5.1",  # Combined: 21.8
+    "RPM": "6.3",
+    "LLY": "7.7",
+    "WSO": "7.2",
     "XYL": "6.3",  # Combined: 21.8
     "WST": "7.0",  # Combined: 21.7
     "FSS": "7.2",  # Combined: 21.6
@@ -313,6 +316,7 @@ STOCK_SCORES = {
     "GS": "3.8",  # Combined: 13.8
     "KEYS": "5.8",  # Combined: 13.1
     "A": "5.7",  # Combined: 12.5
+    "WM": "5.2",
     "ATKR": "6.1",  # Combined: 12.4
     "PJT": "6.0",  # Combined: 11.8
     "CAT": "4.1",  # Combined: 11.7
@@ -425,12 +429,14 @@ TRUST_SCORES = {
     "V": 8.7,        # Visa network effects
     "AMZN": 8.6,     # E-commerce + AWS cash cow
     "ASML": 8.5,     # EUV monopoly (literal 100% share)
+    "LLY": 8.5,
     "MSCI": 8.2,      # Financial data oligopoly - 90%+ margins, pricing power, but smaller scale than MSFT
     "UNH": 8.2,
     "VRTX": 7.9,      # Biotech leader - Strong pipeline & CF, but biotech risk vs tech stability
     "MNST": 7.7,      # Monster Energy - Strong brand/margins, but beverage competition vs tech moats
     "MCK": 7.4,       # Healthcare distributor - Essential but lower margins than tech
     "HCA": 7.3,       # Hospital operator - Largest chain but capital-intensive vs asset-light tech
+    "WSO": 7.2,
     "NBIX": 7.2,      # Neuroscience biotech - Growing but smaller scale, pharma risks
     "LOPE": 7.1,      # Grand Canyon Education - Profitable niche but education sector headwinds
     "CHE": 7.0,       # Chemed - Healthcare services, consistent but not high-growth
@@ -542,6 +548,7 @@ TRUST_SCORES = {
     "PLTR": 6.7,     # Gov software, controversial
     "APPF": 6.7,     # AppFolio property management software
     "ABNB": 6.6,     # Travel platform, cyclical
+    "RPM": 6.5,
     "MSA": 6.6,
     "PYPL": 6.5,     # Payments, competition rising
     "TTD": 6.5,      # Adtech leader
