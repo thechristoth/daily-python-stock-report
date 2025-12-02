@@ -8,26 +8,7 @@ import historical_fundamental_scores
 
 # Configuration SECOND CODE
 STOCKS = [
-    "MA", "MSFT", "GOOGL", "MLI", "SPGI", "PGR", "AXP", "DUOL", "PINS", "EXEL",
-    "DECK", "AWI", "AAPL", "ABBV", "ADBE", "ADP", "ADSK", "AME", "AMZN", "ANET",
-    "APH", "APP", "APPF", "ATEN", "AVGO", "AXON", "AZO", "BKNG", "BLK", "BMI",
-    "BRO", "BR", "BRK-B", "BSX", "CB", "CDNS", "CHKP", "CME", "CMG", "COF",
-    "COST", "CPNG", "CPRT", "CPRX", "CRM", "CSGP", "CTAS", "DDOG", "DHR", "DOCS",
-    "DT", "DXCM", "ECL", "EPAM", "ETN", "EW", "EXLS", "FAST", "FICO", "FTNT",
-    "GGG", "GDDY", "GS", "GWW", "HALO", "HD", "HEI", "HLT", "HOLX", "HON",
-    "ICE", "IDXX", "IEX", "INTU", "IR", "ITW", "JPM", "KEYS", "LIN", "LMAT",
-    "LOW", "LRN", "LULU", "MANH", "MAR", "MCO", "MEDP", "MELI", "META", "MPWR",
-    "MS", "MSI", "MKTX", "NFLX", "NDAQ", "NOW", "NVDA", "NVMI", "ONTO", "ORCL",
-    "ORLY", "PANW", "PAYC", "PAYX", "PCTY", "PH", "PODD", "POOL", "PTC", "PWR",
-    "QLYS", "QCOM", "REGN", "RMD", "ROL", "ROP", "ROK", "ROST", "SHOP", "SHW",
-    "SNPS", "SAP", "SYK", "TDG", "TDY", "TMO", "TRI", "TRMB", "TSM", "TT",
-    "TXN", "TYL", "ULTA", "USLM", "V", "VEEV", "VRSK", "VRSN", "WDAY", "WST",
-    "WRB", "XYL", "ZTS", "A", "TXRH", "WING", "IQV", "HUBS", "ESTC", "ICLR",
-    "FISV", "ATKR", "MRVL", "CPAY", "TECH", "FROG", "DKS", "PMTS", "APO", "FDS",
-    "SNA", "CBOE", "MORN", "RJF", "TPL", "HLNE", "ISRG", "IDCC", "INCY", "FIX",
-    "TTD", "SN", "IRMD", "CW", "FSS", "MSA", "NXT", "FN", "AX", "ACGL",
-    "GEV", "MSCI", "MCK", "JKHY", "THG", "HIG", "LOPE", "TRV", "NBIX", "PSMT",
-    "MWA", "MNST", "GSHD", "VRTX", "UNH"
+     "MA", "MSFT", "GOOGL", "MLI", "SPGI", "PGR", "AXP", "DUOL", "PINS", "EXEL", "DECK", "AWI", "AAPL", "ABBV", "ADBE", "ADP", "ADSK", "AMAT", "AMD", "AME", "AMT", "AMZN", "ANET", "APH", "APP", "APPF", "ASML", "ATEN", "AVGO", "AXON", "AZO", "BKNG", "BLK", "BMI", "BRO", "BR", "BRK-B", "BSX", "CARG", "CB", "CDNS", "CINF", "CHKP", "CME", "CMG", "CMI", "COF", "COST", "CPNG", "CPRT", "CPRX", "CRM", "CSGP", "CTAS", "DDOG", "DHR", "DLR", "DOCS", "DPZ", "DT", "DXCM", "EA", "ECL", "ELF", "EMR", "EPAM", "ETN", "EW", "EXLS", "FAST", "FICO", "FSLR", "FTNT", "GATX", "GGG", "GDDY", "GS", "GWW", "HALO", "HD", "HEI", "HLT", "HOLX", "HON", "ICE", "IDXX", "IEX", "INTU", "IR", "ITW", "JPM", "KEYS", "KLAC", "LIN", "LMAT", "LOW", "LRCX", "LRN", "LULU", "MANH", "MAR", "MCD", "MCO", "MEDP", "MELI", "META", "MPWR", "MS", "MSI", "MKTX", "NFLX", "NDAQ", "NOW", "NSSC", "NVDA", "NVMI", "ODD", "ON", "ONTO", "ORCL", "ORLY", "PANW", "PAYC", "PAYX", "PCTY", "PH", "PODD", "POOL", "PTC", "PWR", "QFIN", "QLYS", "QCOM", "REGN", "RMD", "ROL", "ROP", "ROK", "ROST", "SBUX", "SHOP", "SHW", "SNPS", "SAP", "SYK", "TDG", "TDY", "TMO", "TRI", "TRMB", "TSM", "TT", "TXN", "TYL", "ULTA", "USLM", "V", "VEEV", "VRSK", "VRSN", "WDAY", "WPM", "WST", "WRB", "XYL", "ZTS", "A", "TXRH", "CROX", "WING", "IQV", "HUBS", "ESTC", "ICLR", "FISV", "ATKR", "MRVL", "BLDR", "CPAY", "TECH", "FROG", "DKS", "PMTS", "APO", "FDS", "SNA", "CBOE", "MORN", "RJF", "DORM", "IPAR", "TPL", "HLNE", "ISRG", "IDCC", "ERIE", "STRL", "INCY", "FIX", "TTD", "SN", "EME", "IESC", "IRMD", "XPEL", "SFM", "CW", "FSS", "MSA", "NXT", "KNSL", "CVCO", "RLI", "FN", "AX", "ACGL", "GEV", "MSCI", "SKY", "MCK", "JKHY", "THG", "HCA", "HIG", "FINV", "LOPE", "TRV", "NBIX", "PSMT", "SKWD", "MWA", "VCTR", "HCI", "CHE", "MNST", "GSHD", "VRTX", "MAX", "BRC", "BRBR", "BOW", "ATAT", "TGLS", "FELE",
 ]
 
 
