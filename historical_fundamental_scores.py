@@ -426,6 +426,7 @@ TRUST_SCORES = {
     "AMZN": 8.6,     # E-commerce + AWS cash cow
     "ASML": 8.5,     # EUV monopoly (literal 100% share)
     "MSCI": 8.2,      # Financial data oligopoly - 90%+ margins, pricing power, but smaller scale than MSFT
+    "UNH": 8.2,
     "VRTX": 7.9,      # Biotech leader - Strong pipeline & CF, but biotech risk vs tech stability
     "MNST": 7.7,      # Monster Energy - Strong brand/margins, but beverage competition vs tech moats
     "MCK": 7.4,       # Healthcare distributor - Essential but lower margins than tech
@@ -535,6 +536,7 @@ TRUST_SCORES = {
     "RLI": 6.9,      # Specialty insurance quality
     "TSLA": 6.9,     # EV leader but quality concerns
     "MELI": 6.8,     # LatAm e-commerce dominance
+    "GEHC": 6.8
     "PLMR": 6.8,     # Catastrophe insurance specialist
     "PTC": 6.8,      # CAD/PLM software
     "PLTR": 6.7,     # Gov software, controversial
