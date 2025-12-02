@@ -143,6 +143,7 @@ STOCK_SCORES = {
     "NET": "6.7",  # Combined: 62.6
     "HUBS": "6.8",  # Combined: 62.1
     "ZS": "7.5",  # Combined: 61.9
+    "UNH": "7.6",
 
     # === TIER B+: Profitable Growers + Good Recognition ===
     "TXRH": "7.8",  # Combined: 61.7
@@ -185,6 +186,7 @@ STOCK_SCORES = {
     "ANET": "6.6",  # Combined: 51.2
     "NOC": "6.0",  # Combined: 50.7
     "GD": "5.8",  # Combined: 50.4
+    "GEHC": "6.2",
 
     # === TIER B: Solid Businesses + Niche Recognition ===
     "IR": "7.0",  # Combined: 50.2
