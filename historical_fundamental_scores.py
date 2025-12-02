@@ -536,7 +536,7 @@ TRUST_SCORES = {
     "RLI": 6.9,      # Specialty insurance quality
     "TSLA": 6.9,     # EV leader but quality concerns
     "MELI": 6.8,     # LatAm e-commerce dominance
-    "GEHC": 6.8
+    "GEHC": 6.8,
     "PLMR": 6.8,     # Catastrophe insurance specialist
     "PTC": 6.8,      # CAD/PLM software
     "PLTR": 6.7,     # Gov software, controversial
