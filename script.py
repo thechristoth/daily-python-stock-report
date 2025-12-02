@@ -27,7 +27,7 @@ STOCKS = [
     "SNA", "CBOE", "MORN", "RJF", "TPL", "HLNE", "ISRG", "IDCC", "INCY", "FIX",
     "TTD", "SN", "IRMD", "CW", "FSS", "MSA", "NXT", "FN", "AX", "ACGL",
     "GEV", "MSCI", "MCK", "JKHY", "THG", "HIG", "LOPE", "TRV", "NBIX", "PSMT",
-    "MWA", "MNST", "GSHD", "VRTX", "UNH", "GEHC",
+    "MWA", "MNST", "GSHD", "VRTX", "UNH", "GEHC","LLY", "WM", "WSO","RPM"
 ]
 
 
