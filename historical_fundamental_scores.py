@@ -494,6 +494,12 @@ TRUST_SCORES = {
     "FTNT": 7.1,     # Security appliances
     "CDNS": 7.1,     # EDA software duopoly
     "YUM": 7.1,      # Fast food franchises (KFC, Taco Bell)
+    "ABMD": 6.8,     # Heart pump medical devices
+    "TDOC": 2.1,     # Unprofitable telehealth
+    "CLX": 6.2,      # Bleach and cleaning products
+    "KMB": 6.5,      # Huggies, Kleenex consumer staples
+    "KO": 9.1,       # Coca-Cola beverage monopoly
+    "PG": 8.9,       # Tide, Gillette brand portfolio
     "VEEV": 7.1,     # Life sciences software
     "HSY": 7.2,   # 🟢 Hershey - Strong brand (Reese's, Kit Kat), pricing power, stable cash flows, 80+ year dividend history
     "MKL": 7.8,   # 🟢 Markel - "Baby Berkshire", exceptional insurance underwriting, 25+ year compounding track record, Buffett-like discipline
