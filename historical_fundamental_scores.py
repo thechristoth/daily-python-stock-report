@@ -153,6 +153,11 @@ STOCK_SCORES = {
     "AZO": "7.3",  # Combined: 60.7
     "ROL": "7.4",  # Combined: 60.2
     "DUOL": "7.5",  # Combined: 60.0
+    "HSY": "6.3",
+    "MKL": "7.5",
+    "JBHT": "8.0",
+    "GLPI": "6.4",
+    "KNSL": "9.3",
     "EXLS": "7.9",  # Combined: 59.6
     "QLYS": "7.8",  # Combined: 59.3
     "BRK-B": "6.0",  # Combined: 59.3
@@ -481,6 +486,11 @@ TRUST_SCORES = {
     "CDNS": 7.1,     # EDA software duopoly
     "YUM": 7.1,      # Fast food franchises (KFC, Taco Bell)
     "VEEV": 7.1,     # Life sciences software
+    "HSY": 7.2,   # 🟢 Hershey - Strong brand (Reese's, Kit Kat), pricing power, stable cash flows, 80+ year dividend history
+    "MKL": 7.8,   # 🟢 Markel - "Baby Berkshire", exceptional insurance underwriting, 25+ year compounding track record, Buffett-like discipline
+    "JBHT": 6.8,   # 🟡 J.B. Hunt - Solid intermodal logistics, good financials but cyclical, less brand recognition than consumer names
+    "GLPI": 6.5,   # 🟡 Gaming & Leisure Properties - Stable REIT cash flows, triple-net leases, but limited to gaming sector, moderate growth
+    "KNSL": 7.4,   # 🟢 Kinsale Capital - Exceptional insurance underwriting (sub-60 combined ratios), 20%+ ROE, fast-growing specialty lines, proven management
     "DUOL": 7.1,     # Language learning leader
     "CTAS": 7.1,     # Uniform/services moat
     "CBOE": 7.1,     # Options exchange monopoly
