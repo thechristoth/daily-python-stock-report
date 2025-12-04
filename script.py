@@ -24,10 +24,10 @@ STOCKS = [
     "A", "TXRH", "IQV", "HUBS", "FISV", "ATKR", "MRVL", "CPAY", "APO", "FDS",
     "SNA", "CBOE", "RJF", "ISRG", "IDCC", "FIX", "TTD", "SN", "AX", "ACGL",
     "GEV", "MSCI", "MCK", "THG", "HIG", "TRV", "MWA", "MNST", "VRTX", "UNH",
-    "GEHC", "LLY", "WM", "WSO", "RPM", "ASML", "VICI", "HSY", "DPZ", "LOW",
+    "GEHC", "LLY", "WM", "WSO", "RPM", "ASML", "VICI", "HSY", "DPZ", "HCA",
     "KLAC", "AMAT", "MKL", "KNSL", "YUM", "QSR", "RLI", "JBHT", "WCN", "AON",
     "EFX", "JKHY", "CHD", "RYAN", "MORN", "STE", "TSCO", "SSNC", "WAB",
-    "ABMD", "ABT", "IDXX", "FISV", "TDOC", "CLX", "KMB", "KO", "PG", "INMD", "IRMD"
+    "ABMD", "ABT", "LRCX", "TJX", "TDOC", "CLX", "KMB", "KO", "PG", "INMD", "IRMD"
 ]
 
 
