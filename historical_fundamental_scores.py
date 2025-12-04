@@ -504,15 +504,15 @@ TRUST_SCORES = {
     "CTAS": 7.1,     # Uniform/services moat
     "CBOE": 7.1,     # Options exchange monopoly
     "CME": 7.1,      # Futures exchange
-    "WCN": "7.2",   # Waste oligopoly - excellent financials, low brand recognition but essential service
-    "STE": "7.4",   # STERIS - elite financials, strong in medical space, niche but critical
-    "SSNC": "6.8",  # SS&C - solid financials, B2B so low consumer awareness, steady business
-    "EFX": "7.1",   # Equifax - strong financials despite 2017 breach, moderate brand (negative), essential service
-    "WAB": "6.9",   # Wabtec - good financials, low brand recognition, industrial B2B
-    "RYAN": "7.3",  # Ryan Specialty - excellent growth/financials, zero consumer brand, niche leader
-    "AON": "7.5",   # Aon - elite financials, strong B2B brand, insurance brokerage oligopoly
-    "TSCO": "7.6",  # Tractor Supply - exceptional financials, strong brand in rural America, loyal customers
-    "CHD": "7.8"    # Church & Dwight - elite compounder, strong brands (Arm & Hammer), consumer staples pricing power
+    "WCN": 7.2,   # Waste oligopoly - excellent financials, low brand recognition but essential service
+    "STE": 7.4,   # STERIS - elite financials, strong in medical space, niche but critical
+    "SSNC": 6.8,  # SS&C - solid financials, B2B so low consumer awareness, steady business
+    "EFX": 7.1,   # Equifax - strong financials despite 2017 breach, moderate brand (negative), essential service
+    "WAB": 6.9,   # Wabtec - good financials, low brand recognition, industrial B2B
+    "RYAN": 7.3,  # Ryan Specialty - excellent growth/financials, zero consumer brand, niche leader
+    "AON": 7.5,   # Aon - elite financials, strong B2B brand, insurance brokerage oligopoly
+    "TSCO": 7.6,  # Tractor Supply - exceptional financials, strong brand in rural America, loyal customers
+    "CHD": 7.8,   # Church & Dwight - elite compounder, strong brands (Arm & Hammer), consumer staples pricing power
     "FISV": 7.1,     # Payment processing scale
     "KNSL": 7.1,     # Specialty insurance edge
     "CPRT": 7.1,     # Salvage auction duopoly
