@@ -27,6 +27,8 @@ STOCKS = [
     "MSCI", "MCK", "THG", "HIG", "TRV", "MWA", "MNST", "GSHD", "VRTX", "UNH",
     "GEHC", "LLY", "WM", "WSO", "RPM", "ASML", "VICI", "HSY", "DPZ", "LOW",
     "KLAC", "AMAT", "MKL", "KNSL", "YUM", "QSR", "GLPI", "O", "RLI", "JBHT",
+    "WCN", "AON", "EFX", "JKHY", "CHD", "RYAN", "MORN", "STE", "TSCO", "SSNC", 
+    "WAB"
 ]
 
 
