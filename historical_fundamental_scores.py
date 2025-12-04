@@ -267,6 +267,11 @@ STOCK_SCORES = {
     "APP": "7.6",  # Combined: 26.8
     "HLI": "7.5",  # Combined: 26.2
     "ORCL": "5.9",  # Combined: 26.2
+    "KO": "6.3",
+    "PG": "6.2",
+    "KMB": "5.1",
+    "TDOC": "5.9",
+    "CLX": "6.0",
     "OFG": "7.7",  # Combined: 26.1
     "BLDR": "6.8",  # Combined: 26.0
     "APH": "7.2",  # Combined: 25.9
