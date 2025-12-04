@@ -25,9 +25,10 @@ STOCKS = [
     "SNA", "CBOE", "RJF", "ISRG", "IDCC", "FIX", "TTD", "SN", "AX", "ACGL",
     "GEV", "MSCI", "MCK", "THG", "HIG", "TRV", "MWA", "MNST", "VRTX", "UNH",
     "GEHC", "LLY", "WM", "WSO", "RPM", "ASML", "VICI", "HSY", "DPZ", "HCA",
-    "KLAC", "AMAT", "MKL", "KNSL", "YUM", "QSR", "RLI", "JBHT", "WCN", "AON",
-    "EFX", "JKHY", "CHD", "RYAN", "MORN", "STE", "TSCO", "SSNC", "WAB",
-    "ABMD", "ABT", "LRCX", "TJX", "TDOC", "CLX", "KMB", "KO", "PG", "INMD", "IRMD"
+    "KLAC", "AMAT", "MKL", "KNSL", "YUM", "QSR", "RLI", "JBHT", "WCN", "AON", "EFX", 
+    "JKHY", "CHD", "RYAN", "MORN", "STE", "TSCO", "SSNC", "WAB","ABMD", "ABT", "LRCX",
+    "TJX", "TDOC", "CLX", "KMB", "KO", "PG", "INMD", "IRMD", "GOOG", "CROX", "WING", 
+    "ELF", "PLMR", "APPF", "FINV", "SKWD", "BRBR", "MGIC", "GSHD"
 ]
 
 
