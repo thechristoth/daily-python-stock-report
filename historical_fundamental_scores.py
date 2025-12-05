@@ -294,7 +294,10 @@ STOCK_SCORES = {
     "PG": "6.2",
     "KMB": "5.1",
     "TDOC": "5.9",
+    "ODFL": "5.2",
     "CLX": "6.0",
+    "CAH": "7.0",
+    "CHDN": "5.0",
     "OFG": "7.7",  # Combined: 26.1
     "BLDR": "6.8",  # Combined: 26.0
     "APH": "7.2",  # Combined: 25.9
@@ -596,6 +599,9 @@ TRUST_SCORES = {
     "ELV": 7.1,    # Financial: 7.0 ($175B revenue, Medicaid margin pressure, operating margin declining 25-50bps) | Brand: 7.5 | Product: 7.0
     "CSGP": 7.0,     # Real estate data monopoly (CoStar)
     "PGR": 7.0,      # Insurance underwriting edge
+    "ODFL": 7.0,
+    "CAH": 8.0,
+    "CHDN": 6.5,
     "LOW": 7.0,      # Home improvement #2
     "DPZ": 7.0,      # Pizza franchise model
     "TJX": 7.0,      # Off-price retail model
