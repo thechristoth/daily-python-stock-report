@@ -260,6 +260,14 @@ STOCK_SCORES = {
     "AON": "7.0",
     "TSCO": "7.5",
     "CHD": "7.2",
+    "ASAN": "5.9",
+    "PNR": "5.5",
+    "SNOW": "5.5",
+    "MKC": "6.5",
+    "ALGN": "6.0",
+    "TEAM": "8.0",
+    "TWLO": "6.2",
+    "GPN": "7.9",
 
     # === TIER C+: Quality with Low Recognition ===
     "MCD": "5.5",  # Combined: 28.3
@@ -531,6 +539,14 @@ TRUST_SCORES = {
     "DUOL": 7.1,     # Language learning leader
     "CTAS": 7.1,     # Uniform/services moat
     "CBOE": 7.1,     # Options exchange monopoly
+    "ASAN": 5.9,   # Financial: 5.5 (Unprofitable, FCF improving but still burning cash, 11% growth) | Brand: 6.5 | Product: 6.5
+    "PNR": 7.3,    # Financial: 7.5 (13.5% ROIC, 19.7% ROS, strong FCF $693M, 15%+ ROIC target) | Brand: 6.5 | Product: 7.5
+    "SNOW": 6.2,   # Financial: 6.0 (High growth 29%, but unprofitable, burning cash on marketing) | Brand: 6.5 | Product: 7.0
+    "MKC": 7.1,    # Financial: 7.0 (39 yrs dividend growth, but slow 1% revenue growth, margin pressure) | Brand: 8.5 | Product: 7.0
+    "ALGN": 6.8,   # Financial: 6.5 (21% ROIC, but anemic 1-4% growth, competitive pressure) | Brand: 7.5 | Product: 7.5
+    "TEAM": 7.4,   # Financial: 7.5 (21% revenue growth, 26% non-GAAP op margin, but negative GAAP ROIC -3.56%) | Brand: 7.0 | Product: 7.5
+    "TWLO": 6.9,   # Financial: 7.0 (11% revenue growth, first GAAP profit Q4 2024, 16.5% op margin) | Brand: 6.5 | Product: 7.0
+    "GPN": 7.2,    # Financial: 7.5 (45% adj op margin, $3B FCF, but low ROIC 3.8%, transformation in progress) | Brand: 6.5 | Product: 7.0
     "CME": 7.1,      # Futures exchange
     "NKE": 7.1,   # Financial: 7.0 (ROIC 14.8%, down from 25%+ peak, margin pressure) | Brand: 9.5 | Product: 8.0
     "PEP": 7.8,   # Financial: 8.0 (ROIC 14.3%, 54% gross margin, consistent) | Brand: 9.0 | Product: 8.5
