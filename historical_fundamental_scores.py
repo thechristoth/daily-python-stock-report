@@ -179,6 +179,13 @@ STOCK_SCORES = {
     "CME": "5.9",  # Combined: 56.4
     "RSG": "6.3",  # Combined: 55.0
     "DKS": "6.9",  # Combined: 55.0
+    "ZBRA": "4.5",
+    "CHRW": "5.0",
+    "CRWD": "6.3",
+    "GXO": "6.5",
+    "AJG": "7.3",
+    "TECH": "7.8",
+    "ELV": "7.9",
     "TTD": "7.8",  # Combined: 54.9
     "VMC": "6.9",  # Combined: 54.2
     "MLM": "6.8",  # Combined: 53.9
@@ -548,6 +555,13 @@ TRUST_SCORES = {
     "FISV": 7.1,     # Payment processing scale
     "KNSL": 7.1,     # Specialty insurance edge
     "CPRT": 7.1,     # Salvage auction duopoly
+    "ZBRA": 7.2,   # Financial: 7.5 (48.7% gross margin, ROIC 8.5%, recovering demand, $792M FCF) | Brand: 6.5 | Product: 7.0
+    "CHRW": 6.9,   # Financial: 7.0 (Gross profit +15.5% YoY, operating income +58.7% YoY, but cyclical freight) | Brand: 6.5 | Product: 7.0
+    "CRWD": 7.8,   # Financial: 8.0 (80% subscription gross margin, 31% FCF margin, 34% ARR growth, SaaS recurring) | Brand: 7.5 | Product: 7.5
+    "GXO": 6.7,    # Financial: 6.5 (Record revenue $3.2B, but net income dropped to $35M from $68M, 30-40% FCF conversion) | Brand: 6.5 | Product: 7.5
+    "AJG": 7.7,    # Financial: 8.0 (31.4% adj EBITDAC margin, 16th consecutive quarter double-digit growth, recurring revenue) | Brand: 7.0 | Product: 7.5
+    "TECH": 6.8,   # Financial: 6.5 (ROIC 6.5%, 33.5% adj operating margin, but low growth 1-2%, life science cyclical) | Brand: 7.0 | Product: 7.5
+    "ELV": 7.1,    # Financial: 7.0 ($175B revenue, Medicaid margin pressure, operating margin declining 25-50bps) | Brand: 7.5 | Product: 7.0
     "CSGP": 7.0,     # Real estate data monopoly (CoStar)
     "PGR": 7.0,      # Insurance underwriting edge
     "LOW": 7.0,      # Home improvement #2
