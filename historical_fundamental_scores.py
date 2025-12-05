@@ -268,6 +268,14 @@ STOCK_SCORES = {
     "TEAM": "8.0",
     "TWLO": "6.2",
     "GPN": "7.9",
+    "FNF": "5.3",
+    "SEIC": "5.9",
+    "LPLA": "8.2",
+    "RNR": "5.9",
+    "MDT": "4.4",
+    "CL": "6.1",
+    "ALLE": "6.1",
+    "MDLZ": "5.2",
 
     # === TIER C+: Quality with Low Recognition ===
     "MCD": "5.5",  # Combined: 28.3
@@ -523,6 +531,14 @@ TRUST_SCORES = {
     "ORLY": 7.1,     # Auto parts oligopoly
     "FTNT": 7.1,     # Security appliances
     "CDNS": 7.1,     # EDA software duopoly
+    "FNF": 7.4,    # Financial: 7.5 (16.6% title margin, $5.2B FCF, 47 yrs dividend growth, recurring title insurance) | Brand: 7.0 | Product: 7.5
+    "SEIC": 7.6,   # Financial: 8.0 (26% op margin, 15% revenue growth, 43% op income growth, $1.6T AUM) | Brand: 6.5 | Product: 7.5
+    "LPLA": 7.7,   # Financial: 8.0 ($1.7T assets, double-digit growth, capital-light, strong ROE/ROIC) | Brand: 7.0 | Product: 7.5
+    "RNR": 7.9,    # Financial: 8.5 (23.5% ROE, 81.5% combined ratio, $2.2B operating income, 26% TBV growth) | Brand: 6.5 | Product: 7.5
+    "MDT": 7.0,    # Financial: 6.5 (Slow 4-5% growth, 47 yrs dividend, but medical device commoditization) | Brand: 8.5 | Product: 7.5
+    "CL": 7.5,     # Financial: 7.5 (26.85% ROIC, 24% ROE, 60.3% gross margin, 7.4% organic growth) | Brand: 9.0 | Product: 7.0
+    "ALLE": 7.4,   # Financial: 7.5 (22.8% adj op margin, 3.3% revenue growth, $583M FCF, pricing power) | Brand: 7.0 | Product: 7.5
+    "MDLZ": 7.2,   # Financial: 7.0 (4.3% organic growth, but cocoa inflation pressure, slow 1-2% growth) | Brand: 8.5 | Product: 7.5
     "YUM": 7.1,      # Fast food franchises (KFC, Taco Bell)
     "ABMD": 6.8,     # Heart pump medical devices
     "TDOC": 2.1,     # Unprofitable telehealth
