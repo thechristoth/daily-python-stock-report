@@ -29,7 +29,8 @@ STOCKS = [
     "TJX", "KO", "PG", "GOOG", "CROX", "PLMR", "APPF", "GSHD", "PEP", "KR",
     "RSG", "AMD", "MTD", "CVX", "NDSN", "VRT", "TNET", "ZBRA", "CHRW", "CRWD",
     "GXO", "AJG", "TECH", "ELV", "ASAN", "PNR", "SNOW", "SNOW", "MKC", "ALGN",
-    "TEAM", "TWLO", "GPN"
+    "TEAM", "TWLO", "GPN", "FNF", "SEIC", "KMB", "LPLA", "PNR", "RNR", "MDT",
+    "CL", "ALLE", "MDLZ"
 ]
 
 
