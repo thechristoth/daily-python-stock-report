@@ -30,7 +30,7 @@ STOCKS = [
     "RSG", "AMD", "MTD", "CVX", "NDSN", "VRT", "TNET", "ZBRA", "CHRW", "CRWD",
     "GXO", "AJG", "TECH", "ELV", "ASAN", "PNR", "SNOW", "MKC", "ALGN",
     "TEAM", "TWLO", "GPN", "FNF", "SEIC", "KMB", "LPLA", "RNR", "MDT",
-    "CL", "ALLE", "MDLZ"
+    "CL", "ALLE", "MDLZ", "LMT", "ODFL", "PYPL", "CAH", "CHDN", "JNJ"
 ]
 
 
