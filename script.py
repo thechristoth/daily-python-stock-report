@@ -28,7 +28,7 @@ STOCKS = [
     "JKHY", "CHD", "RYAN", "MORN", "STE", "TSCO", "SSNC", "WAB", "ABT", "LRCX",
     "TJX", "KO", "PG", "GOOG", "CROX", "PLMR", "APPF", "GSHD", "PEP", "KR",
     "RSG", "AMD", "MTD", "CVX", "NDSN", "VRT", "TNET", "ZBRA", "CHRW", "CRWD",
-    "GXO", "AJG", "TECH", "ELV"
+    "GXO", "AJG", "TECH", "ELV",
 ]
 
 
