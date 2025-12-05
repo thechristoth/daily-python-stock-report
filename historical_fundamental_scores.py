@@ -296,6 +296,17 @@ STOCK_SCORES = {
     "RPM": "6.3",
     "LLY": "7.7",
     "WSO": "7.2",
+    "NKE": "6.5",
+    "PEP": "6.4",
+    "KR": "5.5",
+    "WTRG": "5.2",
+    "LSCC": "6.1",
+    "CHH": "6.6",
+    "MTD": "5.9",
+    "CVX": "5.0",
+    "NDSN": "5.5",
+    "PM": "5.8",
+    "TNET": "6.9",
     "XYL": "6.3",  # Combined: 21.8
     "WST": "7.0",  # Combined: 21.7
     "FSS": "7.2",  # Combined: 21.6
@@ -514,6 +525,17 @@ TRUST_SCORES = {
     "CTAS": 7.1,     # Uniform/services moat
     "CBOE": 7.1,     # Options exchange monopoly
     "CME": 7.1,      # Futures exchange
+    "NKE": 7.1,   # Financial: 7.0 (ROIC 14.8%, down from 25%+ peak, margin pressure) | Brand: 9.5 | Product: 8.0
+    "PEP": 7.8,   # Financial: 8.0 (ROIC 14.3%, 54% gross margin, consistent) | Brand: 9.0 | Product: 8.5
+    "KR": 6.7,    # Financial: 6.5 (Grocery low margins ~2-3%, competitive) | Brand: 7.5 | Product: 7.0
+    "WTRG": 7.4,  # Financial: 8.0 (Regulated utility, predictable cash flows, 11%+ EPS growth) | Brand: 6.0 | Product: 7.5
+    "LSCC": 6.8,  # Financial: 7.0 (Niche semiconductor, cyclical semi industry) | Brand: 5.5 | Product: 7.0
+    "CHH": 7.2,   # Financial: 7.5 (Franchise model, high margins, recurring fees) | Brand: 6.5 | Product: 7.0
+    "MTD": 7.5,   # Financial: 8.0 (Premium pricing, lab equipment, sticky customers) | Brand: 6.0 | Product: 8.0
+    "CVX": 6.8,   # Financial: 6.5 (Cyclical commodity, but quality operator, dividend aristocrat) | Brand: 7.5 | Product: 7.0
+    "NDSN": 7.6,  # Financial: 8.0 (13% ROIC, 32% EBITDA margin, 61 yrs dividend growth, 42% recurring revenue) | Brand: 6.5 | Product: 7.5
+    "PM": 7.8,    # Financial: 7.5 (Tobacco pricing power, massive FCF, secular decline offset by IQOS) | Brand: 9.0 | Product: 8.0
+    "TNET": 7.1,  # Financial: 7.5 (PEO model, high switching costs, narrow moat) | Brand: 5.0 | Product: 7.5
     "WCN": 7.2,   # Waste oligopoly - excellent financials, low brand recognition but essential service
     "STE": 7.4,   # STERIS - elite financials, strong in medical space, niche but critical
     "SSNC": 6.8,  # SS&C - solid financials, B2B so low consumer awareness, steady business
