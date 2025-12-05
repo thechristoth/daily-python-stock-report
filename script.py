@@ -28,7 +28,8 @@ STOCKS = [
     "KLAC", "AMAT", "MKL", "KNSL", "YUM", "QSR", "RLI", "JBHT", "WCN", "AON", "EFX", 
     "JKHY", "CHD", "RYAN", "MORN", "STE", "TSCO", "SSNC", "WAB","ABMD", "ABT", "LRCX",
     "TJX", "TDOC", "CLX", "KMB", "KO", "PG", "INMD", "IRMD", "GOOG", "CROX", "WING", 
-    "ELF", "PLMR", "APPF", "FINV", "SKWD", "BRBR", "MGIC", "GSHD"
+    "ELF", "PLMR", "APPF", "FINV", "SKWD", "BRBR", "MGIC", "GSHD", "NSSC", "PEP", "NKE", "KR",
+    "WTRG", "RSG", "AMD", "CHH","MTD", "CVX", "NDSN", "SBUX", "PM", "VRT", "TNET"
 ]
 
 
