@@ -1,4 +1,4 @@
-v# === STOCK RANKING METHODOLOGY ===
+# === STOCK RANKING METHODOLOGY ===
 # Stocks are ranked by combining business quality (60%) and brand recognition (40%).
 # This methodology balances fundamental excellence with market visibility and investor accessibility.
 #
