@@ -431,403 +431,375 @@ STOCK_SCORES = {
 # 🟢 7.0+ = EXCEPTIONAL (~90 stocks) - Elite financials, strong moats
 # 🟡 4.0-6.9 = MIDDLE (~170 stocks) - Decent but not exceptional
 TRUST_SCORES = {
+    # === 🟢 EXCEPTIONAL TIER (7.0+) - 87 stocks ===
     
-    # ========================================
-    # === 🟢 TIER 1: ELITE (9.0-10.0) ===
-    # ========================================
+    # ELITE (9.0-10.0) - The Untouchables
+    "NVDA": 9.7,     # AI dominance, 80% GPU share, ROIC 165%
+    "MSFT": 9.5,     # Cloud + Office monopoly
+    "AAPL": 9.4,     # Ecosystem lock-in, services growth
+    "GOOGL": 9.2,    # Search monopoly (90%+ share)
+    "GOOG": 9.2,     # Same as GOOGL
+    "META": 9.0,     # Social empire, ad dominance
     
-    "MSFT": 9.6,   # ⬆️ from 9.5 - Azure 34% growth, Cloud $169B, diversified AI
-    "NVDA": 9.2,   # ⬇️ from 9.7 - Still great but decelerating, China restrictions
-    "GOOGL": 9.3,  # ⬆️ from 9.2 - Search monopoly + AI integration
-    "GOOG": 9.3,   # ⬆️ from 9.2 - Same as GOOGL
-    "META": 9.1,   # ⬆️ from 9.0 - Ad dominance, Reality Labs improving
-    "ASML": 9.0,   # ⬆️ from 8.5 - 100% EUV monopoly, AI chip critical
+    # PREMIUM (8.5-8.9) - Payment Networks & Platforms
+    "COST": 8.9,     # 90% renewal rate, pricing power
+    "MA": 8.8,       # Payment duopoly, ROIC 50%+
+    "V": 8.7,        # Visa network effects
+    "AMZN": 8.6,     # E-commerce + AWS cash cow
+    "ASML": 8.5,     # EUV monopoly (literal 100% share)
+    "LLY": 8.5,
+    "MSCI": 8.2,      # Financial data oligopoly - 90%+ margins, pricing power, but smaller scale than MSFT
+    "UNH": 8.2,
+    "VRTX": 7.9,      # Biotech leader - Strong pipeline & CF, but biotech risk vs tech stability
+    "MNST": 7.7,      # Monster Energy - Strong brand/margins, but beverage competition vs tech moats
+    "MCK": 7.4,       # Healthcare distributor - Essential but lower margins than tech
+    "HCA": 7.3,       # Hospital operator - Largest chain but capital-intensive vs asset-light tech
+    "WSO": 7.2,
+    "NBIX": 7.2,      # Neuroscience biotech - Growing but smaller scale, pharma risks
+    "LOPE": 7.1,      # Grand Canyon Education - Profitable niche but education sector headwinds
+    "CHE": 7.0,       # Chemed - Healthcare services, consistent but not high-growth
     
-    # ========================================
-    # === 🟢 TIER 2: PREMIUM (8.5-8.9) ===
-    # ========================================
+    # STRONG (8.0-8.4) - Software Monopolies
+    "INTU": 8.4,     # TurboTax/QuickBooks lock-in
+    "ADBE": 8.3,     # Creative Cloud monopoly
+    "NFLX": 8.2,     # Streaming leader, content moat
+    "LULU": 8.1,     # Athleisure cult brand
+    "BKNG": 8.0,     # Travel booking dominance
     
-    "MA": 8.9,     # ⬆️ from 8.8 - Payment duopoly, network effects
-    "AAPL": 8.9,   # ⬇️ from 9.4 - Growth slowing but Services 13.5% growth
-    "V": 8.8,      # ⬆️ from 8.7 - Visa network, digital payments
-    "COST": 8.7,   # ⬇️ from 8.9 - Renewal 92.3% (slight pressure), still excellent
-    "AMZN": 8.7,   # ⬆️ from 8.6 - AWS + e-commerce + ads
-    "LLY": 8.6,    # ⬆️ from 8.5 - GLP-1 mega-trend, Mounjaro/Zepbound
-    "INTU": 8.5,   # ⬆️ from 8.4 - Tax software lock-in
+    # EXCELLENT (7.5-7.9) - Category Leaders
+    "CMG": 7.9,      # QSR leader, unit economics
+    "CROX": 7.8,     # Viral product, pricing power
+    "WMT": 7.7,      # Scale + logistics moat
+    "CRM": 7.6,      # Enterprise CRM leader
+    "PANW": 7.5,     # Cybersecurity leader
+    "MCD": 7.5,      # Global franchise model
+    "AVGO": 7.4,     # Semiconductors + software
+    "DIS": 7.3,      # IP moat (Marvel, Star Wars)
+    "TSM": 7.3,      # Chip foundry leader, ROIC 30%+
+    "FICO": 7.2,     # Credit score duopoly
+    "HD": 7.2,       # Home improvement moat
+    "ULTA": 7.2,     # Beauty retail leader
+    "SBUX": 7.1,     # Coffee + real estate
+    "AMD": 7.1,      # AI chips, taking share
+    "BRK-B": 7.1,    # Berkshire quality + diversification
     
-    # ========================================
-    # === 🟢 TIER 3: STRONG (8.0-8.4) ===
-    # ========================================
+    # GREAT (7.0-7.4) - High Quality
+    "DECK": 7.4,     # UGG + Hoka brands
+    "MCO": 7.4,      # Ratings oligopoly
+    "SPGI": 7.3,     # Ratings oligopoly
+    "ANET": 7.3,     # Networking leader
+    "NOW": 7.3,      # Enterprise IT platform
+    "AZO": 7.2,      # Auto parts, great ROIC
+    "TXRH": 7.2,     # Restaurant unit economics
+    "WDAY": 7.2,     # HR software leader
+    "SNPS": 7.2,     # Chip design software
+    "ISRG": 7.2,     # Surgical robot monopoly
+    "ORLY": 7.1,     # Auto parts oligopoly
+    "FTNT": 7.1,     # Security appliances
+    "CDNS": 7.1,     # EDA software duopoly
+    "YUM": 7.1,      # Fast food franchises (KFC, Taco Bell)
+    "ABMD": 6.8,     # Heart pump medical devices
+    "TDOC": 2.1,     # Unprofitable telehealth
+    "CLX": 6.2,      # Bleach and cleaning products
+    "KMB": 6.5,      # Huggies, Kleenex consumer staples
+    "KO": 9.1,       # Coca-Cola beverage monopoly
+    "PG": 8.9,       # Tide, Gillette brand portfolio
+    "VEEV": 7.1,     # Life sciences software
+    "HSY": 7.2,   # 🟢 Hershey - Strong brand (Reese's, Kit Kat), pricing power, stable cash flows, 80+ year dividend history
+    "MKL": 7.8,   # 🟢 Markel - "Baby Berkshire", exceptional insurance underwriting, 25+ year compounding track record, Buffett-like discipline
+    "JBHT": 6.8,   # 🟡 J.B. Hunt - Solid intermodal logistics, good financials but cyclical, less brand recognition than consumer names
+    "GLPI": 6.5,   # 🟡 Gaming & Leisure Properties - Stable REIT cash flows, triple-net leases, but limited to gaming sector, moderate growth
+    "KNSL": 7.4,   # 🟢 Kinsale Capital - Exceptional insurance underwriting (sub-60 combined ratios), 20%+ ROE, fast-growing specialty lines, proven management
+    "DUOL": 7.1,     # Language learning leader
+    "CTAS": 7.1,     # Uniform/services moat
+    "CBOE": 7.1,     # Options exchange monopoly
+    "CME": 7.1,      # Futures exchange
+    "WCN": 7.2,   # Waste oligopoly - excellent financials, low brand recognition but essential service
+    "STE": 7.4,   # STERIS - elite financials, strong in medical space, niche but critical
+    "SSNC": 6.8,  # SS&C - solid financials, B2B so low consumer awareness, steady business
+    "EFX": 7.1,   # Equifax - strong financials despite 2017 breach, moderate brand (negative), essential service
+    "WAB": 6.9,   # Wabtec - good financials, low brand recognition, industrial B2B
+    "RYAN": 7.3,  # Ryan Specialty - excellent growth/financials, zero consumer brand, niche leader
+    "AON": 7.5,   # Aon - elite financials, strong B2B brand, insurance brokerage oligopoly
+    "TSCO": 7.6,  # Tractor Supply - exceptional financials, strong brand in rural America, loyal customers
+    "CHD": 7.8,   # Church & Dwight - elite compounder, strong brands (Arm & Hammer), consumer staples pricing power
+    "FISV": 7.1,     # Payment processing scale
+    "KNSL": 7.1,     # Specialty insurance edge
+    "CPRT": 7.1,     # Salvage auction duopoly
+    "CSGP": 7.0,     # Real estate data monopoly (CoStar)
+    "PGR": 7.0,      # Insurance underwriting edge
+    "LOW": 7.0,      # Home improvement #2
+    "DPZ": 7.0,      # Pizza franchise model
+    "TJX": 7.0,      # Off-price retail model
+    "DXCM": 7.0,     # CGM device leader
+    "ADP": 7.0,      # Payroll processing scale
+    "ROST": 7.0,     # Off-price retail
+    "IDXX": 7.0,     # Vet diagnostics monopoly
+    "RMD": 7.0,      # Sleep device leader
+    "PODD": 7.0,     # Insulin pump innovation
+    "WING": 7.0,     # Franchise unit economics
+    "CELH": 7.0,     # Energy drink momentum
+    "AXP": 7.0,      # Premium credit card moat
+    "JPM": 7.0,      # Banking scale + quality
+    "BLK": 7.0,      # Asset management scale
+    "TMO": 7.0,      # Life sciences tools leader
+    "REGN": 7.0,     # Biotech with blockbusters
+    "WM": 7.0,       # Waste oligopoly
+    "SHW": 7.0,      # Paint distribution moat
+    "ADSK": 7.0,     # CAD software leader
+    "FAST": 7.0,     # Distribution model
+    "BRO": 7.0,      # Insurance brokerage
+    "MORN": 7.0,     # Investment research moat
+    "ICE": 7.0,      # Exchange network
+    "NDAQ": 7.0,     # Nasdaq brand
+    "PAYC": 7.0,     # Payroll SaaS quality
+    "PAYX": 7.0,     # Payroll scale
+    "PCTY": 7.0,     # HR software niche
+    "EXR": 7.0,      # Storage REIT quality
+    "ERIE": 7.0,     # Regional insurance quality
+    "WRB": 7.0,      # Insurance underwriting
+    "ACGL": 7.0,     # Reinsurance quality
+    "ROL": 7.0,      # Pest control moat
+    "DKS": 7.0,      # Sporting goods leader
+    "POOL": 7.0,     # Pool supplies niche
+    "BLDR": 7.0,     # Building materials scale
+    "QSR": 7.0,      # International fast food
     
-    "ADBE": 8.4,   # ⬆️ from 8.3 - Creative Cloud + AI (Firefly)
-    "NFLX": 8.2,   # = 8.2 - Streaming leader, ad tier
-    "UNH": 8.1,    # ⬇️ from 8.2 - Healthcare scale
-    "MSCI": 8.0,   # ⬇️ from 8.2 - Data oligopoly
+    # === 🟡 MIDDLE TIER (4.0-6.9) - 170 stocks ===
     
-    # ========================================
-    # === 🟢 TIER 4: EXCELLENT (7.5-7.9) ===
-    # ========================================
+    # Upper Middle (6.5-6.9)
+    "TRV": 6.9,       # Travelers Insurance - Blue chip but insurance commoditization
+    "HIG": 6.8,       # Hartford Financial - Solid insurer but competitive market
+    "JKHY": 6.7,      # Jack Henry - Banking software, sticky but slower growth than top SaaS
+    "TGLS": 6.7,      # Tecnoglass - Good margins for industrial but cyclical exposure
+    "GSHD": 6.6,      # Goosehead Insurance - Fast-growing but small scale, fragmented market
+    "GEV": 6.5,       # GE Vernova - Energy infrastructure, unproven post-spin, execution risk
+    "PSMT": 6.3,      # PriceSmart - LatAm warehouse clubs, emerging market risks
+    "BRBR": 6.2,      # BellRing Brands - Growing protein brand but commodity input costs
+    "SKY": 6.0,       # Skyline Champion - Manufactured housing, cyclical & lower-income dependent
+    "RLI": 6.9,      # Specialty insurance quality
+    "TSLA": 6.9,     # EV leader but quality concerns
+    "MELI": 6.8,     # LatAm e-commerce dominance
+    "GEHC": 6.8,
+    "PLMR": 6.8,     # Catastrophe insurance specialist
+    "PTC": 6.8,      # CAD/PLM software
+    "PLTR": 6.7,     # Gov software, controversial
+    "APPF": 6.7,     # AppFolio property management software
+    "ABNB": 6.6,     # Travel platform, cyclical
+    "RPM": 6.5,
+    "MSA": 6.6,
+    "PYPL": 6.5,     # Payments, competition rising
+    "TTD": 6.5,      # Adtech leader
+    "MKTX": 6.5,     # Bond trading electronic platform
     
-    "BKNG": 7.9,   # ⬇️ from 8.0 - Travel leader but cyclical
-    "VRTX": 7.8,   # ⬇️ from 7.9 - CF monopoly + gene therapy
-    "LULU": 7.8,   # ⬇️ from 8.1 - Athleisure but competition rising
-    "CMG": 7.8,    # ⬇️ from 7.9 - QSR leader
-    "WMT": 7.8,    # ⬆️ from 7.7 - E-commerce + membership growing
-    "MKL": 7.7,    # ⬇️ from 7.8 - Baby Berkshire quality
-    "CRM": 7.7,    # ⬆️ from 7.6 - CRM platform leader
-    "PANW": 7.6,   # ⬆️ from 7.5 - Cybersecurity leader
-    "CROX": 7.6,   # ⬇️ from 7.8 - Viral product but fashion risk
-    "CHD": 7.6,    # ⬇️ from 7.8 - Church & Dwight brands
-    "MCD": 7.6,    # ⬆️ from 7.5 - Franchise model
-    "TSCO": 7.5,   # ⬇️ from 7.6 - Rural retail leader
-    "AVGO": 7.5,   # ⬆️ from 7.4 - Semi + software
-    "BRK-B": 7.5,  # ⬆️ from 7.1 - Diversification + Buffett quality
-    "AON": 7.4,    # ⬇️ from 7.5 - Insurance brokerage
-    "DECK": 7.4,   # ⬇️ from 7.4 - UGG + Hoka brands
-    "MCO": 7.4,    # = 7.4 - Ratings oligopoly
-    "STE": 7.4,    # = 7.4 - Medical sterilization
-    "KNSL": 7.3,   # ⬇️ from 7.4 - Specialty insurance
-    "SPGI": 7.3,   # = 7.3 - S&P ratings
-    "ANET": 7.3,   # = 7.3 - Networking leader
-    "NOW": 7.3,    # = 7.3 - IT platform
-    "DIS": 7.3,    # = 7.3 - IP moat (Marvel, Star Wars)
-    "TSM": 7.3,    # = 7.3 - Foundry leader, AI demand
-    "RYAN": 7.3,   # = 7.3 - Insurance specialty
-    "AMD": 7.3,    # ⬆️ from 7.1 - AI chips, taking Intel share
-    "PG": 7.3,     # ⬇️⬇️ from 8.9 - MAJOR: Slow 0.3-2.5% growth
-    "HCA": 7.2,    # ⬇️ from 7.3 - Hospital operator
-    "AZO": 7.2,    # = 7.2 - Auto parts
-    "TXRH": 7.2,   # = 7.2 - Restaurant economics
-    "WDAY": 7.2,   # = 7.2 - HR software
-    "SNPS": 7.2,   # = 7.2 - Chip design software
-    "ISRG": 7.2,   # = 7.2 - Surgical robots
-    "HSY": 7.2,    # ⬆️ from 7.1 - Hershey brands
-    "WCN": 7.2,    # = 7.2 - Waste oligopoly
-    "FICO": 7.2,   # = 7.2 - Credit scores
-    "HD": 7.2,     # = 7.2 - Home improvement
-    "ULTA": 7.2,   # = 7.2 - Beauty retail
-    "WSO": 7.1,    # ⬇️ from 7.2 - Watsco HVAC
-    "ORLY": 7.1,   # = 7.1 - Auto parts
-    "FTNT": 7.1,   # = 7.1 - Security appliances
-    "CDNS": 7.1,   # = 7.1 - EDA software
-    "YUM": 7.1,    # = 7.1 - Fast food franchises
-    "VEEV": 7.1,   # = 7.1 - Life sciences software
-    "DUOL": 7.1,   # = 7.1 - Language learning
-    "CTAS": 7.1,   # = 7.1 - Uniform services
-    "CBOE": 7.1,   # = 7.1 - Options exchange
-    "CME": 7.1,    # = 7.1 - Futures exchange
-    "EFX": 7.1,    # = 7.1 - Equifax credit
-    "FISV": 7.1,   # = 7.1 - Payment processing
-    "SBUX": 7.1,   # = 7.1 - Coffee + real estate
+    # Mid-Upper (6.0-6.4)
+    "APO": 6.4,      # Asset management
+    "SHOP": 6.3,     # E-commerce platform
+    "AXON": 6.3,     # Axon body cameras/tasers
+    "DHI": 6.2,      # Homebuilder (cyclical)
+    "QLYS": 6.2,     # Security compliance software
+    "HLT": 6.1,      # Hotel franchise
+    "XPEL": 6.1,     # XPEL paint protection film
+    "MAR": 6.0,      # Hotel franchise
+    "AMAT": 6.0,     # Semi equipment
+    "KLAC": 6.0,     # Semi equipment
+    "QCOM": 6.0,     # Mobile chips
+    "ORCL": 6.0,     # Database legacy
+    "EA": 6.0,       # Gaming (hit-driven)
+    "DHR": 6.0,      # Conglomerate
+    "JNJ": 6.0,      # Healthcare diversified
+    "ABBV": 6.0,     # Pharma (patent cliffs)
+    "ABT": 6.0,      # Medical devices
+    "ZTS": 6.0,      # Animal health
+    "SYK": 6.0,      # Medical equipment
+    "CINF": 6.0,     # Insurance
+    "MEDP": 6.0,     # Medpace clinical research
+    "ODD": 6.0,      # Oddity beauty tech
     
-    # ========================================
-    # === 🟢 TIER 5: GREAT (7.0-7.4) ===
-    # ========================================
     
-    "MCK": 7.0,    # ⬇️ from 7.4 - Healthcare distributor
-    "NBIX": 7.0,   # ⬇️ from 7.2 - Neuroscience biotech
-    "CHE": 7.0,    # = 7.0 - Healthcare services
-    "KNSL": 7.0,   # ⬇️ from 7.1 - Specialty insurance
-    "CPRT": 7.0,   # ⬇️ from 7.1 - Salvage auction
-    "CSGP": 7.0,   # = 7.0 - CoStar real estate data
-    "PGR": 7.0,    # = 7.0 - Insurance underwriting
-    "LOW": 7.0,    # = 7.0 - Home improvement #2
-    "DPZ": 7.0,    # = 7.0 - Pizza franchise
-    "TJX": 7.0,    # = 7.0 - Off-price retail
-    "DXCM": 7.0,   # = 7.0 - CGM devices
-    "ADP": 7.0,    # = 7.0 - Payroll processing
-    "ROST": 7.0,   # = 7.0 - Off-price retail
-    "IDXX": 7.0,   # = 7.0 - Vet diagnostics
-    "RMD": 7.0,    # = 7.0 - Sleep devices
-    "PODD": 7.0,   # = 7.0 - Insulin pumps
-    "WING": 7.0,   # = 7.0 - Wing franchises
-    "CELH": 7.0,   # = 7.0 - Energy drinks
-    "AXP": 7.0,    # = 7.0 - Premium credit
-    "JPM": 7.0,    # = 7.0 - Banking scale
-    "BLK": 7.0,    # = 7.0 - Asset management
-    "TMO": 7.0,    # = 7.0 - Life sciences tools
-    "REGN": 7.0,   # = 7.0 - Biotech blockbusters
-    "WM": 7.0,     # = 7.0 - Waste services
-    "SHW": 7.0,    # = 7.0 - Paint distribution
-    "ADSK": 7.0,   # = 7.0 - CAD software
-    "FAST": 7.0,   # = 7.0 - Distribution
-    "BRO": 7.0,    # = 7.0 - Insurance brokerage
-    "MORN": 7.0,   # = 7.0 - Investment research
-    "ICE": 7.0,    # = 7.0 - Exchange network
-    "NDAQ": 7.0,   # = 7.0 - Nasdaq
-    "PAYC": 7.0,   # = 7.0 - Payroll SaaS
-    "PAYX": 7.0,   # = 7.0 - Payroll scale
-    "PCTY": 7.0,   # = 7.0 - HR software
-    "EXR": 7.0,    # = 7.0 - Storage REIT
-    "ERIE": 7.0,   # = 7.0 - Regional insurance
-    "WRB": 7.0,    # = 7.0 - Insurance underwriting
-    "ACGL": 7.0,   # = 7.0 - Reinsurance
-    "ROL": 7.0,    # = 7.0 - Pest control
-    "DKS": 7.0,    # = 7.0 - Sporting goods
-    "POOL": 7.0,   # = 7.0 - Pool supplies
-    "BLDR": 7.0,   # = 7.0 - Building materials
-    "QSR": 7.0,    # = 7.0 - International QSR
-    "LOPE": 6.9,   # ⬇️ from 7.1 - Education headwinds
-    "WAB": 6.9,    # = 6.9 - Rail equipment
-    "RLI": 6.9,    # = 6.9 - Specialty insurance
-    "TSLA": 6.9,   # = 6.9 - EV leader but quality issues
-    "ULTA": 6.9,   # ⬇️ from 7.2 - Beauty competition
+    # Mid (5.5-5.9)
+
+    "SKWD": 5.9,      # Skyward Specialty - Small insurance player, needs scale
+    "THG": 5.8,       # Hanover Insurance - Regional player, commodity-like business
+    "FINV": 5.7,      # FinVolution - Chinese fintech, regulatory & geopolitical risks
+    "HCI": 5.6,       # HCI Group - Florida insurance, concentrated hurricane exposure
+    "FELE": 5.5,      # Franklin Electric - Water pumps, cyclical industrial with China exposure
+    "BOW": 5.3,       # Bowman Consulting - Engineering services, project-based volatility
+    "VCTR": 5.2,      # Victory Capital - Asset manager, market-dependent revenues
+    "MWA": 5.1,       # Mueller Water - Water infrastructure, slow-growth municipal market
+    "ATAT": 5.0,      # Atour Lifestyle - Chinese hotels, China economy + travel cyclicality
+    "BRC": 4.9,       # Brady Corp - Industrial ID solutions, mature low-growth
+    "MAX": 4.7,       # MediaAlpha - Ad tech, highly competitive with Google/Meta dominance
+    "MGIC": 4.5,      # MGIC Investment - Mortgage insurance, housing cycle dependent
+    "YELP": 4.2,      # Yelp - Local reviews, losing to Google Maps, slow growth
+    "LRCX": 5.9,     # Semi equipment cyclical
+    "MRVL": 5.8,     # Chip design
+    "ICLR": 5.8,     # ICON clinical research
+    "BOOT": 5.8,     # Boot Barn western retail
+    "TT": 5.8,       # Trane HVAC equipment
+    "TXN": 5.7,      # Analog chips
+    "BSX": 5.6,      # Medical devices
+    "WST": 5.6,      # West Pharmaceutical packaging
+    "IQV": 5.6,      # IQVIA pharma data/services
+    "FIX": 5.6,      # Comfort Systems HVAC
+    "COF": 5.5,      # Credit cards
+    "CHKP": 5.5,     # Security software mature
+    "PINS": 5.5,     # Social platform
+    "DT": 5.5,       # Application monitoring
+    "SN": 5.5,       # Small appliances
+    "DDOG": 5.5,     # Monitoring software
+    "NET": 5.5,      # CDN services
+    "ZS": 5.5,       # Security cloud
+    "HUBS": 5.5,     # Marketing automation
+    "ESTC": 5.5,     # Search software
+    "MANH": 5.5,     # Supply chain software
+    "TYL": 5.5,      # Gov software niche
+    "CAT": 5.5,      # Heavy machinery cyclical
+    "RJF": 5.5,      # Wealth management
+    "FDS": 5.5,      # Financial data
+    "RSG": 5.5,      # Waste services
+    "CPNG": 5.5,     # Korea e-commerce
+    "EXLS": 5.5,     # BPO services
+    "GWW": 5.5,      # MRO distribution
+    "EXEL": 5.5,     # Exelixis oncology biotech
+    "SFM": 5.5,      # Sprouts Farmers Market organic
     
-    # ========================================
-    # === 🟡 TIER 6: SOLID (6.5-6.9) ===
-    # ========================================
+    # Mid-Lower (5.0-5.4)
+    "MPWR": 5.4,     # Power semis
+    "HEI": 5.4,      # Heico aerospace parts
+    "VRT": 5.4,      # Vertiv data center infrastructure
+    "TECH": 5.4,     # Bio-Techne life sciences tools
+    "IPAR": 5.4,     # Inter Parfums fragrance licensing
+    "MCHP": 5.3,     # Microcontrollers
+    "MSI": 5.3,      # Motorola Solutions public safety
+    "CVCO": 5.3,     # Cavco modular homes
+    "FSS": 5.3,      # Federal Signal emergency vehicles
+    "ON": 5.2,       # Power semis cyclical
+    "HOLX": 5.2,     # Hologic women's health
+    "LHX": 5.2,      # L3Harris defense electronics
+    "VMC": 5.2,      # Vulcan aggregates/construction
+    "DAVE": 5.2,     # Dave digital banking
+    "APH": 5.1,      # Connectors cyclical
+    "CPRX": 5.1,     # Catalyst Pharmaceuticals
+    "TDG": 5.1,      # TransDigm aerospace (high debt)
+    "HLI": 5.1,      # Houlihan Lokey investment banking
+    "MLM": 5.1,      # Martin Marietta aggregates
+    "CHWY": 5.0,     # Pet e-commerce (low margin)
+    "BILL": 5.0,     # B2B payments
+    "GDDY": 5.0,     # Web hosting commodity
+    "VRSN": 5.0,     # Domain registry utility
+    "CFLT": 5.0,     # Data streaming
+    "FROG": 5.0,     # DevOps tools
+    "EPAM": 5.0,     # IT outsourcing
+    "CB": 5.0,       # Insurance commodity
+    "GS": 5.0,       # Investment banking cyclical
+    "MS": 5.0,       # Investment banking
+    "FIS": 5.0,      # Financial services
+    "BR": 5.0,       # Back office services
+    "LMT": 5.0,      # Defense contractor
+    "RTX": 5.0,      # Aerospace/defense
+    "NOC": 5.0,      # Defense
+    "GD": 5.0,       # Defense
+    "HON": 5.0,      # Industrial conglomerate
+    "EMR": 5.0,      # Industrial automation
+    "ETN": 5.0,      # Electrical equipment
+    "ITW": 5.0,      # Industrial tools
+    "IR": 5.0,       # Compressors
+    "PH": 5.0,       # Motion control
+    "AME": 5.0,      # Instruments
+    "ROP": 5.0,      # Diversified tech
+    "TDY": 5.0,      # Aerospace imaging
+    "AMT": 5.0,      # Cell tower REIT
+    "DLR": 5.0,      # Data center REIT
+    "PSA": 5.0,      # Storage REIT
+    "O": 5.0,        # Retail REIT
+    "VICI": 5.0,     # Casino REIT
+    "SBAC": 5.0,     # Tower REIT
+    "A": 5.0,        # Agilent life sciences tools
+    "COP": 5.0,      # ConocoPhillips oil & gas
+    "DORM": 5.0,     # Dorman auto parts aftermarket
+    "AX": 5.0,       # Axos Financial online bank
     
-    "TRV": 6.9,    # = 6.9 - Insurance commodity
-    "MELI": 6.8,   # = 6.8 - LatAm e-commerce
-    "GEHC": 6.8,   # = 6.8 - GE Healthcare spin
-    "PLMR": 6.8,   # = 6.8 - Catastrophe insurance
-    "PTC": 6.8,    # = 6.8 - CAD/PLM software
-    "ABMD": 6.8,   # = 6.8 - Heart pumps
-    "SSNC": 6.8,   # = 6.8 - Financial software
-    "JBHT": 6.8,   # = 6.8 - Intermodal logistics
-    "SBUX": 6.8,   # ⬇️ from 7.1 - China weakness
-    "HIG": 6.8,    # = 6.8 - Hartford insurance
-    "PLTR": 6.7,   # = 6.7 - Gov software
-    "APPF": 6.7,   # = 6.7 - Property management
-    "JKHY": 6.7,   # = 6.7 - Banking software
-    "TGLS": 6.7,   # = 6.7 - Tecnoglass industrial
-    "ABNB": 6.6,   # = 6.6 - Travel platform
-    "GSHD": 6.6,   # = 6.6 - Goosehead insurance
-    "MSA": 6.6,    # = 6.6 - Safety equipment
-    "RPM": 6.5,    # = 6.5 - Coatings
-    "PYPL": 6.5,   # = 6.5 - Payments competition
-    "TTD": 6.5,    # = 6.5 - Adtech
-    "MKTX": 6.5,   # = 6.5 - Bond trading
-    "GEV": 6.5,    # = 6.5 - GE Vernova energy
-    "GLPI": 6.5,   # = 6.5 - Gaming REIT
+    # Lower Middle (4.5-4.9)
+    "QFIN": 4.9,     # 360 DigiTech China fintech
+    "FN": 4.9,       # Fabrinet optical manufacturing
+    "HLNE": 4.9,     # Hamilton Lane private equity
+    "STRL": 4.9,     # Sterling Check background checks
+    "INMD": 4.9,     # InMode medical aesthetics
+    "TRMB": 4.9,     # Trimble GPS/construction tech
+    "VRSK": 4.8,     # Insurance analytics
+    "NXT": 4.8,      # NextEra Energy Partners renewable
+    "EWBC": 4.8,     # East West Bancorp regional bank
+    "KEYS": 4.8,     # Keysight test equipment
+    "NMIH": 4.8,     # NMI mortgage insurance
+    "NSSC": 4.8,     # Napco Security systems
+    "LNTH": 4.8,     # Lantheus medical imaging
+    "XOM": 4.8,      # ExxonMobil oil & gas
+    "CARG": 4.7,     # CarGurus auto marketplace
+    "SSD": 4.7,      # Construction products
+    "ATKR": 4.7,     # Atkore electrical products
+    "OSIS": 4.7,     # OSI Systems security screening
+    "LMAT": 4.7,     # LeMaitre Vascular devices
+    "BMI": 4.7,      # Badger Meter flow measurement
+    "PWR": 4.6,      # Utility construction
+    "GATX": 4.6,     # GATX railcar leasing
+    "IEX": 4.6,      # IDEX industrial pumps/valves
+    "HALO": 4.6,     # Halozyme drug delivery
+    "GCT": 4.6,      # GigaCloud B2B marketplace
+    "OFG": 4.6,      # OFG Bancorp Puerto Rico
+    "HRMY": 4.6,     # Harmony Biosciences rare disease
+    "IRMD": 4.6,     # IRadimed MRI-compatible devices
+    "TRI": 4.6,      # Thomson Reuters data/media
+    "DOCS": 4.5,     # Physician network
+    "APP": 4.5,      # Mobile gaming ads
+    "UPWK": 4.5,     # Freelance marketplace
+    "CPAY": 4.5,     # B2B payments
+    "EME": 4.5,      # Construction services
+    "IESC": 4.5,     # Electrical construction
+    "MHO": 4.5,      # Homebuilder cyclical
+    "UL": 4.5,       # Consumer goods (slow)
+    "CW": 4.5,       # Defense electronics
+    "SNA": 4.5,      # Professional tools
+    "CMI": 4.5,      # Engine manufacturing
+    "UNP": 4.5,      # Railroad (regulated)
+    "LIN": 4.5,      # Industrial gases
+    "APD": 4.5,      # Industrial gases
+    "ECL": 4.5,      # Chemicals
+    "ROK": 4.5,      # Automation
+    "NVMI": 4.5,     # Semi measuring tools
+    "ONTO": 4.5,     # Semi inspection
+    "TPL": 4.5,      # Land royalties (commodity)
+    "ELF": 4.5,      # Beauty (very competitive)
+    "EW": 4.5,       # Heart valves
+    "XYL": 4.5,      # Water technology
+    "GGG": 4.5,      # Fluid handling
+    "UHS": 4.5,      # Hospital operator
+    "SAP": 4.5,      # Enterprise software legacy
+    "LRN": 4.5,      # Stride K-12 online education
+    "IDCC": 4.5,     # InterDigital wireless IP
+    "AWI": 4.5,      # Armstrong World Industries ceilings
+    "USLM": 4.5,     # U.S. Lime & Minerals
+    "INOD": 4.5,     # Innodata AI data services
+    "PMTS": 4.5,     # CPI Card Group payment cards
+    "ESQ": 4.5,      # Esquire Financial commercial banking
+    "AMPH": 4.4,     # Amphastar generic pharma
+    "MLI": 4.4,      # Mueller Industries copper/brass
+    "KMI": 4.3,      # Kinder Morgan pipelines
+    "ELMD": 4.3,     # Electromed respiratory therapy
+    "BSVN": 4.2,     # Bank7 Corp micro bank
+    "ENB": 4.2,      # Enbridge pipelines
+    "WPM": 4.2,      # Wheaton Precious Metals streaming
+    "ACAD": 4.1,     # Acadia Pharmaceuticals biotech
+    "PJT": 4.0,      # M&A advisory
     
-    # ========================================
-    # === 🟡 TIER 7: GOOD (6.0-6.4) ===
-    # ========================================
+    # === 🔴 BAD TIER (0-3.9) - 7 stocks ===
     
-    "APO": 6.4,    # = 6.4 - Asset management
-    "SHOP": 6.3,   # = 6.3 - E-commerce platform
-    "AXON": 6.3,   # = 6.3 - Body cameras/tasers
-    "PSMT": 6.3,   # = 6.3 - LatAm warehouse
-    "DHI": 6.2,    # = 6.2 - Homebuilder
-    "QLYS": 6.2,   # = 6.2 - Security compliance
-    "BRBR": 6.2,   # = 6.2 - Protein brands
-    "CLX": 6.2,    # ⬆️ from 6.2 - Bleach/cleaning
-    "TSLA": 6.2,   # ⬇️⬇️ from 6.9 - MAJOR: Quality issues
-    "HLT": 6.1,    # = 6.1 - Hotel franchise
-    "XPEL": 6.1,   # = 6.1 - Paint protection
-    "MAR": 6.0,    # = 6.0 - Hotel franchise
-    "AMAT": 6.0,   # = 6.0 - Semi equipment (China risk)
-    "KLAC": 6.0,   # = 6.0 - Semi equipment
-    "QCOM": 6.0,   # = 6.0 - Mobile chips
-    "ORCL": 6.0,   # = 6.0 - Database legacy
-    "EA": 6.0,     # = 6.0 - Gaming hit-driven
-    "DHR": 6.0,    # = 6.0 - Conglomerate
-    "JNJ": 6.0,    # = 6.0 - Healthcare diversified
-    "ABBV": 6.0,   # = 6.0 - Pharma patent cliffs
-    "ABT": 6.0,    # = 6.0 - Medical devices
-    "ZTS": 6.0,    # = 6.0 - Animal health
-    "SYK": 6.0,    # = 6.0 - Medical equipment
-    "CINF": 6.0,   # = 6.0 - Insurance
-    "MEDP": 6.0,   # = 6.0 - Clinical research
-    "ODD": 6.0,    # = 6.0 - Beauty tech
-    "SKY": 6.0,    # = 6.0 - Manufactured housing
-    
-    # ========================================
-    # === 🟡 TIER 8: MODERATE (5.5-5.9) ===
-    # ========================================
-    
-    "SKWD": 5.9,   # = 5.9 - Small insurance
-    "LRCX": 5.9,   # = 5.9 - Semi equipment cyclical
-    "MRVL": 5.8,   # = 5.8 - Chip design
-    "ICLR": 5.8,   # = 5.8 - Clinical research
-    "BOOT": 5.8,   # = 5.8 - Boot Barn western
-    "TT": 5.8,     # = 5.8 - HVAC equipment
-    "THG": 5.8,    # = 5.8 - Regional insurance
-    "TXN": 5.7,    # = 5.7 - Analog chips
-    "FINV": 5.7,   # = 5.7 - Chinese fintech
-    "BSX": 5.6,    # = 5.6 - Medical devices
-    "WST": 5.6,    # = 5.6 - Pharma packaging
-    "IQV": 5.6,    # = 5.6 - Pharma data
-    "FIX": 5.6,    # = 5.6 - HVAC services
-    "HCI": 5.6,    # = 5.6 - Florida insurance
-    "COF": 5.5,    # = 5.5 - Credit cards
-    "CHKP": 5.5,   # = 5.5 - Security software
-    "PINS": 5.5,   # = 5.5 - Social platform
-    "DT": 5.5,     # = 5.5 - App monitoring
-    "SN": 5.5,     # = 5.5 - Small appliances
-    "DDOG": 5.5,   # = 5.5 - Monitoring
-    "NET": 5.5,    # = 5.5 - CDN services
-    "ZS": 5.5,     # = 5.5 - Security cloud
-    "HUBS": 5.5,   # = 5.5 - Marketing automation
-    "ESTC": 5.5,   # = 5.5 - Search software
-    "MANH": 5.5,   # = 5.5 - Supply chain
-    "TYL": 5.5,    # = 5.5 - Gov software
-    "CAT": 5.5,    # = 5.5 - Heavy machinery
-    "RJF": 5.5,    # = 5.5 - Wealth management
-    "FDS": 5.5,    # = 5.5 - Financial data
-    "RSG": 5.5,    # = 5.5 - Waste services
-    "CPNG": 5.5,   # = 5.5 - Korea e-commerce
-    "EXLS": 5.5,   # = 5.5 - BPO services
-    "GWW": 5.5,    # = 5.5 - MRO distribution
-    "EXEL": 5.5,   # = 5.5 - Oncology biotech
-    "SFM": 5.5,    # = 5.5 - Organic grocery
-    "FELE": 5.5,   # = 5.5 - Water pumps
-    "KO": 5.5,     # ⬇️⬇️⬇️ from 9.1 - MASSIVE: 2-3% growth
-    
-    # ========================================
-    # === 🟡 TIER 9: FAIR (5.0-5.4) ===
-    # ========================================
-    
-    "MPWR": 5.4,   # = 5.4 - Power semis
-    "HEI": 5.4,    # = 5.4 - Aerospace parts
-    "VRT": 5.4,    # = 5.4 - Data center infra
-    "TECH": 5.4,   # = 5.4 - Life sciences tools
-    "IPAR": 5.4,   # = 5.4 - Fragrance licensing
-    "MCHP": 5.3,   # = 5.3 - Microcontrollers
-    "MSI": 5.3,    # = 5.3 - Public safety
-    "CVCO": 5.3,   # = 5.3 - Modular homes
-    "FSS": 5.3,    # = 5.3 - Emergency vehicles
-    "BOW": 5.3,    # = 5.3 - Engineering services
-    "ON": 5.2,     # = 5.2 - Power semis
-    "HOLX": 5.2,   # = 5.2 - Women's health
-    "LHX": 5.2,    # = 5.2 - Defense electronics
-    "VMC": 5.2,    # = 5.2 - Aggregates
-    "DAVE": 5.2,   # = 5.2 - Digital banking
-    "VCTR": 5.2,   # = 5.2 - Asset manager
-    "APH": 5.1,    # = 5.1 - Connectors
-    "CPRX": 5.1,   # = 5.1 - Catalyst Pharma
-    "TDG": 5.1,    # = 5.1 - Aerospace (high debt)
-    "HLI": 5.1,    # = 5.1 - Investment banking
-    "MLM": 5.1,    # = 5.1 - Aggregates
-    "MWA": 5.1,    # = 5.1 - Water infrastructure
-    "CHWY": 5.0,   # = 5.0 - Pet e-commerce
-    "BILL": 5.0,   # = 5.0 - B2B payments
-    "GDDY": 5.0,   # = 5.0 - Web hosting
-    "VRSN": 5.0,   # = 5.0 - Domain registry
-    "CFLT": 5.0,   # = 5.0 - Data streaming
-    "FROG": 5.0,   # = 5.0 - DevOps tools
-    "EPAM": 5.0,   # = 5.0 - IT outsourcing
-    "CB": 5.0,     # = 5.0 - Insurance commodity
-    "GS": 5.0,     # = 5.0 - Investment banking
-    "MS": 5.0,     # = 5.0 - Investment banking
-    "FIS": 5.0,    # = 5.0 - Financial services
-    "BR": 5.0,     # = 5.0 - Back office
-    "LMT": 5.0,    # = 5.0 - Defense contractor
-    "RTX": 5.0,    # = 5.0 - Aerospace/defense
-    "NOC": 5.0,    # = 5.0 - Defense
-    "GD": 5.0,     # = 5.0 - Defense
-    "HON": 5.0,    # = 5.0 - Industrial conglomerate
-    "EMR": 5.0,    # = 5.0 - Industrial automation
-    "ETN": 5.0,    # = 5.0 - Electrical equipment
-    "ITW": 5.0,    # = 5.0 - Industrial tools
-    "IR": 5.0,     # = 5.0 - Compressors
-    "PH": 5.0,     # = 5.0 - Motion control
-    "AME": 5.0,    # = 5.0 - Instruments
-    "ROP": 5.0,    # = 5.0 - Diversified tech
-    "TDY": 5.0,    # = 5.0 - Aerospace imaging
-    "AMT": 5.0,    # = 5.0 - Cell tower REIT
-    "DLR": 5.0,    # = 5.0 - Data center REIT
-    "PSA": 5.0,    # = 5.0 - Storage REIT
-    "O": 5.0,      # = 5.0 - Retail REIT
-    "VICI": 5.0,   # = 5.0 - Casino REIT
-    "SBAC": 5.0,   # = 5.0 - Tower REIT
-    "A": 5.0,      # = 5.0 - Life sciences tools
-    "COP": 5.0,    # = 5.0 - Oil & gas
-    "DORM": 5.0,   # = 5.0 - Auto parts aftermarket
-    "AX": 5.0,     # = 5.0 - Online bank
-    "ATAT": 5.0,   # = 5.0 - Chinese hotels
-    
-    # ========================================
-    # === 🟡 TIER 10: BELOW AVERAGE (4.5-4.9) ===
-    # ========================================
-    
-    "QFIN": 4.9,   # = 4.9 - China fintech
-    "FN": 4.9,     # = 4.9 - Optical manufacturing
-    "HLNE": 4.9,   # = 4.9 - Private equity
-    "STRL": 4.9,   # = 4.9 - Background checks
-    "INMD": 4.9,   # = 4.9 - Medical aesthetics
-    "TRMB": 4.9,   # = 4.9 - GPS/construction tech
-    "BRC": 4.9,    # = 4.9 - Industrial ID
-    "VRSK": 4.8,   # = 4.8 - Insurance analytics
-    "NXT": 4.8,    # = 4.8 - Renewable energy
-    "EWBC": 4.8,   # = 4.8 - Regional bank
-    "KEYS": 4.8,   # = 4.8 - Test equipment
-    "NMIH": 4.8,   # = 4.8 - Mortgage insurance
-    "NSSC": 4.8,   # = 4.8 - Security systems
-    "LNTH": 4.8,   # = 4.8 - Medical imaging
-    "XOM": 4.8,    # = 4.8 - Oil & gas
-    "MAX": 4.7,    # = 4.7 - Ad tech
-    "CARG": 4.7,   # = 4.7 - Auto marketplace
-    "SSD": 4.7,    # = 4.7 - Construction products
-    "ATKR": 4.7,   # = 4.7 - Electrical products
-    "OSIS": 4.7,   # = 4.7 - Security screening
-    "LMAT": 4.7,   # = 4.7 - Vascular devices
-    "BMI": 4.7,    # = 4.7 - Flow measurement
-    "PWR": 4.6,    # = 4.6 - Utility construction
-    "GATX": 4.6,   # = 4.6 - Railcar leasing
-    "IEX": 4.6,    # = 4.6 - Industrial pumps
-    "HALO": 4.6,   # = 4.6 - Drug delivery
-    "GCT": 4.6,    # = 4.6 - B2B marketplace
-    "OFG": 4.6,    # = 4.6 - Puerto Rico bank
-    "HRMY": 4.6,   # = 4.6 - Rare disease
-    "IRMD": 4.6,   # = 4.6 - MRI devices
-    "TRI": 4.6,    # = 4.6 - Data/media
-    "DOCS": 4.5,   # = 4.5 - Physician network
-    "APP": 4.5,    # = 4.5 - Mobile gaming ads
-    "UPWK": 4.5,   # = 4.5 - Freelance marketplace
-    "CPAY": 4.5,   # = 4.5 - B2B payments
-    "EME": 4.5,    # = 4.5 - Construction services
-    "IESC": 4.5,   # = 4.5 - Electrical construction
-    "MHO": 4.5,    # = 4.5 - Homebuilder
-    "UL": 4.5,     # = 4.5 - Consumer goods slow
-    "CW": 4.5,     # = 4.5 - Defense electronics
-    "SNA": 4.5,    # = 4.5 - Professional tools
-    "CMI": 4.5,    # = 4.5 - Engine manufacturing
-    "UNP": 4.5,    # = 4.5 - Railroad regulated
-    "LIN": 4.5,    # = 4.5 - Industrial gases
-    "APD": 4.5,    # = 4.5 - Industrial gases
-    "ECL": 4.5,    # = 4.5 - Chemicals
-    "ROK": 4.5,    # = 4.5 - Automation
-    "NVMI": 4.5,   # = 4.5 - Semi measuring
-    "ONTO": 4.5,   # = 4.5 - Semi inspection
-    "TPL": 4.5,    # = 4.5 - Land royalties
-    "ELF": 4.5,    # = 4.5 - Beauty competitive
-    "EW": 4.5,     # = 4.5 - Heart valves
-    "XYL": 4.5,    # = 4.5 - Water technology
-    "GGG": 4.5,    # = 4.5 - Fluid handling
-    "UHS": 4.5,    # = 4.5 - Hospital operator
-    "SAP": 4.5,    # = 4.5 - Enterprise software
-    "LRN": 4.5,    # = 4.5 - K-12 online education
-    "IDCC": 4.5,   # = 4.5 - Wireless IP
-    "AWI": 4.5,    # = 4.5 - Ceilings
-    "USLM": 4.5,   # = 4.5 - Lime & Minerals
-    "INOD": 4.5,   # = 4.5 - AI data services
-    "PMTS": 4.5,   # = 4.5 - Payment cards
-    "ESQ": 4.5,    # = 4.5 - Commercial banking
-    "MGIC": 4.5,   # = 4.5 - Mortgage insurance
-    "AMPH": 4.4,   # = 4.4 - Generic pharma
-    "MLI": 4.4,    # = 4.4 - Copper/brass
-    "KMI": 4.3,    # = 4.3 - Pipelines
-    "ELMD": 4.3,   # = 4.3 - Respiratory therapy
-    "BSVN": 4.2,   # = 4.2 - Micro bank
-    "ENB": 4.2,    # = 4.2 - Pipelines
-    "WPM": 4.2,    # = 4.2 - Precious metals
-    "YELP": 4.2,   # = 4.2 - Local reviews
-    "ACAD": 4.1,   # = 4.1 - Biotech
-    "PJT": 4.0,    # = 4.0 - M&A advisory
-    
-    # ========================================
-    # === 🔴 TIER 11: POOR (<4.0) ===
-    # ========================================
-    
-    "ATEN": 3.9,   # = 3.9 - Security appliances
-    "NEM": 3.3,    # = 3.3 - Gold miner
-    "SLB": 3.2,    # = 3.2 - Oilfield services
-    "FSLR": 3.1,   # = 3.1 - Solar oversupply
-    "BMRN": 3.0,   # = 3.0 - Biotech cash burn
-    "UTHR": 3.0,   # = 3.0 - Single drug pharma
-    "INCY": 3.0,   # = 3.0 - Biotech struggles
-    "EXAS": 3.0,   # = 3.0 - Cancer screening losses
-    "TDOC": 2.1,   # ⬆️ from 2.0 - Still unprofitable telehealth
+    "ATEN": 3.9,     # A10 Networks security
+    "NEM": 3.3,      # Gold miner commodity hell
+    "SLB": 3.2,      # Oilfield services cyclical
+    "FSLR": 3.1,     # Solar panel oversupply
+    "BMRN": 3.0,     # Biotech cash burn
+    "UTHR": 3.0,     # Single drug pharma
+    "INCY": 3.0,     # Biotech struggles
+    "EXAS": 3.0,     # Cancer screening losses
 }
