@@ -30,7 +30,8 @@ STOCKS = [
     "AMD", "MTD", "CVX", "NDSN", "VRT", "TNET", "ZBRA", "CRWD", "GXO", "AJG",
     "TECH", "ELV", "PNR", "MKC", "ALGN", "GPN", "FNF", "SEIC", "KMB", "LPLA",
     "RNR", "MDT", "CL", "ALLE", "MDLZ", "LMT", "ODFL", "CAH", "CHDN", "JNJ", "ELF",
-    "NVO", "WING", "CHWY", "EXLS", "EEFT", "AX"
+    "NVO", "WING", "CHWY", "EXLS", "EEFT", "AX", "UHS", "EPAM", "ICLR", "GHC", "SAIA",
+    "RACE", "WDFC", "CW", "WAT", "CLH"
 ]
 
 
