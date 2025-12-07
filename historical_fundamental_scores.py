@@ -292,6 +292,7 @@ STOCK_SCORES = {
     "ORCL": "5.9",  # Combined: 26.2
     "KO": "6.3",
     "PG": "6.2",
+    "EEFT": "6.0",
     "KMB": "5.1",
     "TDOC": "5.9",
     "ODFL": "5.2",
@@ -551,6 +552,7 @@ TRUST_SCORES = {
     "KO": 9.1,       # Coca-Cola beverage monopoly
     "PG": 8.9,       # Tide, Gillette brand portfolio
     "VEEV": 7.1,     # Life sciences software
+    "EEFT": 7.2,
     "HSY": 7.2,   # 🟢 Hershey - Strong brand (Reese's, Kit Kat), pricing power, stable cash flows, 80+ year dividend history
     "MKL": 7.8,   # 🟢 Markel - "Baby Berkshire", exceptional insurance underwriting, 25+ year compounding track record, Buffett-like discipline
     "JBHT": 6.8,   # 🟡 J.B. Hunt - Solid intermodal logistics, good financials but cyclical, less brand recognition than consumer names
