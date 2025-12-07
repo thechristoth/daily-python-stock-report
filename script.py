@@ -8,7 +8,7 @@ import historical_fundamental_scores
 
 # Configuration SECOND CODE
 STOCKS = [
-    "MA", "MSFT", "GOOGL", "SPGI", "PGR", "AXP", "DUOL", "DECK", "AAPL", "ABBV",
+    "MA", "MSFT", "GOOGL", "SPGI", "PGR", "AXP", "DUOL", "AAPL", "ABBV",
     "ADBE", "ADP", "ADSK", "AME", "AMZN", "ANET", "APH", "APP", "AVGO", "AXON",
     "AZO", "BKNG", "BLK", "BMI", "BRO", "BR", "BRK-B", "BSX", "CB", "CDNS",
     "CME", "CMG", "COST", "CPRT", "CRM", "CSGP", "CTAS", "DHR", "DT", "ECL",
@@ -25,7 +25,7 @@ STOCKS = [
     "MWA", "MNST", "VRTX", "UNH", "GEHC", "LLY", "WM", "WSO", "ASML", "VICI",
     "HSY", "DPZ", "HCA", "KLAC", "AMAT", "MKL", "KNSL", "YUM", "QSR", "RLI",
     "WCN", "AON", "EFX", "JKHY", "CHD", "RYAN", "MORN", "STE", "TSCO", "SSNC",
-    "WAB", "ABT", "LRCX", "TJX", "KO", "PG", "GOOG", "PLMR", "APPF", "GSHD",
+    "WAB", "ABT", "LRCX", "TJX", "KO", "PG", "GOOG", "PLMR", "APPF",
     "PEP", "KR", "RSG", "MTD", "CVX", "NDSN", "VRT", "TNET", "ZBRA", "CRWD",
     "GXO", "AJG", "TECH", "ELV", "PNR", "MKC", "GPN", "FNF", "SEIC", "LPLA",
     "RNR", "CL", "ALLE", "MDLZ", "LMT", "ODFL", "CAH", "CHDN", "JNJ", "NVO",
