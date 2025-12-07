@@ -23,7 +23,7 @@ STOCKS = [
     "IQV", "HUBS", "FISV", "ATKR", "MRVL", "APO", "FDS", "SNA", "CBOE", "ISRG",
     "IDCC", "FIX", "TTD", "SN", "ACGL", "GEV", "MSCI", "MCK", "HIG", "TRV",
     "MWA", "MNST", "VRTX", "UNH", "GEHC", "LLY", "WM", "WSO", "ASML", "VICI",
-    "HSY", "DPZ", "HCA", "KLAC", "AMAT", "MKL", "KNSL", "YUM", "QSR", "RLI",
+    "DPZ", "HCA", "KLAC", "AMAT", "MKL", "KNSL", "YUM", "QSR", "RLI",
     "WCN", "AON", "EFX", "JKHY", "CHD", "RYAN", "MORN", "STE", "TSCO", "SSNC",
     "WAB", "ABT", "LRCX", "TJX", "KO", "PG", "GOOG", "PLMR", "APPF",
     "PEP", "KR", "RSG", "MTD", "CVX", "NDSN", "VRT", "TNET", "ZBRA", "CRWD",
