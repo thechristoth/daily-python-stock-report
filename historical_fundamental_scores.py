@@ -255,8 +255,15 @@ STOCK_SCORES = {
     "STE": "7.8",
     "SSNC": "6.5",
     "EFX": "6.2",
+    "CW": "6.3",
+    "WDFC": "5.9",
+    "RACE": "0.5",
+    "WAT": "1.1",
+    "CLH": "6.2",
     "WAB": "7.0",
     "RYAN": "7.9",
+    "SAIA": "7.7",
+    "GHC": "7.3",
     "AON": "7.0",
     "TSCO": "7.5",
     "CHD": "7.2",
@@ -329,6 +336,7 @@ STOCK_SCORES = {
     "WTRG": "5.2",
     "LSCC": "6.1",
     "CHH": "6.6",
+    "CW": "6.3",
     "MTD": "5.9",
     "CVX": "5.0",
     "NDSN": "5.5",
@@ -479,6 +487,11 @@ TRUST_SCORES = {
     "GOOG": 9.2,     # Same as GOOGL
     "NVO": 9.2,
     "META": 9.0,     # Social empire, ad dominance
+    "RACE": 9.4,   # Ferrari
+    "WDFC": 8.7,   # WD-40
+    "CW": 8.2,     # Curtiss-Wright
+    "WAT": 8.1,    # Waters Corp
+    "CLH": 8.0,    # Clean Harbors
     
     # PREMIUM (8.5-8.9) - Payment Networks & Platforms
     "COST": 8.9,     # 90% renewal rate, pricing power
@@ -590,6 +603,8 @@ TRUST_SCORES = {
     "AON": 7.5,   # Aon - elite financials, strong B2B brand, insurance brokerage oligopoly
     "TSCO": 7.6,  # Tractor Supply - exceptional financials, strong brand in rural America, loyal customers
     "CHD": 7.8,   # Church & Dwight - elite compounder, strong brands (Arm & Hammer), consumer staples pricing power
+    "SAIA": 8.3,
+    "GHC": 7.9,
     "FISV": 7.1,     # Payment processing scale
     "KNSL": 7.1,     # Specialty insurance edge
     "CPRT": 7.1,     # Salvage auction duopoly
