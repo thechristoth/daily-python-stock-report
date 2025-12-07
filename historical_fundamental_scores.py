@@ -476,6 +476,7 @@ TRUST_SCORES = {
     "AAPL": 9.4,     # Ecosystem lock-in, services growth
     "GOOGL": 9.2,    # Search monopoly (90%+ share)
     "GOOG": 9.2,     # Same as GOOGL
+    "NVO": 9.2,
     "META": 9.0,     # Social empire, ad dominance
     
     # PREMIUM (8.5-8.9) - Payment Networks & Platforms
