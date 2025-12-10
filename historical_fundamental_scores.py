@@ -245,6 +245,7 @@ STOCK_SCORES = {
     "AAPL": "5.3",  # Combined: 29.8
     "STRL": "7.8",  # Combined: 29.2
     "AX": "7.8",  # Combined: 29.2
+    "SPSC": "7.7",
     "LNTH": "8.2",  # Combined: 29.1
     "TECH": "7.8",  # Combined: 28.9
     "DT": "7.6",  # Combined: 28.9
@@ -265,6 +266,7 @@ STOCK_SCORES = {
     "SAIA": "7.7",
     "GHC": "7.3",
     "AON": "7.0",
+    "TYL": "7.5",
     "TSCO": "7.5",
     "CHD": "7.2",
     "ASAN": "5.9",
@@ -567,6 +569,7 @@ TRUST_SCORES = {
     "ABMD": 6.8,     # Heart pump medical devices
     "TDOC": 2.1,     # Unprofitable telehealth
     "CLX": 6.2,      # Bleach and cleaning products
+    "TYL": 8.7,
     "KMB": 6.5,      # Huggies, Kleenex consumer staples
     "KO": 9.1,       # Coca-Cola beverage monopoly
     "PG": 8.9,       # Tide, Gillette brand portfolio
@@ -580,6 +583,7 @@ TRUST_SCORES = {
     "DUOL": 7.1,     # Language learning leader
     "CTAS": 7.1,     # Uniform/services moat
     "CBOE": 7.1,     # Options exchange monopoly
+    "SPSC": 8.8,   # EDI software, 98 quarters growth
     "ASAN": 5.9,   # Financial: 5.5 (Unprofitable, FCF improving but still burning cash, 11% growth) | Brand: 6.5 | Product: 6.5
     "PNR": 7.3,    # Financial: 7.5 (13.5% ROIC, 19.7% ROS, strong FCF $693M, 15%+ ROIC target) | Brand: 6.5 | Product: 7.5
     "SNOW": 6.2,   # Financial: 6.0 (High growth 29%, but unprofitable, burning cash on marketing) | Brand: 6.5 | Product: 7.0
