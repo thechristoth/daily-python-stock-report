@@ -165,6 +165,9 @@ STOCK_SCORES = {
     "ISRG": "6.0",  # Combined: 58.7
     "WRB": "7.0",  # Combined: 58.1
     "CINF": "7.1",  # Combined: 57.8
+    "LDOS": "7.2",
+    "FERG": "5.9",
+    "CACI": "8.4",
     "ACGL": "7.3",  # Combined: 57.5
     "KLAC": "7.1",  # Combined: 57.4
     "MKTX": "6.6",  # Combined: 57.2
@@ -628,6 +631,9 @@ TRUST_SCORES = {
     "CSGP": 7.0,     # Real estate data monopoly (CoStar)
     "PGR": 7.0,      # Insurance underwriting edge
     "ODFL": 7.0,
+    "LDOS": "8.6",
+    "FERG": "9.0",
+    "CACI": "8.7",
     "CAH": 8.0,
     "CHDN": 6.5,
     "LOW": 7.0,      # Home improvement #2
