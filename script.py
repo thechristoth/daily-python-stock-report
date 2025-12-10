@@ -30,7 +30,8 @@ STOCKS = [
     "GXO", "AJG", "TECH", "ELV", "PNR", "MKC", "GPN", "FNF", "SEIC", "LPLA",
     "RNR", "CL", "ALLE", "MDLZ", "LMT", "ODFL", "CAH", "CHDN", "JNJ", "NVO",
     "WING", "EXLS", "EEFT", "AX", "UHS", "EPAM", "ICLR", "GHC", "SAIA", "RACE",
-    "WDFC", "CW", "WAT", "CLH", "HCI", "NSSC", "NMIH", "CVCO", "IRMD"
+    "WDFC", "CW", "WAT", "CLH", "HCI", "NSSC", "NMIH", "CVCO", "IRMD", "AWK",
+    "TOST", "DXCM", "ALGN", "NET", "MDB", "DDOG", "SPSC", "POOL"
 ]
 
 
