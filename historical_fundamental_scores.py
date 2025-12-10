@@ -282,6 +282,8 @@ STOCK_SCORES = {
     "MDT": "4.4",
     "CL": "6.1",
     "ALLE": "6.1",
+    "MDB": "5.5",
+    "TOST": "5.5",
     "MDLZ": "5.2",
 
     # === TIER C+: Quality with Low Recognition ===
@@ -377,6 +379,7 @@ STOCK_SCORES = {
     "IQV": "6.2",  # Combined: 16.0
     "EXAS": "6.2",  # Combined: 15.7
     "SNA": "5.8",  # Combined: 14.6
+    "AWK": "4.3",
     "MS": "3.9",  # Combined: 14.4
     "GS": "3.8",  # Combined: 13.8
     "KEYS": "5.8",  # Combined: 13.1
@@ -503,6 +506,9 @@ TRUST_SCORES = {
     "MSCI": 8.2,      # Financial data oligopoly - 90%+ margins, pricing power, but smaller scale than MSFT
     "UNH": 8.2,
     "VRTX": 7.9,      # Biotech leader - Strong pipeline & CF, but biotech risk vs tech stability
+    "AWK": 9.2,
+    "MDB": 7.8,
+    "TOST": 7.4
     "MNST": 7.7,      # Monster Energy - Strong brand/margins, but beverage competition vs tech moats
     "MCK": 7.4,       # Healthcare distributor - Essential but lower margins than tech
     "HCA": 7.3,       # Hospital operator - Largest chain but capital-intensive vs asset-light tech
