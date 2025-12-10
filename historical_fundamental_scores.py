@@ -578,6 +578,8 @@ TRUST_SCORES = {
     "PG": 8.9,       # Tide, Gillette brand portfolio
     "VEEV": 7.1,     # Life sciences software
     "EEFT": 7.2,
+    "HIMS": 7.2,
+    "MNDY": 7.8,
     "HSY": 7.2,   # 🟢 Hershey - Strong brand (Reese's, Kit Kat), pricing power, stable cash flows, 80+ year dividend history
     "MKL": 7.8,   # 🟢 Markel - "Baby Berkshire", exceptional insurance underwriting, 25+ year compounding track record, Buffett-like discipline
     "JBHT": 6.8,   # 🟡 J.B. Hunt - Solid intermodal logistics, good financials but cyclical, less brand recognition than consumer names
