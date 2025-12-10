@@ -29,7 +29,7 @@ STOCKS = [
     "ELV", "PNR", "GPN", "FNF", "SEIC", "LPLA", "RNR", "ALLE", "ODFL", "CHDN",
     "NVO", "WING", "EXLS", "EEFT", "AX", "UHS", "EPAM", "ICLR", "GHC", "SAIA",
     "RACE", "WDFC", "CW", "WAT", "CLH", "HCI", "NSSC", "NMIH", "CVCO", "IRMD",
-    "AWK", "DXCM", "SPSC", "POOL", "FERG", "CACI", "LDOS", "DDOG", "MNDY", "HIMS"
+    "AWK", "DXCM", "SPSC", "POOL", "FERG", "CACI", "LDOS", "DDOG", "MNDY", "NET"
 ]
 
 
