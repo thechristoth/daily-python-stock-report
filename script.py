@@ -160,7 +160,15 @@ def calculate_fcf_growth_score(metrics):
     return 5
 
 def calculate_trust_factor(stock_symbol):
-    return historical_fundamental_scores.TRUST_SCORES[stock_symbol]
+    try:
+        score_str = historical_fundamental_scores.TRUST_SCORES.get(stock_symbol)
+        if score_str:
+            return float(score_str)  # Convert string to float
+        else:
+            return None
+    except (ValueError, AttributeError, KeyError) as e:
+        print(f"Debug: Error getting trust factor for {stock_symbol}: {e}")
+        return None
 
 
 def calculate_piotroski_fscore(metrics):
