@@ -510,7 +510,7 @@ TRUST_SCORES = {
     "VRTX": 7.9,      # Biotech leader - Strong pipeline & CF, but biotech risk vs tech stability
     "AWK": 9.2,
     "MDB": 7.8,
-    "TOST": 7.4
+    "TOST": 7.4,
     "MNST": 7.7,      # Monster Energy - Strong brand/margins, but beverage competition vs tech moats
     "MCK": 7.4,       # Healthcare distributor - Essential but lower margins than tech
     "HCA": 7.3,       # Hospital operator - Largest chain but capital-intensive vs asset-light tech
