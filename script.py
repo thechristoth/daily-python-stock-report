@@ -2738,7 +2738,7 @@ def create_enhanced_html(stock_data, profile_name='academic'):
                             <div class="metric-section">
                                 <h4>📚 Historical Fundamentals</h4>
                                 <p>Historical Score: <strong>{historical_display}</strong></p>
-                                <p>Trust Factor: <strong>{trust_display}</strong></p>  # ADD THIS
+                                <p>Trust Factor: <strong>{trust_display}</strong></p>
                                 <p>Weight in Total Score: {scores['sector_adjustments']['historical_weight_used']*100:.1f}%</p>
                                 <p>Data Available: {'✅ Yes' if scores['sector_adjustments']['has_historical_data'] else '❌ No'}</p>
                                 <p><small>💡 Historical score reflects long-term fundamental consistency and quality</small></p>
