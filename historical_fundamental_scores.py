@@ -516,6 +516,7 @@ TRUST_SCORES = {
     "SAIA": 8.3,     # LTL trucking leader, superior network, pricing power
     "ADBE": 8.3,     # Creative Cloud monopoly, subscription model
     "NFLX": 8.2,     # Streaming leader, content moat, improving margins
+    "MSCI": 8.2,
     "UNH": 8.2,      # UnitedHealth - Scale in health insurance, Optum growth
     "LULU": 8.1,     # Lululemon - Athleisure cult brand, pricing power
     "BKNG": 8.0,     # Booking.com - Travel booking dominance, network effects
@@ -658,6 +659,7 @@ TRUST_SCORES = {
     "TWLO": 6.9,     # Twilio - Communications platform, newly profitable
     "CHRW": 6.9,     # C.H. Robinson - Freight brokerage, cyclical
     "WAB": 6.9,      # Wabtec - Rail equipment, industrial B2B
+    "RLI": 6.9,
     "TSLA": 6.9,     # Tesla - EV leader but execution/quality concerns
     "HIG": 6.8,      # Hartford Financial - Insurance, competitive market
     "MELI": 6.8,     # MercadoLibre - LatAm e-commerce, EM risks
