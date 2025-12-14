@@ -11,7 +11,7 @@
 # 5. Free Cash Flow Generation - Conversion rate and consistency
 # 6. Revenue Growth Sustainability - Ability to grow while maintaining/expanding margins
 # 7. Market Position - Dominance in niche or category leadership
-# 8. Capital Efficiency - Low capital requirements for growth
+# 8. Capital Efficiency - Low capital requirements for growtH
 #
 # Quality Scoring: Position in fundamental ranking list determines score
 # - Position 1-20: 100-90 points (Elite money machines)
