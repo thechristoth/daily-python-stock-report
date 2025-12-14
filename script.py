@@ -30,7 +30,8 @@ STOCKS = [
     "NVO", "WING", "EXLS", "EEFT", "AX", "UHS", "EPAM", "ICLR", "GHC", "SAIA",
     "RACE", "WDFC", "CW", "WAT", "CLH", "HCI", "NSSC", "NMIH", "CVCO", "IRMD",
     "AWK", "DXCM", "SPSC", "POOL", "FERG", "CACI", "LDOS", "DDOG", "MNDY", "NET",
-    "DECK", "LULU", "CROX", "ERIE", "ULTA", "UBER", "NTES", "ESQ", "CPRX", "EME"
+    "DECK", "LULU", "CROX", "ERIE", "ULTA", "UBER", "NTES", "ESQ", "CPRX", "EME",
+    "KO", "PG", "MCD", "PEP", "CHD"
 ]
 
 
