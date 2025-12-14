@@ -89,6 +89,8 @@ STOCK_SCORES = {
     "MCO": "6.8",  # Combined: 78.6
     "DXCM": "8.8",  # Combined: 78.4
     "AMZN": "7.1",  # Combined: 77.5
+    "NTES": "9.2",
+    "UBER": "5.7",
 
     # === TIER A+: Strong Quality + High Recognition ===
     "ADSK": "8.9",  # Combined: 77.1
@@ -661,6 +663,7 @@ TRUST_SCORES = {
     "WAB": 6.9,      # Wabtec - Rail equipment, industrial B2B
     "RLI": 6.9,
     "TSLA": 6.9,     # Tesla - EV leader but execution/quality concerns
+    "NTES": 6.9,
     "HIG": 6.8,      # Hartford Financial - Insurance, competitive market
     "MELI": 6.8,     # MercadoLibre - LatAm e-commerce, EM risks
     "GEHC": 6.8,     # GE HealthCare - Medical imaging, post-spin
@@ -723,6 +726,7 @@ TRUST_SCORES = {
     "THG": 5.8,      # Hanover Insurance - Regional P&C, commodity
     "MRVL": 5.8,     # Marvell - Chip design, cyclical semi
     "ICLR": 5.8,     # ICON - Clinical research CRO
+    "UBER": 5.8,
     "BOOT": 5.8,     # Boot Barn - Western retail, niche but competitive
     "TT": 5.8,       # Trane Technologies - HVAC, cyclical construction
     "TXN": 5.7,      # Texas Instruments - Analog chips, cyclical
