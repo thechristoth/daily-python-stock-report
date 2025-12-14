@@ -161,15 +161,7 @@ def calculate_fcf_growth_score(metrics):
     return 5
 
 def calculate_trust_factor(stock_symbol):
-    try:
-        score_str = historical_fundamental_scores.TRUST_SCORES.get(stock_symbol)
-        if score_str:
-            return float(score_str)  # Convert string to float
-        else:
-            return None
-    except (ValueError, AttributeError, KeyError) as e:
-        print(f"Debug: Error getting trust factor for {stock_symbol}: {e}")
-        return None
+    return historical_fundamental_scores.TRUST_SCORES[stock_symbol]
 
 
 def calculate_piotroski_fscore(metrics):
@@ -611,7 +603,7 @@ USER_AGENTS = [
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.15 Safari/605.1.15'
 ]
 DELAY_BETWEEN_REQUESTS = 5  # seconds
-HTML_FILE = os.path.join(os.getcwd(), 'index.html')
+HTML_FILE = os.path.join(os.getcwd(), 'enhanced_stock_analysis5.0.html')
 HTML_TEMPLATE_FILE = os.path.join(os.getcwd(), 'template_dual.html')
 MAX_RETRIES = 3
 
@@ -714,76 +706,155 @@ def get_investor_type_classification(risk_score):
 
 def calculate_stock_risk_score(stock_symbol, metrics, sector):
     """
-    Calculate risk score (1-10) for a stock
+    Calculate risk score (1-10) for a stock with decimal precision
     Based on volatility, sector, growth stage, and business model
     """
-    risk_score = 5  # Base score
+    risk_score = 5.0  # Base score (FLOAT)
     
-    # Sector risk adjustments
+    # Sector risk adjustments (BASE LEVEL)
     sector_risk = {
-        'Technology': 6,
-        'Communication Services': 6,
-        'Healthcare': 5,
-        'Consumer Defensive': 3,
-        'Utilities': 2,
-        'Financial': 4,
-        'Consumer Cyclical': 5,
-        'Industrials': 5,
-        'Basic Materials': 6,
-        'Energy': 7,
-        'Real Estate': 4
+        'Technology': 6.0,
+        'Communication Services': 6.0,
+        'Healthcare': 5.0,
+        'Consumer Defensive': 3.0,
+        'Utilities': 2.0,
+        'Financial': 4.0,
+        'Consumer Cyclical': 5.0,
+        'Industrials': 5.0,
+        'Basic Materials': 6.0,
+        'Energy': 7.0,
+        'Real Estate': 4.0
     }
     
-    risk_score = sector_risk.get(sector, 5)
+    risk_score = sector_risk.get(sector, 5.0)
     
-    # Adjust for volatility/beta
+    # Adjust for volatility/beta (GRANULAR)
     beta = metrics.get('Beta')
     if beta is not None:
-        if beta > 1.5:
-            risk_score += 2
+        if beta > 2.0:
+            risk_score += 2.5      # Very high volatility
+        elif beta > 1.8:
+            risk_score += 2.0      # High volatility
+        elif beta > 1.5:
+            risk_score += 1.5
+        elif beta > 1.3:
+            risk_score += 1.0
         elif beta > 1.2:
-            risk_score += 1
-        elif beta < 0.8:
-            risk_score -= 1
+            risk_score += 0.5
+        elif beta > 1.0:
+            risk_score += 0.2      # Slightly above market
+        elif beta > 0.8:
+            risk_score += 0.0      # Market-like
+        elif beta > 0.6:
+            risk_score -= 0.3      # Lower volatility
+        else:
+            risk_score -= 0.8      # Very defensive
     
-    # Adjust for profitability/stability
+    # Adjust for profitability/stability (GRANULAR)
     profit_margin = metrics.get('Profit_Margin')
     if profit_margin is not None:
-        if profit_margin < 5:
-            risk_score += 2
+        if profit_margin < 0:
+            risk_score += 3.0      # Unprofitable - HIGH RISK
+        elif profit_margin < 5:
+            risk_score += 1.8      # Barely profitable
+        elif profit_margin < 10:
+            risk_score += 0.8      # Low margins
+        elif profit_margin < 15:
+            risk_score += 0.3      # Moderate margins
+        elif profit_margin > 30:
+            risk_score -= 1.0      # Excellent margins
         elif profit_margin > 25:
-            risk_score -= 1
+            risk_score -= 0.6      # Very good margins
+        elif profit_margin > 20:
+            risk_score -= 0.3      # Good margins
     
-    # Adjust for debt
+    # Adjust for debt (GRANULAR) - exclude Financials
     debt_eq = metrics.get('Debt/Eq')
     if debt_eq is not None and sector != 'Financial':
-        if debt_eq > 1.5:
-            risk_score += 1
-        elif debt_eq < 0.3:
-            risk_score -= 1
+        if debt_eq > 3.0:
+            risk_score += 2.0      # Dangerously high debt
+        elif debt_eq > 2.0:
+            risk_score += 1.5      # Very high debt
+        elif debt_eq > 1.5:
+            risk_score += 1.0      # High debt
+        elif debt_eq > 1.0:
+            risk_score += 0.5      # Elevated debt
+        elif debt_eq > 0.5:
+            risk_score += 0.0      # Moderate debt
+        elif debt_eq > 0.3:
+            risk_score -= 0.3      # Low debt
+        elif debt_eq > 0.1:
+            risk_score -= 0.6      # Very low debt
+        else:
+            risk_score -= 1.0      # Nearly debt-free (Visa/MA level)
     
-    # Adjust for size (Market Cap)
+    # Adjust for size (Market Cap) (GRANULAR)
     market_cap = metrics.get('Market_Cap')
     if market_cap is not None:
-        if market_cap < 2:  # Small cap
-            risk_score += 2
-        elif market_cap < 10:  # Mid cap
-            risk_score += 1
-        elif market_cap > 100:  # Mega cap
-            risk_score -= 1
+        if market_cap < 1:          # Micro cap
+            risk_score += 2.5
+        elif market_cap < 2:        # Small cap
+            risk_score += 2.0
+        elif market_cap < 5:        # Small-mid cap
+            risk_score += 1.2
+        elif market_cap < 10:       # Mid cap
+            risk_score += 0.6
+        elif market_cap < 50:       # Large cap
+            risk_score += 0.0
+        elif market_cap < 200:      # Mega cap
+            risk_score -= 0.5
+        else:                       # Super mega cap (AAPL, MSFT level)
+            risk_score -= 1.0
     
-    # Adjust for growth stage
+    # Adjust for growth stage (GRANULAR)
     sales_5y = metrics.get('Sales_past_5Y')
     if sales_5y is not None:
-        if sales_5y > 25:
-            risk_score += 1
+        if sales_5y > 50:
+            risk_score += 1.5      # Hyper-growth = execution risk
+        elif sales_5y > 30:
+            risk_score += 1.0      # Very high growth
+        elif sales_5y > 25:
+            risk_score += 0.6
+        elif sales_5y > 20:
+            risk_score += 0.3
+        elif sales_5y > 15:
+            risk_score += 0.0      # Healthy growth
         elif sales_5y < 5:
-            risk_score -= 1
+            risk_score -= 0.5      # Mature/stable
+        elif sales_5y < 2:
+            risk_score -= 1.0      # Very mature
     
-    # Cap between 1-10
-    risk_score = max(1, min(10, risk_score))
+    # Adjust for ROE/ROIC quality (GRANULAR) - high quality = lower risk
+    roic = metrics.get('ROIC')
+    roe = metrics.get('ROE')
     
-    return risk_score
+    if roic is not None:
+        if roic > 40:
+            risk_score -= 1.5      # Elite quality = lower risk
+        elif roic > 30:
+            risk_score -= 1.0
+        elif roic > 25:
+            risk_score -= 0.6
+        elif roic > 20:
+            risk_score -= 0.3
+        elif roic < 10:
+            risk_score += 0.5      # Poor capital efficiency
+        elif roic < 5:
+            risk_score += 1.0
+    elif roe is not None:
+        if roe > 40:
+            risk_score -= 1.0
+        elif roe > 30:
+            risk_score -= 0.6
+        elif roe > 20:
+            risk_score -= 0.3
+        elif roe < 10:
+            risk_score += 0.5
+    
+    # Cap between 1.0-10.0 and round to 1 decimal place
+    risk_score = max(1.0, min(10.0, risk_score))
+    
+    return round(risk_score, 1)
 
 def parse_percentage(value):
     """Parse percentage values"""
@@ -2688,7 +2759,7 @@ def create_enhanced_html(stock_data, profile_name='academic'):
                 <td class="{growth_class}">{scores['growth_score']:.1f}</td>
                 <td class="{historical_class}">{historical_display}</td>
                 <td class="{trust_class}">{trust_display}</td>
-                <td>{investor_display}</td>
+                <td data-risk-score="{scores.get('risk_score', 5):.1f}">{investor_display}</td>
                 <td class="{total_class}"><strong>{scores['total_score']:.1f}</strong></td>
             </tr>
         ''')
@@ -2739,7 +2810,7 @@ def create_enhanced_html(stock_data, profile_name='academic'):
                             <div class="metric-section">
                                 <h4>📚 Historical Fundamentals</h4>
                                 <p>Historical Score: <strong>{historical_display}</strong></p>
-                                <p>Trust Factor: <strong>{trust_display}</strong></p>
+                                <p>Trust Factor: <strong>{trust_display}</strong></p>  # ADD THIS
                                 <p>Weight in Total Score: {scores['sector_adjustments']['historical_weight_used']*100:.1f}%</p>
                                 <p>Data Available: {'✅ Yes' if scores['sector_adjustments']['has_historical_data'] else '❌ No'}</p>
                                 <p><small>💡 Historical score reflects long-term fundamental consistency and quality</small></p>
