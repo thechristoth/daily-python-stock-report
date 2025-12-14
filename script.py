@@ -707,152 +707,139 @@ def get_investor_type_classification(risk_score):
 
 def calculate_stock_risk_score(stock_symbol, metrics, sector):
     """
-    Calculate risk score (1-10) for a stock with decimal precision
-    Based on volatility, sector, growth stage, and business model
+    Calculate risk score (1-10) with proper weighting
+    1-3 = Conservative (fortress balance sheet, stable)
+    4-6 = Balanced (moderate risk)
+    7-8 = Aggressive (high growth or cyclical)
+    9-10 = Speculative (unprofitable or extreme leverage)
     """
-    risk_score = 5.0  # Base score (FLOAT)
     
-    # Sector risk adjustments (BASE LEVEL)
-    sector_risk = {
-        'Technology': 6.0,
-        'Communication Services': 6.0,
-        'Healthcare': 5.0,
-        'Consumer Defensive': 3.0,
-        'Utilities': 2.0,
-        'Financial': 4.0,
-        'Consumer Cyclical': 5.0,
-        'Industrials': 5.0,
-        'Basic Materials': 6.0,
-        'Energy': 7.0,
-        'Real Estate': 4.0
+    # ========== STEP 1: BASE SECTOR RISK ==========
+    # Start from neutral 5.0, adjust by sector characteristics
+    sector_risk_adjustments = {
+        'Technology': -0.5,           # Quality tech is NOT high-risk
+        'Communication Services': 0.0,
+        'Healthcare': -0.3,           # Defensive characteristics
+        'Consumer Defensive': -1.5,   # Very stable
+        'Utilities': -1.0,            # Regulated, stable cash flows
+        'Financial': +0.5,            # Leverage-dependent
+        'Consumer Cyclical': +1.0,    # Economic sensitivity
+        'Industrials': +0.3,          # Moderate cyclicality
+        'Basic Materials': +1.5,      # Commodity exposure
+        'Energy': +2.0,               # Highest cyclicality
+        'Real Estate': +0.5,          # Interest rate sensitive
     }
     
-    risk_score = sector_risk.get(sector, 5.0)
+    risk_score = 5.0 + sector_risk_adjustments.get(sector, 0.0)
     
-    # Adjust for volatility/beta (GRANULAR)
+    # ========== STEP 2: VOLATILITY (Beta) - LARGEST IMPACT ==========
     beta = metrics.get('Beta')
     if beta is not None:
-        if beta > 2.0:
-            risk_score += 2.5      # Very high volatility
-        elif beta > 1.8:
-            risk_score += 2.0      # High volatility
-        elif beta > 1.5:
-            risk_score += 1.5
-        elif beta > 1.3:
-            risk_score += 1.0
-        elif beta > 1.2:
-            risk_score += 0.5
-        elif beta > 1.0:
-            risk_score += 0.2      # Slightly above market
-        elif beta > 0.8:
-            risk_score += 0.0      # Market-like
-        elif beta > 0.6:
-            risk_score -= 0.3      # Lower volatility
-        else:
-            risk_score -= 0.8      # Very defensive
+        if beta > 2.0:      risk_score += 3.0
+        elif beta > 1.8:    risk_score += 2.5
+        elif beta > 1.5:    risk_score += 2.0
+        elif beta > 1.3:    risk_score += 1.2
+        elif beta > 1.2:    risk_score += 0.8
+        elif beta > 1.0:    risk_score += 0.3
+        elif beta > 0.8:    risk_score += 0.0
+        elif beta > 0.6:    risk_score -= 0.5
+        else:               risk_score -= 1.0
     
-    # Adjust for profitability/stability (GRANULAR)
+    # ========== STEP 3: PROFITABILITY (Critical) ==========
     profit_margin = metrics.get('Profit_Margin')
     if profit_margin is not None:
         if profit_margin < 0:
-            risk_score += 3.0      # Unprofitable - HIGH RISK
+            risk_score += 4.0      # 🚨 UNPROFITABLE = HUGE RISK
         elif profit_margin < 5:
-            risk_score += 1.8      # Barely profitable
+            risk_score += 2.5
         elif profit_margin < 10:
-            risk_score += 0.8      # Low margins
+            risk_score += 1.2
         elif profit_margin < 15:
-            risk_score += 0.3      # Moderate margins
+            risk_score += 0.5
         elif profit_margin > 30:
-            risk_score -= 1.0      # Excellent margins
+            risk_score -= 1.5      # Elite margins = lower risk
         elif profit_margin > 25:
-            risk_score -= 0.6      # Very good margins
+            risk_score -= 1.0
         elif profit_margin > 20:
-            risk_score -= 0.3      # Good margins
+            risk_score -= 0.5
     
-    # Adjust for debt (GRANULAR) - exclude Financials
+    # ========== STEP 4: DEBT (Exclude Financials) ==========
     debt_eq = metrics.get('Debt/Eq')
     if debt_eq is not None and sector != 'Financial':
         if debt_eq > 3.0:
-            risk_score += 2.0      # Dangerously high debt
+            risk_score += 4.0      # 🚨 CRITICAL LEVERAGE
         elif debt_eq > 2.0:
-            risk_score += 1.5      # Very high debt
+            risk_score += 3.0
         elif debt_eq > 1.5:
-            risk_score += 1.0      # High debt
+            risk_score += 2.0
         elif debt_eq > 1.0:
-            risk_score += 0.5      # Elevated debt
+            risk_score += 1.2
         elif debt_eq > 0.5:
-            risk_score += 0.0      # Moderate debt
+            risk_score += 0.3
         elif debt_eq > 0.3:
-            risk_score -= 0.3      # Low debt
+            risk_score -= 0.5
         elif debt_eq > 0.1:
-            risk_score -= 0.6      # Very low debt
+            risk_score -= 1.2
         else:
-            risk_score -= 1.0      # Nearly debt-free (Visa/MA level)
+            risk_score -= 2.0      # 🏰 FORTRESS (V, MA level)
     
-    # Adjust for size (Market Cap) (GRANULAR)
+    # ========== STEP 5: SIZE (Market Cap) ==========
     market_cap = metrics.get('Market_Cap')
     if market_cap is not None:
-        if market_cap < 1:          # Micro cap
-            risk_score += 2.5
-        elif market_cap < 2:        # Small cap
-            risk_score += 2.0
-        elif market_cap < 5:        # Small-mid cap
-            risk_score += 1.2
-        elif market_cap < 10:       # Mid cap
-            risk_score += 0.6
-        elif market_cap < 50:       # Large cap
-            risk_score += 0.0
-        elif market_cap < 200:      # Mega cap
-            risk_score -= 0.5
-        else:                       # Super mega cap (AAPL, MSFT level)
-            risk_score -= 1.0
+        if market_cap < 1:          risk_score += 3.0  # Micro-cap
+        elif market_cap < 2:        risk_score += 2.5
+        elif market_cap < 5:        risk_score += 1.5
+        elif market_cap < 10:       risk_score += 0.8
+        elif market_cap < 50:       risk_score += 0.0
+        elif market_cap < 200:      risk_score -= 0.5
+        else:                       risk_score -= 1.0  # Mega-cap stability
     
-    # Adjust for growth stage (GRANULAR)
-    sales_5y = metrics.get('Sales_past_5Y')
-    if sales_5y is not None:
-        if sales_5y > 50:
-            risk_score += 1.5      # Hyper-growth = execution risk
-        elif sales_5y > 30:
-            risk_score += 1.0      # Very high growth
-        elif sales_5y > 25:
-            risk_score += 0.6
-        elif sales_5y > 20:
-            risk_score += 0.3
-        elif sales_5y > 15:
-            risk_score += 0.0      # Healthy growth
-        elif sales_5y < 5:
-            risk_score -= 0.5      # Mature/stable
-        elif sales_5y < 2:
-            risk_score -= 1.0      # Very mature
-    
-    # Adjust for ROE/ROIC quality (GRANULAR) - high quality = lower risk
+    # ========== STEP 6: QUALITY DISCOUNT (ROIC/ROE) ==========
+    # 🔥 KEY FIX: High ROIC + Low Debt = DRAMATICALLY lower risk
     roic = metrics.get('ROIC')
     roe = metrics.get('ROE')
     
     if roic is not None:
-        if roic > 40:
-            risk_score -= 1.5      # Elite quality = lower risk
-        elif roic > 30:
-            risk_score -= 1.0
-        elif roic > 25:
-            risk_score -= 0.6
-        elif roic > 20:
-            risk_score -= 0.3
-        elif roic < 10:
-            risk_score += 0.5      # Poor capital efficiency
-        elif roic < 5:
-            risk_score += 1.0
-    elif roe is not None:
-        if roe > 40:
-            risk_score -= 1.0
-        elif roe > 30:
-            risk_score -= 0.6
-        elif roe > 20:
-            risk_score -= 0.3
-        elif roe < 10:
-            risk_score += 0.5
+        # Base ROIC discount
+        if roic > 40:       quality_discount = -3.0    # Elite (V, MA, SPGI)
+        elif roic > 30:     quality_discount = -2.5    # Outstanding (GOOGL, MSFT)
+        elif roic > 25:     quality_discount = -2.0
+        elif roic > 20:     quality_discount = -1.5
+        elif roic > 15:     quality_discount = -0.8
+        elif roic > 12:     quality_discount = -0.3
+        elif roic < 5:      quality_discount = +1.5    # Value-destructive
+        else:               quality_discount = 0.0
+        
+        # 🔥 FORTRESS BONUS: High ROIC + Ultra-low debt
+        if roic > 25 and debt_eq is not None and debt_eq < 0.2:
+            quality_discount -= 1.5  # Additional fortress discount
+            print(f"      🏰 FORTRESS BUSINESS: ROIC {roic:.0f}%, D/E {debt_eq:.2f} → Extra -1.5 risk")
+        
+        risk_score += quality_discount
     
-    # Cap between 1.0-10.0 and round to 1 decimal place
+    elif roe is not None:
+        # Fallback to ROE (check for leverage inflation)
+        if roe > 40 and (debt_eq is None or debt_eq < 0.5):
+            risk_score -= 1.5
+        elif roe > 30 and (debt_eq is None or debt_eq < 0.5):
+            risk_score -= 1.0
+        elif roe > 20:
+            risk_score -= 0.5
+        elif roe < 10:
+            risk_score += 1.0
+    
+    # ========== STEP 7: GROWTH STAGE (Fixed Logic) ==========
+    sales_5y = metrics.get('Sales_past_5Y')
+    if sales_5y is not None and roic is not None:
+        # 🔥 KEY FIX: High growth + High ROIC = LOWER risk (quality compounder)
+        if sales_5y > 30 and roic > 20:
+            risk_score -= 0.8  # Quality growth = lower risk
+        elif sales_5y > 50 and roic < 15:
+            risk_score += 1.5  # Hyper-growth without quality = higher risk
+        elif sales_5y < 2:
+            risk_score -= 0.5  # Mature/stable
+    
+    # ========== FINAL: Cap between 1.0-10.0 ==========
     risk_score = max(1.0, min(10.0, risk_score))
     
     return round(risk_score, 1)
