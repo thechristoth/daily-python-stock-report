@@ -680,12 +680,6 @@ def get_investor_type_classification(risk_score):
     Classify stock by suitable investor type based on risk score
     Returns: dict with investor types and their suitability
     """
-    classifications = {
-        'conservative': False,
-        'balanced': False,
-        'aggressive': False,
-        'speculative': False
-    }
     
     if risk_score <= 2.5:
         return {'conservative': True, 'balanced': False, 'aggressive': False, 'speculative': False}
@@ -695,8 +689,6 @@ def get_investor_type_classification(risk_score):
         return {'conservative': False, 'balanced': False, 'aggressive': True, 'speculative': False}
     else:  # > 7.5
         return {'conservative': False, 'balanced': False, 'aggressive': False, 'speculative': True}
-    
-    return classifications
 
 def calculate_stock_risk_score(stock_symbol, metrics, sector):
     """
