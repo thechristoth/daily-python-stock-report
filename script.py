@@ -687,21 +687,14 @@ def get_investor_type_classification(risk_score):
         'speculative': False
     }
     
-    # Conservative: Risk 1-3
-    if risk_score <= 3:
-        classifications['conservative'] = True
-    
-    # Balanced: Risk 3-6
-    if 3 <= risk_score <= 6:
-        classifications['balanced'] = True
-    
-    # Aggressive: Risk 5-8
-    if 5 <= risk_score <= 8:
-        classifications['aggressive'] = True
-    
-    # Speculative: Risk 7-10
-    if risk_score >= 7:
-        classifications['speculative'] = True
+    if risk_score <= 2.5:
+        return {'conservative': True, 'balanced': False, 'aggressive': False, 'speculative': False}
+    elif risk_score <= 5.0:
+        return {'conservative': False, 'balanced': True, 'aggressive': False, 'speculative': False}
+    elif risk_score <= 7.5:
+        return {'conservative': False, 'balanced': False, 'aggressive': True, 'speculative': False}
+    else:  # > 7.5
+        return {'conservative': False, 'balanced': False, 'aggressive': False, 'speculative': True}
     
     return classifications
 
