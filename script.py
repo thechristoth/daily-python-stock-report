@@ -810,7 +810,8 @@ def calculate_stock_risk_score(stock_symbol, metrics, sector, debug=False):
         
         # KEY FIX: High growth reduces quality discount
         sales_growth = metrics.get('Sales_past_5Y', 0)
-        if sales_growth > 40 and base < 0:
+        # ✅ ADD NULL CHECK HERE:
+        if sales_growth is not None and sales_growth > 40 and base < 0:
             base *= 0.7  # Less aggressive cut (was 0.5)
             adjustments.append(f"ROIC {roic:.1f}% (growth-adj): {base:+.1f} → {risk + base:.1f}")
         else:
