@@ -672,7 +672,7 @@ def get_investor_type_classification(risk_score):
         classifications['balanced'] = True
     
     # Aggressive: Risk 5-8
-    if 5 <= risk_score <= 7:
+    if 6 <= risk_score <= 8:
         classifications['aggressive'] = True
     
     # Speculative: Risk 7-10
