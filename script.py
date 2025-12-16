@@ -7,7 +7,32 @@ from bs4 import BeautifulSoup
 import historical_fundamental_scores
 
 # Configuration SECOND CODE
+
 STOCKS = [
+    "MA", "MSFT", "GOOGL", "SPGI", "PGR", "AXP", "DUOL", "AAPL", "ABBV", "ADBE",
+    "ADP", "ADSK", "AME", "AMZN", "ANET", "APH", "APP", "AVGO", "AXON", "AZO",
+    "BKNG", "BLK", "BMI", "BRO", "BR", "BRK-B", "BSX", "CB", "CDNS", "CME",
+    "CMG", "COST", "CPRT", "CRM", "CSGP", "CTAS", "DHR", "DT", "ECL", "ETN",
+    "EW", "FAST", "FICO", "FTNT", "GGG", "GS", "GWW", "HD", "HEI", "HLT",
+    "HOLX", "HON", "ICE", "IDXX", "IEX", "INTU", "IR", "ITW", "JPM", "KEYS",
+    "LIN", "LMAT", "LOW", "MANH", "MAR", "MCO", "MEDP", "MELI", "META", "MPWR",
+    "MS", "MSI", "MKTX", "NFLX", "NDAQ", "NOW", "NVDA", "NVMI", "ONTO", "ORCL",
+    "ORLY", "PANW", "PAYC", "PAYX", "PH", "PODD", "PTC", "PWR", "QLYS", "QCOM",
+    "REGN", "RMD", "ROP", "ROK", "ROST", "SHW", "SNPS", "SAP", "SYK", "TDG",
+    "TDY", "TMO", "TRI", "TRMB", "TSM", "TT", "TXN", "TYL", "V", "VEEV",
+    "VRSK", "VRSN", "WDAY", "WST", "WRB", "XYL", "ZTS", "A", "TXRH", "IQV",
+    "HUBS", "FISV", "ATKR", "MRVL", "APO", "FDS", "SNA", "CBOE", "ISRG", "IDCC",
+    "FIX", "TTD", "SN", "ACGL", "GEV", "MSCI", "MCK", "HIG", "TRV", "MWA",
+    "MNST", "VRTX", "UNH", "GEHC", "LLY", "WM", "WSO", "ASML", "VICI", "DPZ",
+    "HCA", "KLAC", "AMAT", "MKL", "KNSL", "RLI", "WCN", "AON", "EFX", "JKHY",
+    "RYAN", "MORN", "STE", "TSCO", "SSNC", "WAB", "ABT", "LRCX", "GOOG", "PLMR",
+    "APPF", "RSG", "MTD", "NDSN", "VRT", "TNET", "ZBRA", "GXO", "AJG", "TECH",
+    "ELV", "PNR", "GPN", "FNF", "SEIC", "LPLA", "RNR", "ALLE", "ODFL", "CHDN",
+    "NVO", "WING", "EXLS", "EEFT", "AX", "UHS", "EPAM", "ICLR", "GHC", "SAIA",
+    "RACE", "WDFC", "CW", "WAT", "CLH", "HCI", "NSSC", "NMIH", "CVCO", "IRMD",
+    "AWK", "DXCM", "SPSC", "POOL", "FERG", "CACI", "LDOS", "DDOG", "MNDY", "NET",
+    "DECK", "LULU", "CROX", "ERIE", "ULTA", "UBER", "NTES", "ESQ", "CPRX", "EME",
+    "KO", "PG", "MCD", "PEP", "CHD", "ROL"
      "MA", "GOOGL", "ASML", "PAYC", "COST", "DUOL"
 ]
 
