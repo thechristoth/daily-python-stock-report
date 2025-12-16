@@ -8,32 +8,8 @@ import historical_fundamental_scores
 
 # Configuration SECOND CODE
 STOCKS = [
-    "MA", "MSFT", "GOOGL", "SPGI", "PGR", "AXP", "DUOL", "AAPL", "ABBV", "ADBE",
-    "ADP", "ADSK", "AME", "AMZN", "ANET", "APH", "APP", "AVGO", "AXON", "AZO",
-    "BKNG", "BLK", "BMI", "BRO", "BR", "BRK-B", "BSX", "CB", "CDNS", "CME",
-    "CMG", "COST", "CPRT", "CRM", "CSGP", "CTAS", "DHR", "DT", "ECL", "ETN",
-    "EW", "FAST", "FICO", "FTNT", "GGG", "GS", "GWW", "HD", "HEI", "HLT",
-    "HOLX", "HON", "ICE", "IDXX", "IEX", "INTU", "IR", "ITW", "JPM", "KEYS",
-    "LIN", "LMAT", "LOW", "MANH", "MAR", "MCO", "MEDP", "MELI", "META", "MPWR",
-    "MS", "MSI", "MKTX", "NFLX", "NDAQ", "NOW", "NVDA", "NVMI", "ONTO", "ORCL",
-    "ORLY", "PANW", "PAYC", "PAYX", "PH", "PODD", "PTC", "PWR", "QLYS", "QCOM",
-    "REGN", "RMD", "ROP", "ROK", "ROST", "SHW", "SNPS", "SAP", "SYK", "TDG",
-    "TDY", "TMO", "TRI", "TRMB", "TSM", "TT", "TXN", "TYL", "V", "VEEV",
-    "VRSK", "VRSN", "WDAY", "WST", "WRB", "XYL", "ZTS", "A", "TXRH", "IQV",
-    "HUBS", "FISV", "ATKR", "MRVL", "APO", "FDS", "SNA", "CBOE", "ISRG", "IDCC",
-    "FIX", "TTD", "SN", "ACGL", "GEV", "MSCI", "MCK", "HIG", "TRV", "MWA",
-    "MNST", "VRTX", "UNH", "GEHC", "LLY", "WM", "WSO", "ASML", "VICI", "DPZ",
-    "HCA", "KLAC", "AMAT", "MKL", "KNSL", "RLI", "WCN", "AON", "EFX", "JKHY",
-    "RYAN", "MORN", "STE", "TSCO", "SSNC", "WAB", "ABT", "LRCX", "GOOG", "PLMR",
-    "APPF", "RSG", "MTD", "NDSN", "VRT", "TNET", "ZBRA", "GXO", "AJG", "TECH",
-    "ELV", "PNR", "GPN", "FNF", "SEIC", "LPLA", "RNR", "ALLE", "ODFL", "CHDN",
-    "NVO", "WING", "EXLS", "EEFT", "AX", "UHS", "EPAM", "ICLR", "GHC", "SAIA",
-    "RACE", "WDFC", "CW", "WAT", "CLH", "HCI", "NSSC", "NMIH", "CVCO", "IRMD",
-    "AWK", "DXCM", "SPSC", "POOL", "FERG", "CACI", "LDOS", "DDOG", "MNDY", "NET",
-    "DECK", "LULU", "CROX", "ERIE", "ULTA", "UBER", "NTES", "ESQ", "CPRX", "EME",
-    "KO", "PG", "MCD", "PEP", "CHD", "ROL"
+     "MA", "GOOGL", "ASML", "PAYC", "COST", "DUOL"
 ]
-
 
 
 def calculate_roic_growth_score(metrics):
@@ -604,7 +580,7 @@ USER_AGENTS = [
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.15 Safari/605.1.15'
 ]
 DELAY_BETWEEN_REQUESTS = 5  # seconds
-HTML_FILE = os.path.join(os.getcwd(), 'index.html')
+HTML_FILE = os.path.join(os.getcwd(), 'enhanced_stock_analysis5.0.html')
 HTML_TEMPLATE_FILE = os.path.join(os.getcwd(), 'template_dual.html')
 MAX_RETRIES = 3
 
@@ -680,17 +656,32 @@ def get_investor_type_classification(risk_score):
     Classify stock by suitable investor type based on risk score
     Returns: dict with investor types and their suitability
     """
+    classifications = {
+        'conservative': False,
+        'balanced': False,
+        'aggressive': False,
+        'speculative': False
+    }
     
+    # Conservative: Risk 1-3
     if risk_score <= 3:
-        return {'conservative': True, 'balanced': False, 'aggressive': False, 'speculative': False}
-    elif risk_score <= 5.0:
-        return {'conservative': False, 'balanced': True, 'aggressive': False, 'speculative': False}
-    elif risk_score <= 7.5:
-        return {'conservative': False, 'balanced': False, 'aggressive': True, 'speculative': False}
-    else:  # > 7.5
-        return {'conservative': False, 'balanced': False, 'aggressive': False, 'speculative': True}
+        classifications['conservative'] = True
+    
+    # Balanced: Risk 3-6
+    if 3 <= risk_score <= 6:
+        classifications['balanced'] = True
+    
+    # Aggressive: Risk 5-8
+    if 5 <= risk_score <= 7:
+        classifications['aggressive'] = True
+    
+    # Speculative: Risk 7-10
+    if risk_score >= 7:
+        classifications['speculative'] = True
+    
+    return classifications
 
-def calculate_stock_risk_score(stock_symbol, metrics, sector):
+def calculate_stock_risk_score(stock_symbol, metrics, sector, debug=False):
     """
     Simplified risk score (1-10) - clean and maintainable
     
@@ -840,6 +831,8 @@ def calculate_stock_risk_score(stock_symbol, metrics, sector):
     
     # ========== FINAL: Cap at 1-10 ==========
     risk = max(1.0, min(10.0, risk))
+    
+    return round(risk, 1)
 
 def parse_percentage(value):
     """Parse percentage values"""
