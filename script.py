@@ -696,168 +696,87 @@ def get_investor_type_classification(risk_score):
         classifications['balanced'] = True
     
     # Aggressive: Risk 5-8
-    if 6 <= risk_score <= 8:
+    if 5 <= risk_score <= 8:
         classifications['aggressive'] = True
     
     # Speculative: Risk 7-10
-    if risk_score >= 8:
+    if risk_score >= 7:
         classifications['speculative'] = True
     
     return classifications
 
-def calculate_stock_risk_score(stock_symbol, metrics, sector, debug=False):
+def calculate_stock_risk_score(stock_symbol, metrics, sector):
     """
-    Simplified risk score (1-10) - clean and maintainable
-    
-    Philosophy: Start at sector baseline, add/subtract based on key factors
-    
-    1-2.5 = Ultra-Conservative (V, MA)
-    2.5-4.0 = Conservative (MSFT, GOOGL)
-    4.0-6.0 = Balanced (AAPL, KO)
-    6.0-7.5 = Aggressive (NVDA, SHOP)
-    7.5-10 = Speculative (PLTR, SNAP)
+    Calculate risk score (1-10) for a stock
+    Based on volatility, sector, growth stage, and business model
     """
+    risk_score = 5  # Base score
     
-    adjustments = []
-    
-    # ========== 1. START WITH SECTOR BASE ==========
-    SECTOR_BASE = {
-        'Technology': 6.0,
-        'Communication Services': 6.0,
-        'Healthcare': 5.5,
-        'Consumer Defensive': 4.0,
-        'Utilities': 3.5,
-        'Financial': 5.0,  # Lower than tech (SPGI fix)
-        'Consumer Cyclical': 6.0,
-        'Industrials': 6.0,
-        'Basic Materials': 7.5,
-        'Energy': 8.0,
-        'Real Estate': 6.5,
+    # Sector risk adjustments
+    sector_risk = {
+        'Technology': 6,
+        'Communication Services': 6,
+        'Healthcare': 5,
+        'Consumer Defensive': 3,
+        'Utilities': 2,
+        'Financial': 4,
+        'Consumer Cyclical': 5,
+        'Industrials': 5,
+        'Basic Materials': 6,
+        'Energy': 7,
+        'Real Estate': 4
     }
     
-    risk = SECTOR_BASE.get(sector, 6.0)
-    adjustments.append(f"Sector ({sector}): {risk:.1f}")
+    risk_score = sector_risk.get(sector, 5)
     
-    # ========== 2. VOLATILITY (Beta) ==========
+    # Adjust for volatility/beta
     beta = metrics.get('Beta')
-    if beta:
-        if beta >= 2.0:     adj = +2.0
-        elif beta >= 1.7:   adj = +1.2
-        elif beta >= 1.5:   adj = +0.8
-        elif beta >= 1.2:   adj = +0.3
-        elif beta >= 1.0:   adj = +0.1
-        elif beta >= 0.8:   adj = 0.0
-        elif beta >= 0.6:   adj = -0.3
-        else:               adj = -0.5
-        
-        risk += adj
-        adjustments.append(f"Beta {beta:.2f}: {adj:+.1f} → {risk:.1f}")
+    if beta is not None:
+        if beta > 1.5:
+            risk_score += 2
+        elif beta > 1.2:
+            risk_score += 1
+        elif beta < 0.8:
+            risk_score -= 1
     
-    # ========== 3. PROFITABILITY ==========
-    margin = metrics.get('Profit_Margin')
-    if margin is not None:
-        if margin < 0:      adj = +4.0  # Unprofitable
-        elif margin < 5:    adj = +2.0
-        elif margin < 10:   adj = +0.5
-        elif margin < 15:   adj = 0.0
-        elif margin > 40:   adj = -1.2
-        elif margin > 30:   adj = -0.8
-        elif margin > 20:   adj = -0.4
-        else:               adj = -0.1
-        
-        risk += adj
-        adjustments.append(f"Margin {margin:.1f}%: {adj:+.1f} → {risk:.1f}")
+    # Adjust for profitability/stability
+    profit_margin = metrics.get('Profit_Margin')
+    if profit_margin is not None:
+        if profit_margin < 5:
+            risk_score += 2
+        elif profit_margin > 25:
+            risk_score -= 1
     
-    # ========== 4. LEVERAGE (Debt) ==========
-    debt = metrics.get('Debt/Eq')
-    if debt is not None and sector != 'Financial':
-        if debt > 2.5:      adj = +3.0
-        elif debt > 1.5:    adj = +1.5
-        elif debt > 1.0:    adj = +0.5
-        elif debt > 0.5:    adj = 0.0
-        elif debt > 0.15:   adj = -0.4
-        elif debt > 0.05:   adj = -0.6
-        else:               adj = -0.8
-        
-        risk += adj
-        adjustments.append(f"Debt/Eq {debt:.2f}: {adj:+.1f} → {risk:.1f}")
+    # Adjust for debt
+    debt_eq = metrics.get('Debt/Eq')
+    if debt_eq is not None and sector != 'Financial':
+        if debt_eq > 1.5:
+            risk_score += 1
+        elif debt_eq < 0.3:
+            risk_score -= 1
     
-    # ========== 5. VALUATION (PEG) ==========
-    peg = metrics.get('PEG')
-    if peg and peg > 0:
-        if peg > 4.0:       adj = +2.5
-        elif peg > 3.0:     adj = +1.5
-        elif peg > 2.5:     adj = +0.8
-        elif peg > 2.0:     adj = +0.4
-        elif peg > 1.5:     adj = +0.1
-        elif peg < 1.0:     adj = -0.3
-        else:               adj = 0.0
-        
-        risk += adj
-        adjustments.append(f"PEG {peg:.2f}: {adj:+.1f} → {risk:.1f}")
+    # Adjust for size (Market Cap)
+    market_cap = metrics.get('Market_Cap')
+    if market_cap is not None:
+        if market_cap < 2:  # Small cap
+            risk_score += 2
+        elif market_cap < 10:  # Mid cap
+            risk_score += 1
+        elif market_cap > 100:  # Mega cap
+            risk_score -= 1
     
-    # ========== 6. QUALITY (ROIC) ==========
-    roic = metrics.get('ROIC')
-    if roic is not None:
-        if roic > 40:       base = -1.5
-        elif roic > 30:     base = -1.0
-        elif roic > 25:     base = -0.7
-        elif roic > 20:     base = -0.4
-        elif roic > 15:     base = -0.2
-        elif roic > 12:     base = 0.0
-        elif roic < 5:      base = +1.5
-        else:               base = +0.5
-        
-        # KEY FIX: High growth reduces quality discount
-        sales_growth = metrics.get('Sales_past_5Y', 0)
-        # ✅ ADD NULL CHECK HERE:
-        if sales_growth is not None and sales_growth > 40 and base < 0:
-            base *= 0.7  # Less aggressive cut (was 0.5)
-            adjustments.append(f"ROIC {roic:.1f}% (growth-adj): {base:+.1f} → {risk + base:.1f}")
-        else:
-            adjustments.append(f"ROIC {roic:.1f}%: {base:+.1f} → {risk + base:.1f}")
-        
-        risk += base
-        
-        # Fortress bonus (high ROIC + low debt)
-        if roic > 35 and debt is not None and debt < 0.15:
-            risk -= 0.5
-            adjustments.append(f"Fortress: -0.5 → {risk:.1f}")
+    # Adjust for growth stage
+    sales_5y = metrics.get('Sales_past_5Y')
+    if sales_5y is not None:
+        if sales_5y > 25:
+            risk_score += 1
+        elif sales_5y < 5:
+            risk_score -= 1
     
-    # ========== 7. SIZE (Market Cap) ==========
-    mcap = metrics.get('Market_Cap')
-    if mcap:
-        if mcap < 10:       adj = +1.0
-        elif mcap < 50:     adj = +0.2
-        elif mcap < 500:    adj = 0.0
-        else:               adj = -0.4  # Mega-cap stability
-        
-        risk += adj
-        if adj != 0:
-            adjustments.append(f"MCap ${mcap:.0f}B: {adj:+.1f} → {risk:.1f}")
+    # Cap between 1-10
+    risk_score = max(1, min(10, risk_score))
     
-    # ========== 8. GROWTH STAGE ==========
-    sales_growth = metrics.get('Sales_past_5Y')
-    if sales_growth and roic and margin:
-        if sales_growth > 40 and margin > 15:
-            risk += 0.8  # Increased from 0.4 - hyper-growth = more risk
-            adjustments.append(f"Hyper-Growth: +0.8 → {risk:.1f}")
-        elif sales_growth < 5 and roic > 20:
-            risk -= 0.3  # Mature quality
-            adjustments.append(f"Mature Quality: -0.3 → {risk:.1f}")
-    
-    # ========== 9. SECTOR-SPECIFIC ADJUSTMENTS ==========
-    if sector == 'Consumer Cyclical' and sales_growth:
-        if sales_growth > 10:
-            risk += 0.3
-        else:
-            risk += 0.1
-        adjustments.append(f"Cyclical: +0.1-0.3 → {risk:.1f}")
-    
-    # ========== FINAL: Cap at 1-10 ==========
-    risk = max(1.0, min(10.0, risk))
-    
-    return round(risk, 1)
+    return risk_score
 
 def parse_percentage(value):
     """Parse percentage values"""
