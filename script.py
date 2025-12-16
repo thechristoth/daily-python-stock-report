@@ -33,7 +33,6 @@ STOCKS = [
     "AWK", "DXCM", "SPSC", "POOL", "FERG", "CACI", "LDOS", "DDOG", "MNDY", "NET",
     "DECK", "LULU", "CROX", "ERIE", "ULTA", "UBER", "NTES", "ESQ", "CPRX", "EME",
     "KO", "PG", "MCD", "PEP", "CHD", "ROL"
-     "MA", "GOOGL", "ASML", "PAYC", "COST", "DUOL"
 ]
 
 
