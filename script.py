@@ -35,6 +35,133 @@ STOCKS = [
     "KO", "PG", "MCD", "PEP", "CHD", "ROL"
 ]
 
+def calculate_moat_score(metrics, sector, stock_symbol, historical_score):
+    """Calculate Long-Term Moat Score (0-10)"""
+    
+    moat_components = []
+    
+    # 1. ROIC PERSISTENCE (30%)
+    roic = metrics.get('ROIC')
+    roe = metrics.get('ROE')
+    roic_persistence_score = 5.0
+    
+    if roic is not None:
+        if roic >= 50:      roic_persistence_score = 10.0
+        elif roic >= 40:    roic_persistence_score = 9.8
+        elif roic >= 35:    roic_persistence_score = 9.5
+        elif roic >= 30:    roic_persistence_score = 9.0
+        elif roic >= 25:    roic_persistence_score = 8.5
+        elif roic >= 22:    roic_persistence_score = 8.0
+        elif roic >= 20:    roic_persistence_score = 7.5
+        elif roic >= 18:    roic_persistence_score = 7.0
+        elif roic >= 15:    roic_persistence_score = 6.5
+        elif roic >= 12:    roic_persistence_score = 5.5
+        else:               roic_persistence_score = 4.5
+        
+        if historical_score is not None and historical_score >= 8.0 and roic >= 20:
+            roic_persistence_score = min(10, roic_persistence_score + 1.0)
+    
+    elif roe is not None:
+        if roe >= 45:       roic_persistence_score = 8.0
+        elif roe >= 30:     roic_persistence_score = 7.0
+        elif roe >= 20:     roic_persistence_score = 6.0
+        else:               roic_persistence_score = 4.0
+    
+    moat_components.append(('ROIC_Persistence', roic_persistence_score, 0.30))
+    
+    # 2. MARGIN STABILITY (25%)
+    profit_margin = metrics.get('Profit_Margin')
+    gross_margin = metrics.get('Gross_Margin')
+    margin_stability_score = 5.0
+    
+    if profit_margin is not None:
+        if profit_margin >= 40:    margin_stability_score = 10.0
+        elif profit_margin >= 30:  margin_stability_score = 9.0
+        elif profit_margin >= 25:  margin_stability_score = 8.5
+        elif profit_margin >= 20:  margin_stability_score = 8.0
+        elif profit_margin >= 15:  margin_stability_score = 7.0
+        elif profit_margin >= 10:  margin_stability_score = 6.0
+        else:                      margin_stability_score = 4.0
+        
+        if gross_margin and gross_margin >= 80:
+            margin_stability_score = min(10, margin_stability_score + 1.5)
+    
+    moat_components.append(('Margin_Stability', margin_stability_score, 0.25))
+    
+    # 3. HISTORICAL CONSISTENCY (20%)
+    historical_consistency_score = 5.0
+    if historical_score is not None:
+        if historical_score >= 9.0:     historical_consistency_score = 10.0
+        elif historical_score >= 8.0:   historical_consistency_score = 9.0
+        elif historical_score >= 7.0:   historical_consistency_score = 8.0
+        elif historical_score >= 6.0:   historical_consistency_score = 7.0
+        else:                           historical_consistency_score = 5.0
+    
+    moat_components.append(('Historical_Consistency', historical_consistency_score, 0.20))
+    
+    # 4. CAPITAL EFFICIENCY (15%)
+    fcf_per_share = metrics.get('FCF_per_share')
+    eps_ttm = metrics.get('EPS_TTM')
+    capital_efficiency_score = 5.0
+    
+    if fcf_per_share and eps_ttm and eps_ttm > 0:
+        fcf_conversion = fcf_per_share / eps_ttm
+        if fcf_conversion >= 1.4:       capital_efficiency_score = 10.0
+        elif fcf_conversion >= 1.2:     capital_efficiency_score = 9.0
+        elif fcf_conversion >= 1.0:     capital_efficiency_score = 8.0
+        elif fcf_conversion >= 0.85:    capital_efficiency_score = 7.0
+        elif fcf_conversion >= 0.70:    capital_efficiency_score = 6.0
+        else:                           capital_efficiency_score = 4.0
+    
+    moat_components.append(('Capital_Efficiency', capital_efficiency_score, 0.15))
+    
+    # 5. MARKET POSITION (10%)
+    market_cap = metrics.get('Market_Cap')
+    market_position_score = 5.0
+    
+    if market_cap is not None:
+        if market_cap >= 500:       market_position_score = 10.0
+        elif market_cap >= 200:     market_position_score = 9.0
+        elif market_cap >= 100:     market_position_score = 8.0
+        elif market_cap >= 50:      market_position_score = 7.5
+        elif market_cap >= 20:      market_position_score = 7.0
+        else:                       market_position_score = 6.0
+    
+    moat_components.append(('Market_Position', market_position_score, 0.10))
+    
+    # CALCULATE FINAL MOAT SCORE
+    moat_score = sum(score * weight for _, score, weight in moat_components)
+    moat_score = min(max(0, moat_score), 10)
+    
+    # Moat rating
+    if moat_score >= 9.0:
+        moat_rating = "Fortress"
+        moat_icon = "🏰"
+    elif moat_score >= 8.0:
+        moat_rating = "Wide Moat"
+        moat_icon = "🛡️"
+    elif moat_score >= 7.0:
+        moat_rating = "Narrow"
+        moat_icon = "🔒"
+    elif moat_score >= 6.0:
+        moat_rating = "Weak"
+        moat_icon = "⚠️"
+    else:
+        moat_rating = "No Moat"
+        moat_icon = "❌"
+    
+    return {
+        'moat_score': round(moat_score, 2),
+        'moat_rating': moat_rating,
+        'moat_icon': moat_icon,
+        'moat_components': {
+            'roic_persistence': round(roic_persistence_score, 1),
+            'margin_stability': round(margin_stability_score, 1),
+            'historical_consistency': round(historical_consistency_score, 1),
+            'capital_efficiency': round(capital_efficiency_score, 1),
+            'market_position': round(market_position_score, 1)
+        }
+    }
 
 def calculate_roic_growth_score(metrics):
     """Calculate ROIC growth score - MOST important growth metric per research"""
@@ -2640,6 +2767,8 @@ def calculate_enhanced_scores_with_sectors(metrics, sector=None, stock_symbol=No
         print(f"      FCF Yield: {fcf_yield}%")
         print(f"      Why score is {fcf_positivity_score}?")
 
+    moat_data = calculate_moat_score(metrics, sector, stock_symbol, historical_score_)
+
     return {
         'valuation_score': round(valuation_score, 2),
         'quality_score': round(quality_score, 2),
@@ -2650,6 +2779,13 @@ def calculate_enhanced_scores_with_sectors(metrics, sector=None, stock_symbol=No
         'risk_score': risk_score,  # ADD THIS
         'investor_types': investor_types,  # ADD THIS
         'total_score': round(total_score, 2),
+
+        # ✅ ADD THESE MOAT LINES:
+        'moat_score': moat_data['moat_score'],
+        'moat_rating': moat_data['moat_rating'],
+        'moat_icon': moat_data['moat_icon'],
+        'moat_components': moat_data['moat_components'],
+
         'sector': sector,
         'sector_config_used': config,
         'valuation_components': valuation_components,
@@ -2740,6 +2876,11 @@ def create_enhanced_html(stock_data, profile_name='academic'):
         investor_display = "".join(investor_icons) if investor_icons else "—"
         # CRITICAL FIX: Add profile class to every row
         profile_class = f"profile-{profile_name}"
+
+        # ✅ ADD THESE LINES BEFORE THE table_rows.append():
+        moat_display = f"{scores['moat_score']:.1f}" if scores.get('moat_score') is not None else "N/A"
+        moat_icon = scores.get('moat_icon', '—')
+        moat_class = "positive" if scores.get('moat_score') and scores['moat_score'] >= 8.0 else "neutral" if scores.get('moat_score') and scores['moat_score'] >= 6.5 else "negative" if scores.get('moat_score') else "na"
         
         # Stock row with profile class
         table_rows.append(f'''
@@ -2760,6 +2901,7 @@ def create_enhanced_html(stock_data, profile_name='academic'):
                 <td class="{growth_class}">{scores['growth_score']:.1f}</td>
                 <td class="{historical_class}">{historical_display}</td>
                 <td class="{trust_class}">{trust_display}</td>
+                <td class="{moat_class}">{moat_display}<br><small>{moat_icon}</small></td>
                 <td data-risk-score="{scores.get('risk_score', 5):.1f}">{investor_display}</td>
                 <td class="{total_class}"><strong>{scores['total_score']:.1f}</strong></td>
             </tr>
@@ -2811,10 +2953,25 @@ def create_enhanced_html(stock_data, profile_name='academic'):
                             <div class="metric-section">
                                 <h4>📚 Historical Fundamentals</h4>
                                 <p>Historical Score: <strong>{historical_display}</strong></p>
-                                <p>Trust Factor: <strong>{trust_display}</strong></p>  # ADD THIS
+                                <p>Trust Factor: <strong>{trust_display}</strong></p>
                                 <p>Weight in Total Score: {scores['sector_adjustments']['historical_weight_used']*100:.1f}%</p>
                                 <p>Data Available: {'✅ Yes' if scores['sector_adjustments']['has_historical_data'] else '❌ No'}</p>
                                 <p><small>💡 Historical score reflects long-term fundamental consistency and quality</small></p>
+                            </div>
+                            <div class="metric-section">
+                                <h4>🏰 Long-Term Moat Analysis</h4>
+                                <div style="background: var(--light-blue); padding: 12px; border-radius: 8px; margin-bottom: 10px;">
+                                    <p style="margin: 0;"><strong style="font-size: 1.3rem;">{moat_display}/10</strong> 
+                                    <span style="font-size: 1.5rem;">{moat_icon}</span> 
+                                    <strong>{scores.get('moat_rating', 'N/A')}</strong></p>
+                                </div>
+                                <p><strong>Component Scores:</strong></p>
+                                <p style="margin: 3px 0;">ROIC Persistence: <strong>{scores.get('moat_components', {}).get('roic_persistence', 'N/A')}/10</strong> <small>(30%)</small></p>
+                                <p style="margin: 3px 0;">Margin Stability: <strong>{scores.get('moat_components', {}).get('margin_stability', 'N/A')}/10</strong> <small>(25%)</small></p>
+                                <p style="margin: 3px 0;">Historical Consistency: <strong>{scores.get('moat_components', {}).get('historical_consistency', 'N/A')}/10</strong> <small>(20%)</small></p>
+                                <p style="margin: 3px 0;">Capital Efficiency: <strong>{scores.get('moat_components', {}).get('capital_efficiency', 'N/A')}/10</strong> <small>(15%)</small></p>
+                                <p style="margin: 3px 0;">Market Position: <strong>{scores.get('moat_components', {}).get('market_position', 'N/A')}/10</strong> <small>(10%)</small></p>
+                                <p style="margin-top: 10px;"><small>💡 Measures sustainable competitive advantage over 10+ years</small></p>
                             </div>
                             <div class="metric-section">
                                 <h4>🎯 Market Position</h4>
