@@ -3181,6 +3181,27 @@ def create_enhanced_html(stock_data, profile_name='academic'):
         moat_display = f"{scores['moat_score']:.1f}" if scores.get('moat_score') is not None else "N/A"
         moat_icon = scores.get('moat_icon', '—')
         moat_class = "positive" if scores.get('moat_score') and scores['moat_score'] >= 8.0 else "neutral" if scores.get('moat_score') and scores['moat_score'] >= 6.5 else "negative" if scores.get('moat_score') else "na"
+
+        # Around line 3240-3270, find the dividend HTML section and replace with:
+
+        # Pre-format ALL dividend values FIRST
+        div_score = f"{scores['dividend_score']:.1f}" if scores.get('dividend_score') is not None else "N/A"
+        div_yield = f"{scores['dividend_yield']:.2f}" if scores.get('dividend_yield') is not None else "0.00"
+        div_icon = scores.get('dividend_icon', '—')
+        div_rating = scores.get('dividend_rating', 'N/A')
+
+        # Get dividend metrics with safe fallbacks
+        annual_div = f"{metrics.get('Dividend_TTM', 0):.2f}" if metrics.get('Dividend_TTM') else "0.00"
+        forward_div = f"{metrics.get('Dividend_Est', 0):.2f}" if metrics.get('Dividend_Est') else "0.00"
+        ex_date = metrics.get('Dividend_Ex_Date', 'N/A')
+        payout = f"{metrics['Payout_Ratio']:.1f}" if metrics.get('Payout_Ratio') else "N/A"
+        div_growth = f"{metrics['Dividend_Growth_3_5Y']:+.1f}" if metrics.get('Dividend_Growth_3_5Y') else "N/A"
+
+        # Get component scores with safe fallbacks
+        payout_safety = f"{scores['dividend_components']['payout_safety']:.1f}" if scores.get('dividend_components', {}).get('payout_safety') is not None else "N/A"
+        growth_consistency = f"{scores['dividend_components']['growth_consistency']:.1f}" if scores.get('dividend_components', {}).get('growth_consistency') is not None else "N/A"
+        yield_quality = f"{scores['dividend_components']['yield_quality']:.1f}" if scores.get('dividend_components', {}).get('yield_quality') is not None else "N/A"
+        fcf_coverage = f"{scores['dividend_components']['fcf_coverage']:.1f}" if scores.get('dividend_components', {}).get('fcf_coverage') is not None else "N/A"
         
         # Stock row with profile class
         table_rows.append(f'''
@@ -3245,33 +3266,33 @@ def create_enhanced_html(stock_data, profile_name='academic'):
 
                             <div class="metric-section">
                                 <h4>💵 Dividend Analysis & Safety</h4>
-                                {f'''
+                                {f"""
                                 <div style="background: var(--light-blue); padding: 12px; border-radius: 8px; margin-bottom: 10px;">
                                     <p style="margin: 0;">
-                                        <strong style="font-size: 1.3rem;">{scores['dividend_score']:.1f}/10</strong>
-                                        <span style="font-size: 1.5rem;">{scores['dividend_icon']}</span> 
-                                        <strong>{scores['dividend_rating']}</strong>
+                                        <strong style="font-size: 1.3rem;">{div_score}/10</strong>
+                                        <span style="font-size: 1.5rem;">{div_icon}</span> 
+                                        <strong>{div_rating}</strong>
                                     </p>
-                                    <p style="margin: 5px 0 0 0; font-size: 0.9rem;">Current Yield: <strong>{scores['dividend_yield']:.2f}%</strong></p>
+                                    <p style="margin: 5px 0 0 0; font-size: 0.9rem;">Current Yield: <strong>{div_yield}%</strong></p>
                                 </div>
                                 <p><strong>Dividend Metrics:</strong></p>
-                                <p>Annual Dividend (TTM): <strong>${metrics.get('Dividend_TTM', 0):.2f}</strong></p>
-                                <p>Forward Est. Dividend: <strong>${metrics.get('Dividend_Est', 0):.2f}</strong></p>
-                                <p>Ex-Dividend Date: <strong>{metrics.get('Dividend_Ex_Date', 'N/A')}</strong></p>
-                                <p>Payout Ratio: <strong>{f"{metrics['Payout_Ratio']:.1f}%" if metrics.get('Payout_Ratio') else "N/A"}</strong></p>
-                                <p>3-5Y Dividend Growth: <strong>{f"{metrics['Dividend_Growth_3_5Y']:+.1f}%" if metrics.get('Dividend_Growth_3_5Y') else "N/A"}</strong></p>
+                                <p>Annual Dividend (TTM): <strong>${annual_div}</strong></p>
+                                <p>Forward Est. Dividend: <strong>${forward_div}</strong></p>
+                                <p>Ex-Dividend Date: <strong>{ex_date}</strong></p>
+                                <p>Payout Ratio: <strong>{payout}%</strong></p>
+                                <p>3-5Y Dividend Growth: <strong>{div_growth}%</strong></p>
                                 <p style="margin-top: 10px;"><strong>Safety Breakdown:</strong></p>
-                                <p style="margin: 3px 0;">Payout Safety: <strong>{scores['dividend_components']['payout_safety']:.1f}/10</strong> <small>(35%)</small></p>
-                                <p style="margin: 3px 0;">Growth Consistency: <strong>{scores['dividend_components']['growth_consistency']:.1f}/10</strong> <small>(30%)</small></p>
-                                <p style="margin: 3px 0;">Yield Quality: <strong>{scores['dividend_components']['yield_quality']:.1f}/10</strong> <small>(20%)</small></p>
-                                <p style="margin: 3px 0;">FCF Coverage: <strong>{scores['dividend_components']['fcf_coverage']:.1f}/10</strong> <small>(15%)</small></p>
+                                <p style="margin: 3px 0;">Payout Safety: <strong>{payout_safety}/10</strong> <small>(35%)</small></p>
+                                <p style="margin: 3px 0;">Growth Consistency: <strong>{growth_consistency}/10</strong> <small>(30%)</small></p>
+                                <p style="margin: 3px 0;">Yield Quality: <strong>{yield_quality}/10</strong> <small>(20%)</small></p>
+                                <p style="margin: 3px 0;">FCF Coverage: <strong>{fcf_coverage}/10</strong> <small>(15%)</small></p>
                                 <p style="margin-top: 10px;"><small>💡 Dividend score measures sustainability and quality. High score = safe, growing dividend.</small></p>
-                                ''' if scores.get('dividend_score') is not None else '''
+                                """ if scores.get('dividend_score') is not None else """
                                 <p style="padding: 15px; background: var(--bg-secondary); border-radius: 8px; text-align: center;">
                                     <strong>No Dividend</strong><br>
                                     <small>This stock does not currently pay a dividend</small>
                                 </p>
-                                '''}
+                                """}
                             </div>
 
                             <div class="metric-section">
