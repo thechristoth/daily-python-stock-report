@@ -35,6 +35,283 @@ STOCKS = [
     "KO", "PG", "MCD", "PEP", "CHD", "ROL"
 ]
 
+def calculate_dividend_score(metrics, sector, stock_symbol):
+    """
+    Calculate Dividend Safety & Quality Score (0-10)
+    
+    Components:
+    1. Payout Ratio (35%) - Lower is safer, sector-adjusted
+    2. Dividend Growth (30%) - Consistent growth = quality
+    3. Dividend Yield (20%) - Reasonable yield (not too high/low)
+    4. FCF Coverage (15%) - Can company afford dividend?
+    
+    Returns dict with score, rating, and breakdown
+    """
+    
+    payout_ratio = metrics.get('Payout_Ratio')
+    div_growth_3_5y = metrics.get('Dividend_Growth_3_5Y')
+    div_ttm = metrics.get('Dividend_TTM')
+    div_est = metrics.get('Dividend_Est')
+    price = metrics.get('Price')
+    fcf_per_share = metrics.get('FCF_per_share')
+    
+    # IMPROVED: Check if stock pays dividend more defensively
+    has_dividend = False
+    
+    # Check multiple indicators for dividend
+    if div_ttm is not None and div_ttm > 0:
+        has_dividend = True
+    elif div_est is not None and div_est > 0:
+        has_dividend = True
+        div_ttm = div_est  # Use estimate if TTM not available
+    elif payout_ratio is not None and payout_ratio > 0:
+        has_dividend = True  # Has payout ratio means it pays dividend
+    
+    if not has_dividend:
+        return {
+            'dividend_score': None,
+            'dividend_rating': 'No Dividend',
+            'dividend_icon': '—',
+            'dividend_yield': 0,
+            'components': {
+                'payout_safety': None,
+                'growth_consistency': None,
+                'yield_quality': None,
+                'fcf_coverage': None
+            }
+        }
+    
+    # Calculate current yield (handle None values)
+    div_yield = 0
+    if div_ttm and price and price > 0:
+        div_yield = (div_ttm / price * 100)
+    elif div_est and price and price > 0:
+        div_yield = (div_est / price * 100)
+    
+    # If we still don't have a yield but have payout ratio, it's a data issue
+    if div_yield == 0 and payout_ratio and payout_ratio > 0:
+        # We know they pay dividend but can't calculate yield - return partial data
+        return {
+            'dividend_score': None,
+            'dividend_rating': 'Insufficient Data',
+            'dividend_icon': '❓',
+            'dividend_yield': 0,
+            'components': {
+                'payout_safety': None,
+                'growth_consistency': None,
+                'yield_quality': None,
+                'fcf_coverage': None
+            }
+        }
+    
+    div_components = []
+    
+    # ========== 1. PAYOUT RATIO SAFETY (35%) ==========
+    payout_score = 5.0
+    
+    if payout_ratio is not None:
+        # Sector-adjusted payout thresholds
+        if sector in ['Utilities', 'Real Estate', 'Consumer Defensive']:
+            # Mature sectors: Higher payout acceptable
+            if payout_ratio < 40:
+                payout_score = 10.0
+            elif payout_ratio < 55:
+                payout_score = 9.0
+            elif payout_ratio < 70:
+                payout_score = 8.0
+            elif payout_ratio < 80:
+                payout_score = 6.5
+            elif payout_ratio < 90:
+                payout_score = 4.0
+            else:
+                payout_score = 2.0
+        
+        elif sector in ['Technology', 'Healthcare', 'Communication Services']:
+            # Growth sectors: Lower payout preferred
+            if payout_ratio < 20:
+                payout_score = 10.0
+            elif payout_ratio < 35:
+                payout_score = 9.0
+            elif payout_ratio < 50:
+                payout_score = 7.5
+            elif payout_ratio < 70:
+                payout_score = 5.0
+            elif payout_ratio < 85:
+                payout_score = 3.0
+            else:
+                payout_score = 1.5
+        
+        elif sector == 'Financial':
+            # Financials: Different dynamics
+            if payout_ratio < 30:
+                payout_score = 10.0
+            elif payout_ratio < 45:
+                payout_score = 9.0
+            elif payout_ratio < 60:
+                payout_score = 7.5
+            elif payout_ratio < 75:
+                payout_score = 5.5
+            else:
+                payout_score = 3.0
+        
+        else:
+            # Standard sectors
+            if payout_ratio < 30:
+                payout_score = 10.0
+            elif payout_ratio < 45:
+                payout_score = 9.0
+            elif payout_ratio < 60:
+                payout_score = 7.5
+            elif payout_ratio < 75:
+                payout_score = 5.5
+            elif payout_ratio < 90:
+                payout_score = 3.5
+            else:
+                payout_score = 2.0
+    
+    div_components.append(('Payout_Safety', payout_score, 0.35))
+    
+    # ========== 2. DIVIDEND GROWTH CONSISTENCY (30%) ==========
+    growth_score = 5.0
+    
+    if div_growth_3_5y is not None:
+        if div_growth_3_5y >= 15:
+            growth_score = 10.0  # Dividend aristocrat territory
+        elif div_growth_3_5y >= 12:
+            growth_score = 9.5
+        elif div_growth_3_5y >= 10:
+            growth_score = 9.0
+        elif div_growth_3_5y >= 8:
+            growth_score = 8.5
+        elif div_growth_3_5y >= 6:
+            growth_score = 8.0
+        elif div_growth_3_5y >= 4:
+            growth_score = 7.0
+        elif div_growth_3_5y >= 2:
+            growth_score = 6.0
+        elif div_growth_3_5y >= 0:
+            growth_score = 5.0
+        elif div_growth_3_5y >= -3:
+            growth_score = 3.5  # Declining but stable
+        else:
+            growth_score = 2.0  # Dividend cuts
+    
+    div_components.append(('Growth_Consistency', growth_score, 0.30))
+    
+    # ========== 3. YIELD QUALITY (20%) ==========
+    yield_score = 5.0
+    
+    # Sweet spot: 2-6% for most sectors
+    # Too low = token dividend, Too high = unsustainable
+    
+    if sector in ['Utilities', 'Real Estate']:
+        # High-yield sectors
+        if 4.0 <= div_yield <= 7.0:
+            yield_score = 10.0
+        elif 3.0 <= div_yield < 4.0 or 7.0 < div_yield <= 8.5:
+            yield_score = 8.5
+        elif 2.5 <= div_yield < 3.0 or 8.5 < div_yield <= 10:
+            yield_score = 7.0
+        elif div_yield < 2.5:
+            yield_score = 5.0
+        else:  # > 10%
+            yield_score = 3.0  # Danger zone
+    
+    elif sector in ['Technology', 'Healthcare']:
+        # Lower-yield growth sectors
+        if 1.5 <= div_yield <= 3.5:
+            yield_score = 10.0
+        elif 1.0 <= div_yield < 1.5 or 3.5 < div_yield <= 5.0:
+            yield_score = 8.5
+        elif 0.5 <= div_yield < 1.0 or 5.0 < div_yield <= 6.5:
+            yield_score = 7.0
+        elif div_yield < 0.5:
+            yield_score = 4.0  # Token dividend
+        else:  # > 6.5%
+            yield_score = 4.0  # Unsustainable for growth sector
+    
+    else:
+        # Standard sectors
+        if 2.5 <= div_yield <= 5.0:
+            yield_score = 10.0
+        elif 2.0 <= div_yield < 2.5 or 5.0 < div_yield <= 6.0:
+            yield_score = 8.5
+        elif 1.5 <= div_yield < 2.0 or 6.0 < div_yield <= 7.5:
+            yield_score = 7.0
+        elif div_yield < 1.5:
+            yield_score = 5.0
+        else:  # > 7.5%
+            yield_score = 3.5  # Warning territory
+    
+    div_components.append(('Yield_Quality', yield_score, 0.20))
+    
+    # ========== 4. FCF COVERAGE (15%) ==========
+    fcf_coverage_score = 5.0
+    
+    if fcf_per_share and fcf_per_share > 0 and div_ttm and div_ttm > 0:
+        fcf_coverage_ratio = fcf_per_share / div_ttm
+        
+        if fcf_coverage_ratio >= 3.0:
+            fcf_coverage_score = 10.0  # Very safe
+        elif fcf_coverage_ratio >= 2.5:
+            fcf_coverage_score = 9.5
+        elif fcf_coverage_ratio >= 2.0:
+            fcf_coverage_score = 9.0
+        elif fcf_coverage_ratio >= 1.5:
+            fcf_coverage_score = 8.0
+        elif fcf_coverage_ratio >= 1.3:
+            fcf_coverage_score = 7.0
+        elif fcf_coverage_ratio >= 1.1:
+            fcf_coverage_score = 6.0
+        elif fcf_coverage_ratio >= 1.0:
+            fcf_coverage_score = 4.5  # Barely covered
+        elif fcf_coverage_ratio >= 0.8:
+            fcf_coverage_score = 3.0  # Warning
+        else:
+            fcf_coverage_score = 1.5  # Unsustainable
+    
+    div_components.append(('FCF_Coverage', fcf_coverage_score, 0.15))
+    
+    # ========== CALCULATE FINAL DIVIDEND SCORE ==========
+    dividend_score = sum(score * weight for _, score, weight in div_components)
+    dividend_score = min(max(0, dividend_score), 10)
+    
+    # Dividend rating
+    if dividend_score >= 9.0:
+        dividend_rating = "Dividend Aristocrat"
+        dividend_icon = "👑"
+    elif dividend_score >= 8.0:
+        dividend_rating = "Excellent"
+        dividend_icon = "💎"
+    elif dividend_score >= 7.0:
+        dividend_rating = "Very Good"
+        dividend_icon = "✅"
+    elif dividend_score >= 6.0:
+        dividend_rating = "Good"
+        dividend_icon = "👍"
+    elif dividend_score >= 5.0:
+        dividend_rating = "Fair"
+        dividend_icon = "⚖️"
+    elif dividend_score >= 4.0:
+        dividend_rating = "Caution"
+        dividend_icon = "⚠️"
+    else:
+        dividend_rating = "At Risk"
+        dividend_icon = "🚨"
+    
+    return {
+        'dividend_score': round(dividend_score, 2),
+        'dividend_rating': dividend_rating,
+        'dividend_icon': dividend_icon,
+        'dividend_yield': round(div_yield, 2),
+        'components': {
+            'payout_safety': round(payout_score, 1),
+            'growth_consistency': round(growth_score, 1),
+            'yield_quality': round(yield_score, 1),
+            'fcf_coverage': round(fcf_coverage_score, 1)
+        }
+    }
+
 def calculate_moat_score(metrics, sector, stock_symbol, historical_score):
     """Calculate Long-Term Moat Score (0-10)"""
     
@@ -790,14 +1067,16 @@ def get_random_user_agent():
     return random.choice(USER_AGENTS)
 
 def parse_growth_value(value):
-    """Helper function to parse growth values that come as '3Y%/5Y%'"""
+    """Helper function to parse growth values that come as '5.43% 5.54%' or '3Y%/5Y%'"""
     if not value or value == '-' or value == 'N/A':
         return None
     try:
-        # Split the value and take the second part (5Y growth)
+        # Handle format like "5.43% 5.54%" - take the SECOND value (5-year)
         parts = value.split()
         if len(parts) >= 2:
+            # Take the last percentage value
             return float(parts[-1].replace('%', ''))
+        # Handle single percentage
         return float(value.replace('%', ''))
     except ValueError:
         return None
@@ -998,6 +1277,10 @@ def parse_float(value):
     if not value or value == '-' or value == 'N/A':
         return None
     try:
+        # Handle dividend format: "5.19 (2.52%)" -> extract "5.19"
+        if '(' in value:
+            value = value.split('(')[0].strip()
+        
         # Remove percentage signs, commas, and 'B'/'M' suffixes
         cleaned = value.replace('%', '').replace(',', '').replace('B', '').replace('M', '')
         return float(cleaned)
@@ -1136,7 +1419,15 @@ def fetch_comprehensive_metrics(stock):
                 # Basic Info
                 'Price': parse_float(metrics.get('Price', '-')),
                 'Market_Cap': parse_float(metrics.get('Market Cap', '-')),
-                'Sales': parse_float(metrics.get('Sales', '-'))
+                'Sales': parse_float(metrics.get('Sales', '-')),
+
+
+                # DIVIDEND FIELDS - IMPROVED PARSING
+                'Dividend_Est': parse_float(metrics.get('Dividend Est.', '-')) if metrics.get('Dividend Est.', '-') not in ['-', 'N/A', ''] else None,
+                'Dividend_TTM': parse_float(metrics.get('Dividend TTM', '-')) if metrics.get('Dividend TTM', '-') not in ['-', 'N/A', ''] else None,
+                'Dividend_Ex_Date': metrics.get('Dividend Ex-Date', 'N/A') if metrics.get('Dividend Ex-Date', '-') not in ['-', 'N/A', ''] else 'N/A',
+                'Dividend_Growth_3_5Y': parse_growth_value(metrics.get('Dividend Gr. 3/5Y', '-')) if metrics.get('Dividend Gr. 3/5Y', '-') not in ['-', 'N/A', '', '--'] else None,
+                'Payout_Ratio': parse_percentage(metrics.get('Payout', '-')) if metrics.get('Payout', '-') not in ['-', 'N/A', ''] else None,
             }
             
             # Calculate FCF metrics
@@ -2768,6 +3059,8 @@ def calculate_enhanced_scores_with_sectors(metrics, sector=None, stock_symbol=No
         print(f"      Why score is {fcf_positivity_score}?")
 
     moat_data = calculate_moat_score(metrics, sector, stock_symbol, historical_score_)
+     # ADD THIS LINE:
+    dividend_data = calculate_dividend_score(metrics, sector, stock_symbol)
 
     return {
         'valuation_score': round(valuation_score, 2),
@@ -2785,6 +3078,13 @@ def calculate_enhanced_scores_with_sectors(metrics, sector=None, stock_symbol=No
         'moat_rating': moat_data['moat_rating'],
         'moat_icon': moat_data['moat_icon'],
         'moat_components': moat_data['moat_components'],
+
+        # ADD THESE LINES before 'sector':
+        'dividend_score': dividend_data['dividend_score'],
+        'dividend_rating': dividend_data['dividend_rating'],
+        'dividend_icon': dividend_data['dividend_icon'],
+        'dividend_yield': dividend_data['dividend_yield'],
+        'dividend_components': dividend_data['components'],
 
         'sector': sector,
         'sector_config_used': config,
@@ -2942,6 +3242,38 @@ def create_enhanced_html(stock_data, profile_name='academic'):
                                 Total FCF: {f"${metrics['Total_FCF']:.2f}B" if metrics['Total_FCF'] is not None else "N/A"}</p>
                                 <p><small>💡 FCF shows actual cash generation ability - crucial for dividends and growth funding</small></p>
                             </div>
+
+                            <div class="metric-section">
+                                <h4>💵 Dividend Analysis & Safety</h4>
+                                {f'''
+                                <div style="background: var(--light-blue); padding: 12px; border-radius: 8px; margin-bottom: 10px;">
+                                    <p style="margin: 0;">
+                                        <strong style="font-size: 1.3rem;">{scores['dividend_score']:.1f}/10</strong> 
+                                        <span style="font-size: 1.5rem;">{scores['dividend_icon']}</span> 
+                                        <strong>{scores['dividend_rating']}</strong>
+                                    </p>
+                                    <p style="margin: 5px 0 0 0; font-size: 0.9rem;">Current Yield: <strong>{scores['dividend_yield']:.2f}%</strong></p>
+                                </div>
+                                <p><strong>Dividend Metrics:</strong></p>
+                                <p>Annual Dividend (TTM): <strong>${metrics.get('Dividend_TTM', 0):.2f}</strong></p>
+                                <p>Forward Est. Dividend: <strong>${metrics.get('Dividend_Est', 0):.2f}</strong></p>
+                                <p>Ex-Dividend Date: <strong>{metrics.get('Dividend_Ex_Date', 'N/A')}</strong></p>
+                                <p>Payout Ratio: <strong>{f"{metrics['Payout_Ratio']:.1f}%" if metrics.get('Payout_Ratio') else "N/A"}</strong></p>
+                                <p>3-5Y Dividend Growth: <strong>{f"{metrics['Dividend_Growth_3_5Y']:+.1f}%" if metrics.get('Dividend_Growth_3_5Y') else "N/A"}</strong></p>
+                                <p style="margin-top: 10px;"><strong>Safety Breakdown:</strong></p>
+                                <p style="margin: 3px 0;">Payout Safety: <strong>{scores['dividend_components']['payout_safety']:.1f}/10</strong> <small>(35%)</small></p>
+                                <p style="margin: 3px 0;">Growth Consistency: <strong>{scores['dividend_components']['growth_consistency']:.1f}/10</strong> <small>(30%)</small></p>
+                                <p style="margin: 3px 0;">Yield Quality: <strong>{scores['dividend_components']['yield_quality']:.1f}/10</strong> <small>(20%)</small></p>
+                                <p style="margin: 3px 0;">FCF Coverage: <strong>{scores['dividend_components']['fcf_coverage']:.1f}/10</strong> <small>(15%)</small></p>
+                                <p style="margin-top: 10px;"><small>💡 Dividend score measures sustainability and quality. High score = safe, growing dividend.</small></p>
+                                ''' if scores.get('dividend_score') is not None else '''
+                                <p style="padding: 15px; background: var(--bg-secondary); border-radius: 8px; text-align: center;">
+                                    <strong>No Dividend</strong><br>
+                                    <small>This stock does not currently pay a dividend</small>
+                                </p>
+                                '''}
+                            </div>
+
                             <div class="metric-section">
                                 <h4>📈 Growth Trends</h4>
                                 <p>5Y Sales CAGR: {sales_5y_cagr} | 5Y EPS CAGR: {eps_5y_cagr}</p>
@@ -2990,6 +3322,8 @@ def create_enhanced_html(stock_data, profile_name='academic'):
                                 <p>Dividend Weight: {scores['sector_adjustments']['dividend_weight']*100:.1f}%</p>
                                 <p>Historical Weight: {scores['sector_adjustments']['historical_weight_used']*100:.1f}%</p>
                             </div>
+
+                            
                         </div>
                     </div>
                 </td>
