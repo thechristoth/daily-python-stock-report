@@ -3248,7 +3248,7 @@ def create_enhanced_html(stock_data, profile_name='academic'):
                                 {f'''
                                 <div style="background: var(--light-blue); padding: 12px; border-radius: 8px; margin-bottom: 10px;">
                                     <p style="margin: 0;">
-                                        f"""<strong style="font-size: 1.3rem;">{scores['dividend_score']:.1f}/10</strong>"""
+                                        <strong style="font-size: 1.3rem;">{scores['dividend_score']:.1f}/10</strong>
                                         <span style="font-size: 1.5rem;">{scores['dividend_icon']}</span> 
                                         <strong>{scores['dividend_rating']}</strong>
                                     </p>
