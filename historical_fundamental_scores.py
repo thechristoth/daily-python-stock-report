@@ -915,10 +915,10 @@ TRUST_SCORES = {
     "AWK": 7.5,      # American Water Works - Water utility, regulated
     "FERG": 8.2,     # Ferguson - Plumbing distribution, scale leader
     "JBHT": 6.9,     # J.B. Hunt - Intermodal transport, cyclical
-    "MU": "🟡 5.2",      # Micron Technology - Solid financials but cyclical, moderate brand, niche products
-    "IBKR": "🟢 7.3",    # Interactive Brokers - Strong financials, growing brand in finance, popular with active traders
-    "ACN": "🟢 7.8",     # Accenture - Excellent financials, strong global brand, widely used consulting services
-    "UI": "🟡 4.8",      # Ubiquiti - Good margins but smaller scale, moderate brand recognition, niche networking products
-    "NVR": "🟢 8.1",     # NVR Inc - Exceptional financial metrics (high ROIC, low debt), regional brand, homebuilding
-    "ITT": "🟡 6.2",     # ITT Inc - Solid diversified industrial, moderate brand, B2B products
+    "MU": 5.2,      # Micron Technology - Solid financials but cyclical, moderate brand, niche products
+    "IBKR": 7.3,    # Interactive Brokers - Strong financials, growing brand in finance, popular with active traders
+    "ACN": 7.8,     # Accenture - Excellent financials, strong global brand, widely used consulting services
+    "UI": 4.8,      # Ubiquiti - Good margins but smaller scale, moderate brand recognition, niche networking products
+    "NVR": 8.1,     # NVR Inc - Exceptional financial metrics (high ROIC, low debt), regional brand, homebuilding
+    "ITT": 6.2,     # ITT Inc - Solid diversified industrial, moderate brand, B2B products
 }
