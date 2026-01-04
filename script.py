@@ -36,6 +36,304 @@ STOCKS = [
     "AXON", "AMD", "UTHR", "PYPL", "TJX", "XOM", "EWBC", "DHI"
 ]
 
+def calculate_performance_consistency_score(metrics, stock_symbol):
+    """
+    Calculate Long-Term Performance Consistency Score (0-10)
+    
+    Philosophy: Reward steady compounders, penalize volatility
+    - Warren Buffett: "It's far better to buy a wonderful company at a fair price than a fair company at a wonderful price"
+    - Peter Lynch: "Go for a business that any idiot can run - because sooner or later, any idiot probably is going to run it"
+    
+    Components:
+    1. Long-term CAGR Quality (40%) - Is 10Y > 5Y > 3Y?
+    2. Volatility Penalty (30%) - Standard deviation of returns
+    3. Drawdown Resistance (20%) - How much does it fall?
+    4. Growth Consistency (10%) - Comparing periods
+    
+    Returns dict with score, rating, and breakdown
+    """
+    
+    # Extract performance data
+    perf_10y = metrics.get('Perf_10Y')
+    perf_5y = metrics.get('Perf_5Y')
+    perf_3y = metrics.get('Perf_3Y')
+    perf_1y = metrics.get('Perf_Year')
+    perf_ytd = metrics.get('Perf_YTD')
+    perf_half_y = metrics.get('Perf_Half_Y')
+    perf_quarter = metrics.get('Perf_Quarter')
+    perf_month = metrics.get('Perf_Month')
+    
+    # Check if we have ANY data
+    has_data = any([perf_10y, perf_5y, perf_3y, perf_1y])
+    
+    if not has_data:
+        return {
+            'performance_score': None,
+            'performance_rating': 'No Data',
+            'performance_icon': '—',
+            'cagr_10y': None,
+            'consistency_type': 'Unknown',
+            'components': {
+                'cagr_quality': None,
+                'volatility_score': None,
+                'drawdown_resistance': None,
+                'growth_consistency': None
+            }
+        }
+    
+    perf_components = []
+    
+    # ========== 1. LONG-TERM CAGR QUALITY (40%) ==========
+    cagr_quality_score = 5.0
+    
+    # Annualize the CAGRs
+    cagr_10y = (perf_10y / 10) if perf_10y else None
+    cagr_5y = (perf_5y / 5) if perf_5y else None
+    cagr_3y = (perf_3y / 3) if perf_3y else None
+    cagr_1y = perf_1y
+    
+    # Ideal: Long-term > Short-term (consistent compounder)
+    # Bad: Short-term spike, long-term weak (one-hit wonder)
+    
+    if cagr_10y and cagr_5y and cagr_3y:
+        # BEST CASE: We have all three
+        
+        # Check consistency pattern
+        is_consistent = (cagr_10y >= 8 and cagr_5y >= 8 and cagr_3y >= 8)
+        is_accelerating = (cagr_3y > cagr_5y > cagr_10y)
+        is_stable = (abs(cagr_10y - cagr_5y) < 3 and abs(cagr_5y - cagr_3y) < 3)
+        is_decelerating = (cagr_10y > cagr_5y and cagr_5y > cagr_3y)
+        
+        # ELITE COMPOUNDERS (10Y CAGR 15%+, all periods strong)
+        if cagr_10y >= 15 and cagr_5y >= 12 and cagr_3y >= 10:
+            cagr_quality_score = 10.0
+        elif cagr_10y >= 12 and is_consistent:
+            cagr_quality_score = 9.5
+        elif cagr_10y >= 10 and is_stable:
+            cagr_quality_score = 9.0
+        elif cagr_10y >= 8 and is_stable:
+            cagr_quality_score = 8.5
+        
+        # GOOD BUT ACCELERATING (newer high-growth)
+        elif is_accelerating and cagr_3y >= 15:
+            cagr_quality_score = 8.0  # Good but less proven
+        
+        # DECELERATING (warning sign)
+        elif is_decelerating:
+            if cagr_3y >= 5:
+                cagr_quality_score = 6.5
+            else:
+                cagr_quality_score = 4.5  # Slowing down significantly
+        
+        # MODERATE COMPOUNDERS
+        elif cagr_10y >= 6:
+            cagr_quality_score = 7.0
+        elif cagr_10y >= 4:
+            cagr_quality_score = 6.0
+        else:
+            cagr_quality_score = 5.0
+    
+    elif cagr_5y and cagr_3y:
+        # No 10Y data, use 5Y as anchor
+        
+        if cagr_5y >= 15 and cagr_3y >= 12:
+            cagr_quality_score = 9.0
+        elif cagr_5y >= 12 and abs(cagr_5y - cagr_3y) < 3:
+            cagr_quality_score = 8.5
+        elif cagr_5y >= 10:
+            cagr_quality_score = 8.0
+        elif cagr_5y >= 8:
+            cagr_quality_score = 7.5
+        elif cagr_5y >= 6:
+            cagr_quality_score = 6.5
+        else:
+            cagr_quality_score = 5.5
+    
+    elif cagr_3y:
+        # Only 3Y available - less reliable
+        if cagr_3y >= 20:
+            cagr_quality_score = 7.5
+        elif cagr_3y >= 15:
+            cagr_quality_score = 7.0
+        elif cagr_3y >= 10:
+            cagr_quality_score = 6.5
+        else:
+            cagr_quality_score = 5.5
+    
+    elif cagr_1y:
+        # Only 1Y - very unreliable for consistency
+        if cagr_1y >= 25:
+            cagr_quality_score = 6.0
+        elif cagr_1y >= 15:
+            cagr_quality_score = 5.5
+        else:
+            cagr_quality_score = 5.0
+    
+    perf_components.append(('CAGR_Quality', cagr_quality_score, 0.40))
+    
+    # ========== 2. VOLATILITY PENALTY (30%) ==========
+    volatility_score = 5.0
+    
+    # Calculate standard deviation of available returns
+    available_returns = []
+    if perf_month: available_returns.append(perf_month)
+    if perf_quarter: available_returns.append(perf_quarter)
+    if perf_half_y: available_returns.append(perf_half_y)
+    if perf_1y: available_returns.append(perf_1y)
+    if perf_3y: available_returns.append(perf_3y / 3)  # Annualized
+    if perf_5y: available_returns.append(perf_5y / 5)
+    
+    if len(available_returns) >= 3:
+        import statistics
+        volatility = statistics.stdev(available_returns)
+        
+        # Low volatility = high score
+        if volatility < 5:
+            volatility_score = 10.0  # Rock solid
+        elif volatility < 10:
+            volatility_score = 9.0
+        elif volatility < 15:
+            volatility_score = 8.0
+        elif volatility < 20:
+            volatility_score = 7.0
+        elif volatility < 30:
+            volatility_score = 6.0
+        elif volatility < 40:
+            volatility_score = 5.0
+        elif volatility < 50:
+            volatility_score = 4.0
+        else:
+            volatility_score = 3.0  # Wild swings
+    
+    perf_components.append(('Volatility_Control', volatility_score, 0.30))
+    
+    # ========== 3. DRAWDOWN RESISTANCE (20%) ==========
+    drawdown_score = 5.0
+    
+    # Check for recent negative periods
+    negative_periods = []
+    if perf_month and perf_month < 0: negative_periods.append(perf_month)
+    if perf_quarter and perf_quarter < 0: negative_periods.append(perf_quarter)
+    if perf_half_y and perf_half_y < 0: negative_periods.append(perf_half_y)
+    if perf_ytd and perf_ytd < 0: negative_periods.append(perf_ytd)
+    if perf_1y and perf_1y < 0: negative_periods.append(perf_1y)
+    
+    if len(negative_periods) == 0:
+        # No recent drawdowns - excellent
+        drawdown_score = 10.0
+    else:
+        # Find worst drawdown
+        worst_drawdown = abs(min(negative_periods))
+        
+        if worst_drawdown < 5:
+            drawdown_score = 9.5
+        elif worst_drawdown < 10:
+            drawdown_score = 9.0
+        elif worst_drawdown < 15:
+            drawdown_score = 8.0
+        elif worst_drawdown < 20:
+            drawdown_score = 7.0
+        elif worst_drawdown < 30:
+            drawdown_score = 6.0
+        elif worst_drawdown < 40:
+            drawdown_score = 5.0
+        elif worst_drawdown < 50:
+            drawdown_score = 4.0
+        else:
+            drawdown_score = 3.0  # Major crash
+    
+    perf_components.append(('Drawdown_Resistance', drawdown_score, 0.20))
+    
+    # ========== 4. GROWTH CONSISTENCY (10%) ==========
+    consistency_score = 5.0
+    
+    # Compare long-term vs short-term
+    if cagr_10y and cagr_1y:
+        ratio = cagr_10y / cagr_1y if cagr_1y != 0 else 0
+        
+        if 0.8 <= ratio <= 1.2:
+            consistency_score = 10.0  # Very consistent
+        elif 0.6 <= ratio <= 1.5:
+            consistency_score = 8.5
+        elif 0.4 <= ratio <= 2.0:
+            consistency_score = 7.0
+        else:
+            consistency_score = 5.5  # Erratic
+    
+    elif cagr_5y and cagr_1y:
+        ratio = cagr_5y / cagr_1y if cagr_1y != 0 else 0
+        
+        if 0.8 <= ratio <= 1.2:
+            consistency_score = 9.0
+        elif 0.6 <= ratio <= 1.5:
+            consistency_score = 7.5
+        else:
+            consistency_score = 6.0
+    
+    perf_components.append(('Growth_Consistency', consistency_score, 0.10))
+    
+    # ========== CALCULATE FINAL PERFORMANCE SCORE ==========
+    performance_score = sum(score * weight for _, score, weight in perf_components)
+    performance_score = min(max(0, performance_score), 10)
+    
+    # Classify consistency type
+    if cagr_10y and cagr_10y >= 12:
+        consistency_type = "Steady Compounder"
+    elif cagr_5y and cagr_5y >= 15 and cagr_3y and cagr_3y > cagr_5y:
+        consistency_type = "Accelerating Growth"
+    elif cagr_10y and cagr_5y and cagr_10y > cagr_5y:
+        consistency_type = "Decelerating Growth"
+    elif volatility_score >= 8:
+        consistency_type = "Low Volatility"
+    else:
+        consistency_type = "Variable Performance"
+    
+    # Performance rating
+    if performance_score >= 9.0:
+        performance_rating = "Elite Compounder"
+        performance_icon = "🏆"
+    elif performance_score >= 8.0:
+        performance_rating = "Excellent"
+        performance_icon = "💎"
+    elif performance_score >= 7.0:
+        performance_rating = "Very Good"
+        performance_icon = "✅"
+    elif performance_score >= 6.0:
+        performance_rating = "Good"
+        performance_icon = "👍"
+    elif performance_score >= 5.0:
+        performance_rating = "Fair"
+        performance_icon = "⚖️"
+    elif performance_score >= 4.0:
+        performance_rating = "Below Average"
+        performance_icon = "⚠️"
+    else:
+        performance_rating = "Poor"
+        performance_icon = "🚨"
+    
+    return {
+        'performance_score': round(performance_score, 2),
+        'performance_rating': performance_rating,
+        'performance_icon': performance_icon,
+        'cagr_10y': round(cagr_10y, 2) if cagr_10y else None,
+        'cagr_5y': round(cagr_5y, 2) if cagr_5y else None,
+        'cagr_3y': round(cagr_3y, 2) if cagr_3y else None,
+        'consistency_type': consistency_type,
+        'components': {
+            'cagr_quality': round(cagr_quality_score, 1),
+            'volatility_control': round(volatility_score, 1),
+            'drawdown_resistance': round(drawdown_score, 1),
+            'growth_consistency': round(consistency_score, 1)
+        },
+        'raw_performance': {
+            'perf_10y': perf_10y,
+            'perf_5y': perf_5y,
+            'perf_3y': perf_3y,
+            'perf_1y': perf_1y,
+            'perf_ytd': perf_ytd
+        }
+    }
+
 def calculate_dividend_score(metrics, sector, stock_symbol):
     """
     Calculate Dividend Safety & Quality Score (0-10)
@@ -1429,6 +1727,17 @@ def fetch_comprehensive_metrics(stock):
                 'Dividend_Ex_Date': metrics.get('Dividend Ex-Date', 'N/A') if metrics.get('Dividend Ex-Date', '-') not in ['-', 'N/A', ''] else 'N/A',
                 'Dividend_Growth_3_5Y': parse_growth_value(metrics.get('Dividend Gr. 3/5Y', '-')) if metrics.get('Dividend Gr. 3/5Y', '-') not in ['-', 'N/A', '', '--'] else None,
                 'Payout_Ratio': parse_percentage(metrics.get('Payout', '-')) if metrics.get('Payout', '-') not in ['-', 'N/A', ''] else None,
+
+                # Performance metrics (in the parsing section)
+                'Perf_Week': parse_percentage(metrics.get('Perf Week', '-')),
+                'Perf_Month': parse_percentage(metrics.get('Perf Month', '-')),
+                'Perf_Quarter': parse_percentage(metrics.get('Perf Quarter', '-')),
+                'Perf_Half_Y': parse_percentage(metrics.get('Perf Half Y', '-')),
+                'Perf_YTD': parse_percentage(metrics.get('Perf YTD', '-')),
+                'Perf_Year': parse_percentage(metrics.get('Perf Year', '-')),
+                'Perf_3Y': parse_percentage(metrics.get('Perf 3Y', '-')),
+                'Perf_5Y': parse_percentage(metrics.get('Perf 5Y', '-')),
+                'Perf_10Y': parse_percentage(metrics.get('Perf 10Y', '-')),
             }
             
             # Calculate FCF metrics
@@ -3062,6 +3371,8 @@ def calculate_enhanced_scores_with_sectors(metrics, sector=None, stock_symbol=No
     moat_data = calculate_moat_score(metrics, sector, stock_symbol, historical_score_)
      # ADD THIS LINE:
     dividend_data = calculate_dividend_score(metrics, sector, stock_symbol)
+    # Calculate performance consistency score
+    performance_data = calculate_performance_consistency_score(metrics, stock_symbol)
 
     return {
         'valuation_score': round(valuation_score, 2),
@@ -3079,6 +3390,13 @@ def calculate_enhanced_scores_with_sectors(metrics, sector=None, stock_symbol=No
         'moat_rating': moat_data['moat_rating'],
         'moat_icon': moat_data['moat_icon'],
         'moat_components': moat_data['moat_components'],
+
+        'performance_score': performance_data['performance_score'],
+        'performance_rating': performance_data['performance_rating'],
+        'performance_icon': performance_data['performance_icon'],
+        'performance_consistency_type': performance_data['consistency_type'],
+        'performance_components': performance_data['components'],
+        'performance_raw': performance_data['raw_performance'],
 
         # ADD THESE LINES before 'sector':
         'dividend_score': dividend_data['dividend_score'],
@@ -3198,6 +3516,10 @@ def create_enhanced_html(stock_data, profile_name='academic'):
         payout = f"{metrics['Payout_Ratio']:.1f}" if metrics.get('Payout_Ratio') else "N/A"
         div_growth = f"{metrics['Dividend_Growth_3_5Y']:+.1f}" if metrics.get('Dividend_Growth_3_5Y') else "N/A"
 
+        performance_display = f"{scores['performance_score']:.1f}" if scores.get('performance_score') is not None else "N/A"
+        performance_icon = scores.get('performance_icon', '—')
+        performance_class = "positive" if scores.get('performance_score') and scores['performance_score'] >= 7 else "neutral" if scores.get('performance_score') and scores['performance_score'] >= 5 else "negative" if scores.get('performance_score') else "na"
+
         # Get component scores with safe fallbacks
         payout_safety = f"{scores['dividend_components']['payout_safety']:.1f}" if scores.get('dividend_components', {}).get('payout_safety') is not None else "N/A"
         growth_consistency = f"{scores['dividend_components']['growth_consistency']:.1f}" if scores.get('dividend_components', {}).get('growth_consistency') is not None else "N/A"
@@ -3225,6 +3547,7 @@ def create_enhanced_html(stock_data, profile_name='academic'):
                 <td class="{trust_class}">{trust_display}</td>
                 <td class="{moat_class}">{moat_display}<br><small>{moat_icon}</small></td>
                 <td data-risk-score="{scores.get('risk_score', 5):.1f}">{investor_display}</td>
+                <td class="{performance_class}">{performance_display}<br><small>{performance_icon}</small></td>
                 <td class="{total_class}"><strong>{scores['total_score']:.1f}</strong></td>
             </tr>
         ''')
@@ -3343,6 +3666,31 @@ def create_enhanced_html(stock_data, profile_name='academic'):
                                 <p>Debt Tolerance: {scores['sector_adjustments']['debt_tolerance']}</p>
                                 <p>Dividend Weight: {scores['sector_adjustments']['dividend_weight']*100:.1f}%</p>
                                 <p>Historical Weight: {scores['sector_adjustments']['historical_weight_used']*100:.1f}%</p>
+                            </div>
+                            <div class="metric-section">
+                                <h4>📈 Performance Consistency Analysis</h4>
+                                <div style="background: var(--light-blue); padding: 12px; border-radius: 8px; margin-bottom: 10px;">
+                                    <p style="margin: 0;">
+                                        <strong style="font-size: 1.3rem;">{performance_display}/10</strong>
+                                        <span style="font-size: 1.5rem;">{performance_icon}</span> 
+                                        <strong>{scores.get('performance_rating', 'N/A')}</strong>
+                                    </p>
+                                    <p style="margin: 5px 0 0 0; font-size: 0.9rem;">Type: <strong>{scores.get('performance_consistency_type', 'N/A')}</strong></p>
+                                </div>
+                                
+                                <p><strong>CAGRs (Annualized):</strong></p>
+                                <p>10-Year CAGR: <strong>{f"{scores['performance_raw']['perf_10y']/10:.2f}%" if scores.get('performance_raw', {}).get('perf_10y') else 'N/A'}</strong></p>
+                                <p>5-Year CAGR: <strong>{f"{scores['performance_raw']['perf_5y']/5:.2f}%" if scores.get('performance_raw', {}).get('perf_5y') else 'N/A'}</strong></p>
+                                <p>3-Year CAGR: <strong>{f"{scores['performance_raw']['perf_3y']/3:.2f}%" if scores.get('performance_raw', {}).get('perf_3y') else 'N/A'}</strong></p>
+                                <p>1-Year Return: <strong>{f"{scores['performance_raw']['perf_1y']:.2f}%" if scores.get('performance_raw', {}).get('perf_1y') else 'N/A'}</strong></p>
+                                
+                                <p style="margin-top: 10px;"><strong>Component Scores:</strong></p>
+                                <p style="margin: 3px 0;">CAGR Quality: <strong>{scores.get('performance_components', {}).get('cagr_quality', 'N/A')}/10</strong> <small>(40%)</small></p>
+                                <p style="margin: 3px 0;">Volatility Control: <strong>{scores.get('performance_components', {}).get('volatility_control', 'N/A')}/10</strong> <small>(30%)</small></p>
+                                <p style="margin: 3px 0;">Drawdown Resistance: <strong>{scores.get('performance_components', {}).get('drawdown_resistance', 'N/A')}/10</strong> <small>(20%)</small></p>
+                                <p style="margin: 3px 0;">Growth Consistency: <strong>{scores.get('performance_components', {}).get('growth_consistency', 'N/A')}/10</strong> <small>(10%)</small></p>
+                                
+                                <p style="margin-top: 10px;"><small>💡 Measures long-term compounding quality. Rewards steady growth over volatility.</small></p>
                             </div>
 
                             
