@@ -1648,17 +1648,19 @@ def fetch_comprehensive_metrics(stock):
             # Extract sector information
             sector = None
             try:
-                # Try to find sector information in the page
-                for key, value in metrics.items():
-                    if 'sector' in key.lower():
-                        sector = value
-                        break
+                # Finviz sector is in the stock info bar, not the snapshot table
+                sector_elem = soup.find('a', href=lambda x: x and 'sec=' in x)
+                if sector_elem:
+                    sector = sector_elem.text.strip()
                 
-                # If not found in metrics, try to find it in the page content
+                # Fallback: industry link is nearby, grab the one before it
                 if not sector:
-                    sector_elem = soup.find('a', href=lambda x: x and 'screener.ashx' in x and 'sec' in x)
-                    if sector_elem:
-                        sector = sector_elem.text.strip()
+                    links = soup.find_all('a', href=lambda x: x and 'screener.ashx' in x)
+                    for link in links:
+                        href = link.get('href', '')
+                        if 'sec=' in href:
+                            sector = link.text.strip()
+                            break
             except:
                 sector = None
             
