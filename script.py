@@ -36,6 +36,279 @@ STOCKS = [
     "AXON", "AMD", "UTHR", "PYPL", "TJX", "XOM", "EWBC", "DHI"
 ]
 
+KNOWN_SECTORS = {
+    # Financial
+    'MA': 'Financial',
+    'SPGI': 'Financial',
+    'PGR': 'Financial',
+    'AXP': 'Financial',
+    'BLK': 'Financial',
+    'BRO': 'Financial',
+    'BR': 'Financial',
+    'BRK-B': 'Financial',
+    'CB': 'Financial',
+    'CME': 'Financial',
+    'GS': 'Financial',
+    'ICE': 'Financial',
+    'JPM': 'Financial',
+    'MCO': 'Financial',
+    'MKTX': 'Financial',
+    'MS': 'Financial',
+    'NDAQ': 'Financial',
+    'V': 'Financial',
+    'WRB': 'Financial',
+    'APO': 'Financial',
+    'FDS': 'Financial',
+    'CBOE': 'Financial',
+    'ACGL': 'Financial',
+    'MSCI': 'Financial',
+    'HIG': 'Financial',
+    'TRV': 'Financial',
+    'MKL': 'Financial',
+    'KNSL': 'Financial',
+    'RLI': 'Financial',
+    'AON': 'Financial',
+    'EFX': 'Financial',
+    'RYAN': 'Financial',
+    'MORN': 'Financial',
+    'PLMR': 'Financial',
+    'AJG': 'Financial',
+    'SEIC': 'Financial',
+    'LPLA': 'Financial',
+    'RNR': 'Financial',
+    'FNF': 'Financial',
+    'ERIE': 'Financial',
+    'IBKR': 'Financial',
+    'EWBC': 'Financial',
+    'NMIH': 'Financial',
+    'HCI': 'Financial',
+    'AX': 'Financial',
+    'PYPL': 'Financial',
+    'FISV': 'Financial',
+    'GPN': 'Financial',
+    'TRI': 'Financial',
+    'ESQ': 'Financial',
+
+    # Technology
+    'MSFT': 'Technology',
+    'AAPL': 'Technology',
+    'ADBE': 'Technology',
+    'ADP': 'Technology',
+    'ADSK': 'Technology',
+    'ANET': 'Technology',
+    'APP': 'Technology',
+    'AVGO': 'Technology',
+    'CDNS': 'Technology',
+    'CRM': 'Technology',
+    'DT': 'Technology',
+    'FICO': 'Technology',
+    'FTNT': 'Technology',
+    'INTU': 'Technology',
+    'KEYS': 'Technology',
+    'MANH': 'Technology',
+    'MPWR': 'Technology',
+    'MSI': 'Technology',
+    'NOW': 'Technology',
+    'NVDA': 'Technology',
+    'NVMI': 'Technology',
+    'ONTO': 'Technology',
+    'ORCL': 'Technology',
+    'PANW': 'Technology',
+    'PAYC': 'Technology',
+    'PAYX': 'Technology',
+    'PTC': 'Technology',
+    'QLYS': 'Technology',
+    'QCOM': 'Technology',
+    'SNPS': 'Technology',
+    'SAP': 'Technology',
+    'TDY': 'Technology',
+    'TRMB': 'Technology',
+    'TSM': 'Technology',
+    'TXN': 'Technology',
+    'TYL': 'Technology',
+    'VEEV': 'Technology',
+    'VRSK': 'Technology',
+    'VRSN': 'Technology',
+    'WDAY': 'Technology',
+    'HUBS': 'Technology',
+    'MRVL': 'Technology',
+    'IDCC': 'Technology',
+    'TTD': 'Technology',
+    'SSNC': 'Technology',
+    'LRCX': 'Technology',
+    'ZBRA': 'Technology',
+    'APPF': 'Technology',
+    'VRT': 'Technology',
+    'DDOG': 'Technology',
+    'MNDY': 'Technology',
+    'NET': 'Technology',
+    'SPSC': 'Technology',
+    'EPAM': 'Technology',
+    'ASML': 'Technology',
+    'KLAC': 'Technology',
+    'AMAT': 'Technology',
+    'MU': 'Technology',
+    'AMD': 'Technology',
+    'UI': 'Technology',
+    'NSSC': 'Technology',
+    'JKHY': 'Technology',
+    'EEFT': 'Technology',
+    'EXLS': 'Technology',
+    'APH': 'Technology',
+    'ACN': 'Technology',
+    'AXON': 'Technology',
+
+    # Communication Services
+    'GOOGL': 'Communication Services',
+    'GOOG': 'Communication Services',
+    'META': 'Communication Services',
+    'NFLX': 'Communication Services',
+    'DUOL': 'Communication Services',
+
+    # Healthcare
+    'ABBV': 'Healthcare',
+    'BSX': 'Healthcare',
+    'DHR': 'Healthcare',
+    'EW': 'Healthcare',
+    'HOLX': 'Healthcare',
+    'IDXX': 'Healthcare',
+    'ISRG': 'Healthcare',
+    'LMAT': 'Healthcare',
+    'MEDP': 'Healthcare',
+    'PODD': 'Healthcare',
+    'REGN': 'Healthcare',
+    'RMD': 'Healthcare',
+    'STE': 'Healthcare',
+    'SYK': 'Healthcare',
+    'TMO': 'Healthcare',
+    'WST': 'Healthcare',
+    'ZTS': 'Healthcare',
+    'A': 'Healthcare',
+    'IQV': 'Healthcare',
+    'VRTX': 'Healthcare',
+    'UNH': 'Healthcare',
+    'GEHC': 'Healthcare',
+    'LLY': 'Healthcare',
+    'HCA': 'Healthcare',
+    'ABT': 'Healthcare',
+    'MTD': 'Healthcare',
+    'NDSN': 'Healthcare',
+    'TECH': 'Healthcare',
+    'ELV': 'Healthcare',
+    'NVO': 'Healthcare',
+    'UHS': 'Healthcare',
+    'ICLR': 'Healthcare',
+    'WAT': 'Healthcare',
+    'DXCM': 'Healthcare',
+    'CPRX': 'Healthcare',
+    'UTHR': 'Healthcare',
+    'MCK': 'Healthcare',
+    'IRMD': 'Healthcare',
+
+    # Industrials
+    'AME': 'Industrials',
+    'BMI': 'Industrials',
+    'CPRT': 'Industrials',
+    'CTAS': 'Industrials',
+    'ETN': 'Industrials',
+    'FAST': 'Industrials',
+    'GGG': 'Industrials',
+    'GWW': 'Industrials',
+    'HON': 'Industrials',
+    'IEX': 'Industrials',
+    'IR': 'Industrials',
+    'ITW': 'Industrials',
+    'PH': 'Industrials',
+    'PWR': 'Industrials',
+    'ROK': 'Industrials',
+    'ROP': 'Industrials',
+    'SNA': 'Industrials',
+    'TDG': 'Industrials',
+    'TT': 'Industrials',
+    'XYL': 'Industrials',
+    'WAB': 'Industrials',
+    'GEV': 'Industrials',
+    'MWA': 'Industrials',
+    'WM': 'Industrials',
+    'WCN': 'Industrials',
+    'RSG': 'Industrials',
+    'CLH': 'Industrials',
+    'SAIA': 'Industrials',
+    'ODFL': 'Industrials',
+    'GXO': 'Industrials',
+    'LDOS': 'Industrials',
+    'CACI': 'Industrials',
+    'TNET': 'Industrials',
+    'PNR': 'Industrials',
+    'ALLE': 'Industrials',
+    'FIX': 'Industrials',
+    'EME': 'Industrials',
+    'CW': 'Industrials',
+    'ITT': 'Industrials',
+    'SN': 'Industrials',
+    'WSO': 'Industrials',
+    'FERG': 'Industrials',
+    'GHC': 'Industrials',
+    'ATKR': 'Industrials',
+    'NDSN': 'Industrials',
+
+    # Consumer Cyclical
+    'AMZN': 'Consumer Cyclical',
+    'AZO': 'Consumer Cyclical',
+    'BKNG': 'Consumer Cyclical',
+    'CMG': 'Consumer Cyclical',
+    'HD': 'Consumer Cyclical',
+    'HLT': 'Consumer Cyclical',
+    'LOW': 'Consumer Cyclical',
+    'MAR': 'Consumer Cyclical',
+    'MELI': 'Consumer Cyclical',
+    'ORLY': 'Consumer Cyclical',
+    'ROST': 'Consumer Cyclical',
+    'TJX': 'Consumer Cyclical',
+    'TXRH': 'Consumer Cyclical',
+    'ULTA': 'Consumer Cyclical',
+    'LULU': 'Consumer Cyclical',
+    'DECK': 'Consumer Cyclical',
+    'CROX': 'Consumer Cyclical',
+    'CHDN': 'Consumer Cyclical',
+    'WING': 'Consumer Cyclical',
+    'DPZ': 'Consumer Cyclical',
+    'POOL': 'Consumer Cyclical',
+    'NVR': 'Consumer Cyclical',
+    'DHI': 'Consumer Cyclical',
+    'CVCO': 'Consumer Cyclical',
+    'RACE': 'Consumer Cyclical',
+    'UBER': 'Consumer Cyclical',
+    'NTES': 'Consumer Cyclical',
+    'CSGP': 'Consumer Cyclical',
+
+    # Consumer Defensive
+    'COST': 'Consumer Defensive',
+    'KO': 'Consumer Defensive',
+    'MCD': 'Consumer Defensive',
+    'MNST': 'Consumer Defensive',
+    'PEP': 'Consumer Defensive',
+    'PG': 'Consumer Defensive',
+    'CHD': 'Consumer Defensive',
+    'ROL': 'Consumer Defensive',
+    'TSCO': 'Consumer Defensive',
+    'WDFC': 'Consumer Defensive',
+
+    # Basic Materials
+    'ECL': 'Basic Materials',
+    'LIN': 'Basic Materials',
+    'SHW': 'Basic Materials',
+
+    # Real Estate
+    'VICI': 'Real Estate',
+
+    # Energy
+    'XOM': 'Energy',
+
+    # Utilities
+    'AWK': 'Utilities',
+}
+
 def calculate_performance_consistency_score(metrics, stock_symbol):
     """
     Calculate Long-Term Performance Consistency Score (0-10)
@@ -1648,40 +1921,9 @@ def fetch_comprehensive_metrics(stock):
             # Extract sector information
             # REPLACE your entire sector extraction block with this:
             
-            sector = None
-            industry = None
-            country = None
-            
-            try:
-                # Finviz puts Sector, Industry, Country in a small table
-                # separate from the snapshot-table2
-                # They appear as links in a specific stock-header area
-                
-                # Method 1: Find all links that go to screener with sector filter
-                all_links = soup.find_all('a', href=True)
-                
-                for link in all_links:
-                    href = link.get('href', '')
-                    text = link.text.strip()
-                    
-                    if not text or text in ['', '-']:
-                        continue
-                        
-                    # Sector links look like: screener.ashx?v=111&f=sec_technology
-                    if 'screener.ashx' in href and 'sec_' in href and not sector:
-                        sector = text
-                    
-                    # Industry links look like: screener.ashx?v=111&f=ind_softwareinfrastructure
-                    elif 'screener.ashx' in href and 'ind_' in href and not industry:
-                        industry = text
-                    
-                    # Country links look like: screener.ashx?v=111&f=geo_usa
-                    elif 'screener.ashx' in href and 'geo_' in href and not country:
-                        country = text
-            
-            except Exception as e:
-                print(f"Sector parsing error: {e}")
-                sector = None
+            # SECTOR — from hardcoded map
+            sector = KNOWN_SECTORS.get(stock, 'Technology')
+            print(f"   Sector: {sector}")
             
             # Map known sectors to standard names (safety net)
             SECTOR_MAP = {
