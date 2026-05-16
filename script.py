@@ -1646,23 +1646,63 @@ def fetch_comprehensive_metrics(stock):
                 metrics[cells[i]] = cells[i+1]
             
             # Extract sector information
+            # REPLACE your entire sector extraction block with this:
+            
             sector = None
+            industry = None
+            country = None
+            
             try:
-                # Finviz sector is in the stock info bar, not the snapshot table
-                sector_elem = soup.find('a', href=lambda x: x and 'sec=' in x)
-                if sector_elem:
-                    sector = sector_elem.text.strip()
+                # Finviz puts Sector, Industry, Country in a small table
+                # separate from the snapshot-table2
+                # They appear as links in a specific stock-header area
                 
-                # Fallback: industry link is nearby, grab the one before it
-                if not sector:
-                    links = soup.find_all('a', href=lambda x: x and 'screener.ashx' in x)
-                    for link in links:
-                        href = link.get('href', '')
-                        if 'sec=' in href:
-                            sector = link.text.strip()
-                            break
-            except:
+                # Method 1: Find all links that go to screener with sector filter
+                all_links = soup.find_all('a', href=True)
+                
+                for link in all_links:
+                    href = link.get('href', '')
+                    text = link.text.strip()
+                    
+                    if not text or text in ['', '-']:
+                        continue
+                        
+                    # Sector links look like: screener.ashx?v=111&f=sec_technology
+                    if 'screener.ashx' in href and 'sec_' in href and not sector:
+                        sector = text
+                    
+                    # Industry links look like: screener.ashx?v=111&f=ind_softwareinfrastructure
+                    elif 'screener.ashx' in href and 'ind_' in href and not industry:
+                        industry = text
+                    
+                    # Country links look like: screener.ashx?v=111&f=geo_usa
+                    elif 'screener.ashx' in href and 'geo_' in href and not country:
+                        country = text
+            
+            except Exception as e:
+                print(f"Sector parsing error: {e}")
                 sector = None
+            
+            # Map known sectors to standard names (safety net)
+            SECTOR_MAP = {
+                'Technology': 'Technology',
+                'Financial': 'Financial',
+                'Financial Services': 'Financial',
+                'Healthcare': 'Healthcare',
+                'Consumer Defensive': 'Consumer Defensive',
+                'Consumer Cyclical': 'Consumer Cyclical',
+                'Communication Services': 'Communication Services',
+                'Industrials': 'Industrials',
+                'Basic Materials': 'Basic Materials',
+                'Energy': 'Energy',
+                'Real Estate': 'Real Estate',
+                'Utilities': 'Utilities',
+            }
+            
+            if sector:
+                sector = SECTOR_MAP.get(sector, sector)
+            
+            print(f"   Sector: {sector} | Industry: {industry} | Country: {country}")
             
             # Extract comprehensive metrics
             result = {
