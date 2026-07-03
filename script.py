@@ -1490,6 +1490,7 @@ def generate_table_rows(stock_data, profile_name):
         pe_display = f"{metrics['PE']:.1f}" if metrics['PE'] is not None else "N/A"
         forward_pe_display = f"{metrics['Forward_PE']:.1f}" if metrics['Forward_PE'] is not None else "N/A"
         peg_display = f"{metrics['PEG']:.2f}" if metrics['PEG'] is not None else "N/A"
+        price_display = f"${metrics['Price']:.2f}" if metrics['Price'] is not None else "N/A"
         sales_5y = f"{metrics['Sales_past_5Y']:.1f}%" if metrics['Sales_past_5Y'] is not None else "N/A"
         eps_5y = f"{metrics['EPS_past_5Y']:.1f}%" if metrics['EPS_past_5Y'] is not None else "N/A"
         fcf_display = f"${metrics['FCF_per_share']:.2f}" if metrics['FCF_per_share'] is not None else "N/A"
@@ -1506,7 +1507,7 @@ def generate_table_rows(stock_data, profile_name):
         # Create table row with profile-specific class and ID
         table_rows.append(f'''
             <tr class="stock-row {profile_class}" data-profile="{profile_name}" data-sector="{sector}" data-valuation="{scores['valuation_score']:.1f}" data-growth="{scores['growth_score']:.1f}" data-stock="{stock}" onclick="toggleDetails('{stock}', '{profile_name}')">
-                <td><strong>{stock}</strong><br><small>${metrics['Price']:.2f}</small><br><small style="color: #666;">{sector}</small></td>
+                <td><strong>{stock}</strong><br><small>{price_display}</small><br><small style="color: #666;">{sector}</small></td>
                 <td>{pe_display}<br><small>Fwd: {forward_pe_display}</small></td>
                 <td>{peg_display}</td>
                 <td>{f"{metrics['Debt/Eq']:.2f}" if metrics['Debt/Eq'] is not None else "N/A"}<br>
@@ -3630,11 +3631,13 @@ def calculate_enhanced_scores_with_sectors(metrics, sector=None, stock_symbol=No
         print(f"\n{'='*60}")
         print(f"⭐ FINAL TOTAL SCORE: {total_score:.2f}/10")
         print(f"{'='*60}\n")
-
+    
     if stock_symbol == 'GOOGL':
         print(f"\n   🔍 DETAILED FCF ANALYSIS:")
         print(f"      Raw FCF/share: {fcf_per_share}")
         print(f"      Raw EPS: {eps_ttm}")
+        conversion_display = f"{fcf_per_share/eps_ttm:.2%}" if eps_ttm else "N/A"
+        print(f"      Conversion: {conversion_display}")
         print(f"      FCF Yield: {fcf_yield}%")
         print(f"      Why score is {fcf_positivity_score}?")
 
@@ -3733,6 +3736,7 @@ def create_enhanced_html(stock_data, profile_name='academic'):
         pe_display = f"{metrics['PE']:.1f}" if metrics['PE'] is not None else "N/A"
         forward_pe_display = f"{metrics['Forward_PE']:.1f}" if metrics['Forward_PE'] is not None else "N/A"
         peg_display = f"{metrics['PEG']:.2f}" if metrics['PEG'] is not None else "N/A"
+        price_display = f"${metrics['Price']:.2f}" if metrics['Price'] is not None else "N/A"
         
         # Format 5Y CAGR metrics
         sales_5y_cagr = f"{metrics['Sales_past_5Y']:.1f}%" if metrics['Sales_past_5Y'] is not None else "N/A"
@@ -3799,7 +3803,7 @@ def create_enhanced_html(stock_data, profile_name='academic'):
         # Stock row with profile class
         table_rows.append(f'''
             <tr class="stock-row {profile_class}" data-profile="{profile_name}" data-sector="{sector}" data-valuation="{scores['valuation_score']:.1f}" data-growth="{scores['growth_score']:.1f}" data-stock="{stock}" onclick="toggleDetails('{stock}', '{profile_name}')">
-                <td><strong>{stock}</strong><br><small>${metrics['Price']:.2f}</small><br><small style="color: #666;">{sector}</small></td>
+                <td><strong>{stock}</strong><br><small>{price_display}</small><br><small style="color: #666;">{sector}</small></td>
                 <td>{pe_display}<br><small>Fwd: {forward_pe_display}</small></td>
                 <td>{peg_display}</td>
                 <td>{f"{metrics['Debt/Eq']:.2f}" if metrics['Debt/Eq'] is not None else "N/A"}<br>
