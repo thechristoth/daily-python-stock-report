@@ -1901,6 +1901,12 @@ def fetch_comprehensive_metrics(stock):
             for i in range(0, len(cells)-1, 2):
                 metrics[cells[i]] = cells[i+1]
             
+            if stock == 'MA':  # or any stock currently showing None
+                print(f"\n🔎 RAW SCRAPE DEBUG for {stock}:")
+                print(f"   Total cells found: {len(cells)}")
+                for k, v in metrics.items():
+                    print(f"   {k!r}: {v!r}")
+            
             # Extract sector information
             # REPLACE your entire sector extraction block with this:
             
