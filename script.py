@@ -1506,7 +1506,7 @@ def generate_table_rows(stock_data, profile_name):
         # Create table row with profile-specific class and ID
         table_rows.append(f'''
             <tr class="stock-row {profile_class}" data-profile="{profile_name}" data-sector="{sector}" data-valuation="{scores['valuation_score']:.1f}" data-growth="{scores['growth_score']:.1f}" data-stock="{stock}" onclick="toggleDetails('{stock}', '{profile_name}')">
-                <td><strong>{stock}</strong><br><small>${metrics['Price']:.2f}</small><br><small style="color: #666;">{sector}</small></td>
+                <td><strong>{stock}</strong><br><small>${price_display}</small><br><small style="color: #666;">{sector}</small></td>
                 <td>{pe_display}<br><small>Fwd: {forward_pe_display}</small></td>
                 <td>{peg_display}</td>
                 <td>{f"{metrics['Debt/Eq']:.2f}" if metrics['Debt/Eq'] is not None else "N/A"}<br>
@@ -3732,6 +3732,7 @@ def create_enhanced_html(stock_data, profile_name='academic'):
             recent_growth = f"EPS: {metrics['EPS_YoY_TTM']:+.1f}% | Sales: {metrics['Sales_YoY_TTM']:+.1f}%"
         
         # Format key metrics
+        price_display = f"{metrics['Price']:.2f}" if metrics['Price'] is not None else "N/A"
         pe_display = f"{metrics['PE']:.1f}" if metrics['PE'] is not None else "N/A"
         forward_pe_display = f"{metrics['Forward_PE']:.1f}" if metrics['Forward_PE'] is not None else "N/A"
         peg_display = f"{metrics['PEG']:.2f}" if metrics['PEG'] is not None else "N/A"
@@ -3801,7 +3802,7 @@ def create_enhanced_html(stock_data, profile_name='academic'):
         # Stock row with profile class
         table_rows.append(f'''
             <tr class="stock-row {profile_class}" data-profile="{profile_name}" data-sector="{sector}" data-valuation="{scores['valuation_score']:.1f}" data-growth="{scores['growth_score']:.1f}" data-stock="{stock}" onclick="toggleDetails('{stock}', '{profile_name}')">
-                <td><strong>{stock}</strong><br><small>${metrics['Price']:.2f}</small><br><small style="color: #666;">{sector}</small></td>
+                <td><strong>{stock}</strong><br><small>${price_display}</small><br><small style="color: #666;">{sector}</small></td>
                 <td>{pe_display}<br><small>Fwd: {forward_pe_display}</small></td>
                 <td>{peg_display}</td>
                 <td>{f"{metrics['Debt/Eq']:.2f}" if metrics['Debt/Eq'] is not None else "N/A"}<br>
