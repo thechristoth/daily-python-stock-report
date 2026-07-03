@@ -3635,7 +3635,6 @@ def calculate_enhanced_scores_with_sectors(metrics, sector=None, stock_symbol=No
         print(f"\n   🔍 DETAILED FCF ANALYSIS:")
         print(f"      Raw FCF/share: {fcf_per_share}")
         print(f"      Raw EPS: {eps_ttm}")
-        print(f"      Conversion: {fcf_per_share/eps_ttm if eps_ttm else 'N/A':.2%}")
         print(f"      FCF Yield: {fcf_yield}%")
         print(f"      Why score is {fcf_positivity_score}?")
 
