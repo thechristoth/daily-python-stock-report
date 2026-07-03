@@ -1883,6 +1883,16 @@ def fetch_comprehensive_metrics(stock):
         try:
             response = requests.get(url, headers=headers, timeout=10)
             response.raise_for_status()
+
+            
+            if stock == 'MA':
+                print(f"\n🔎 RESPONSE DEBUG for {stock}:")
+                print(f"   Status code: {response.status_code}")
+                print(f"   Response length: {len(response.text)} chars")
+                print(f"   Contains 'P/E' string: {'P/E' in response.text}")
+                print(f"   Contains 'ROIC' string: {'ROIC' in response.text}")
+                print(f"   Contains 'captcha' or 'verify': {'captcha' in response.text.lower() or 'verify you are human' in response.text.lower()}")
+                print(f"   Number of <table> tags found: {len(soup.find_all('table'))}")
             
             if 'Too Many Requests' in response.text:
                 raise Exception("Rate limited by Finviz")
