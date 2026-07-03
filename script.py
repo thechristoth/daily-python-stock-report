@@ -1925,26 +1925,6 @@ def fetch_comprehensive_metrics(stock):
             sector = KNOWN_SECTORS.get(stock, 'Technology')
             print(f"   Sector: {sector}")
             
-            # Map known sectors to standard names (safety net)
-            SECTOR_MAP = {
-                'Technology': 'Technology',
-                'Financial': 'Financial',
-                'Financial Services': 'Financial',
-                'Healthcare': 'Healthcare',
-                'Consumer Defensive': 'Consumer Defensive',
-                'Consumer Cyclical': 'Consumer Cyclical',
-                'Communication Services': 'Communication Services',
-                'Industrials': 'Industrials',
-                'Basic Materials': 'Basic Materials',
-                'Energy': 'Energy',
-                'Real Estate': 'Real Estate',
-                'Utilities': 'Utilities',
-            }
-            
-            if sector:
-                sector = SECTOR_MAP.get(sector, sector)
-            
-            print(f"   Sector: {sector} | Industry: {industry} | Country: {country}")
             
             # Extract comprehensive metrics
             result = {
