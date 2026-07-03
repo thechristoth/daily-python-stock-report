@@ -1885,14 +1885,24 @@ def fetch_comprehensive_metrics(stock):
             response.raise_for_status()
 
             
-            if stock == 'MA':
-                print(f"\n🔎 RESPONSE DEBUG for {stock}:")
-                print(f"   Status code: {response.status_code}")
-                print(f"   Response length: {len(response.text)} chars")
-                print(f"   Contains 'P/E' string: {'P/E' in response.text}")
-                print(f"   Contains 'ROIC' string: {'ROIC' in response.text}")
-                print(f"   Contains 'captcha' or 'verify': {'captcha' in response.text.lower() or 'verify you are human' in response.text.lower()}")
-                print(f"   Number of <table> tags found: {len(soup.find_all('table'))}")
+        if 'Too Many Requests' in response.text:
+            raise Exception("Rate limited by Finviz")
+        
+        soup = BeautifulSoup(response.text, 'html.parser')
+        
+        # --- TEMP DEBUG: remove once diagnosed ---
+        print(f"\n🔎 RESPONSE DEBUG for {stock}:")
+        print(f"   Status code: {response.status_code}")
+        print(f"   Response length: {len(response.text)} chars")
+        print(f"   Contains 'ROIC': {'ROIC' in response.text}")
+        print(f"   Contains 'P/E': {'P/E' in response.text}")
+        print(f"   Contains 'captcha': {'captcha' in response.text.lower()}")
+        print(f"   Contains 'verify you are human': {'verify you are human' in response.text.lower()}")
+        print(f"   Number of <table> tags: {len(soup.find_all('table'))}")
+        print(f"   snapshot-table2 found: {soup.find('table', class_='snapshot-table2') is not None}")
+        # --- END TEMP DEBUG ---
+        
+        snapshot_table = soup.find('table', class_='snapshot-table2')
             
             if 'Too Many Requests' in response.text:
                 raise Exception("Rate limited by Finviz")
