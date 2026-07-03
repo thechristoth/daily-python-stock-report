@@ -351,6 +351,13 @@ def calculate_performance_consistency_score(metrics, stock_symbol):
                 'volatility_score': None,
                 'drawdown_resistance': None,
                 'growth_consistency': None
+            },
+            'raw_performance': {
+                'perf_10y': None,
+                'perf_5y': None,
+                'perf_3y': None,
+                'perf_1y': None,
+                'perf_ytd': None
             }
         }
     
