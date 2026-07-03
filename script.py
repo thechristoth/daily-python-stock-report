@@ -9,7 +9,31 @@ import historical_fundamental_scores
 # Configuration SECOND CODE
 
 STOCKS = [
-    "MA", "MSFT", "GOOGL", "SPGI", "PGR", "AXP", "DUOL", "AAPL", "ABBV", "ADBE"
+    "MA", "MSFT", "GOOGL", "SPGI", "PGR", "AXP", "DUOL", "AAPL", "ABBV", "ADBE",
+    "ADP", "ADSK", "AME", "AMZN", "ANET", "APH", "APP", "AVGO", "AXON", "AZO",
+    "BKNG", "BLK", "BMI", "BRO", "BR", "BRK-B", "BSX", "CB", "CDNS", "CME",
+    "CMG", "COST", "CPRT", "CRM", "CSGP", "CTAS", "DHR", "DT", "ECL", "ETN",
+    "EW", "FAST", "FICO", "FTNT", "GGG", "GS", "GWW", "HD", "HEI", "HLT",
+    "HOLX", "HON", "ICE", "IDXX", "IEX", "INTU", "IR", "ITW", "JPM", "KEYS",
+    "LIN", "LMAT", "LOW", "MANH", "MAR", "MCO", "MEDP", "MELI", "META", "MPWR",
+    "MS", "MSI", "MKTX", "NFLX", "NDAQ", "NOW", "NVDA", "NVMI", "ONTO", "ORCL",
+    "ORLY", "PANW", "PAYC", "PAYX", "PH", "PODD", "PTC", "PWR", "QLYS", "QCOM",
+    "REGN", "RMD", "ROP", "ROK", "ROST", "SHW", "SNPS", "SAP", "SYK", "TDG",
+    "TDY", "TMO", "TRI", "TRMB", "TSM", "TT", "TXN", "TYL", "V", "VEEV",
+    "VRSK", "VRSN", "WDAY", "WST", "WRB", "XYL", "ZTS", "A", "TXRH", "IQV",
+    "HUBS", "FISV", "ATKR", "MRVL", "APO", "FDS", "SNA", "CBOE", "ISRG", "IDCC",
+    "FIX", "TTD", "SN", "ACGL", "GEV", "MSCI", "MCK", "HIG", "TRV", "MWA",
+    "MNST", "VRTX", "UNH", "GEHC", "LLY", "WM", "WSO", "ASML", "VICI", "DPZ",
+    "HCA", "KLAC", "AMAT", "MKL", "KNSL", "RLI", "WCN", "AON", "EFX", "JKHY",
+    "RYAN", "MORN", "STE", "TSCO", "SSNC", "WAB", "ABT", "LRCX", "GOOG", "PLMR",
+    "APPF", "RSG", "MTD", "NDSN", "VRT", "TNET", "ZBRA", "GXO", "AJG", "TECH",
+    "ELV", "PNR", "GPN", "FNF", "SEIC", "LPLA", "RNR", "ALLE", "ODFL", "CHDN",
+    "NVO", "WING", "EXLS", "EEFT", "AX", "UHS", "EPAM", "ICLR", "GHC", "SAIA",
+    "RACE", "WDFC", "CW", "WAT", "CLH", "HCI", "NSSC", "NMIH", "CVCO", "IRMD",
+    "AWK", "DXCM", "SPSC", "POOL", "FERG", "CACI", "LDOS", "DDOG", "MNDY", "NET",
+    "DECK", "LULU", "CROX", "ERIE", "ULTA", "UBER", "NTES", "ESQ", "CPRX", "EME",
+    "KO", "PG", "MCD", "PEP", "CHD", "ROL", "NVR", "ACN", "IBKR", "ITT", "MU", "UI",
+    "AXON", "AMD", "UTHR", "PYPL", "TJX", "XOM", "EWBC", "DHI"
 ]
 
 KNOWN_SECTORS = {
@@ -324,16 +348,9 @@ def calculate_performance_consistency_score(metrics, stock_symbol):
             'consistency_type': 'Unknown',
             'components': {
                 'cagr_quality': None,
-                'volatility_control': None,   # renamed from volatility_score
+                'volatility_score': None,
                 'drawdown_resistance': None,
                 'growth_consistency': None
-            },
-            'raw_performance': {
-                'perf_10y': perf_10y,
-                'perf_5y': perf_5y,
-                'perf_3y': perf_3y,
-                'perf_1y': perf_1y,
-                'perf_ytd': perf_ytd
             }
         }
     
@@ -1482,7 +1499,7 @@ def generate_table_rows(stock_data, profile_name):
         # Create table row with profile-specific class and ID
         table_rows.append(f'''
             <tr class="stock-row {profile_class}" data-profile="{profile_name}" data-sector="{sector}" data-valuation="{scores['valuation_score']:.1f}" data-growth="{scores['growth_score']:.1f}" data-stock="{stock}" onclick="toggleDetails('{stock}', '{profile_name}')">
-                <td><strong>{stock}</strong><br><small>${price_display}</small><br><small style="color: #666;">{sector}</small></td>
+                <td><strong>{stock}</strong><br><small>${metrics['Price']:.2f}</small><br><small style="color: #666;">{sector}</small></td>
                 <td>{pe_display}<br><small>Fwd: {forward_pe_display}</small></td>
                 <td>{peg_display}</td>
                 <td>{f"{metrics['Debt/Eq']:.2f}" if metrics['Debt/Eq'] is not None else "N/A"}<br>
@@ -1883,26 +1900,6 @@ def fetch_comprehensive_metrics(stock):
         try:
             response = requests.get(url, headers=headers, timeout=10)
             response.raise_for_status()
-
-            
-        if 'Too Many Requests' in response.text:
-            raise Exception("Rate limited by Finviz")
-        
-        soup = BeautifulSoup(response.text, 'html.parser')
-        
-        # --- TEMP DEBUG: remove once diagnosed ---
-        print(f"\n🔎 RESPONSE DEBUG for {stock}:")
-        print(f"   Status code: {response.status_code}")
-        print(f"   Response length: {len(response.text)} chars")
-        print(f"   Contains 'ROIC': {'ROIC' in response.text}")
-        print(f"   Contains 'P/E': {'P/E' in response.text}")
-        print(f"   Contains 'captcha': {'captcha' in response.text.lower()}")
-        print(f"   Contains 'verify you are human': {'verify you are human' in response.text.lower()}")
-        print(f"   Number of <table> tags: {len(soup.find_all('table'))}")
-        print(f"   snapshot-table2 found: {soup.find('table', class_='snapshot-table2') is not None}")
-        # --- END TEMP DEBUG ---
-        
-        snapshot_table = soup.find('table', class_='snapshot-table2')
             
             if 'Too Many Requests' in response.text:
                 raise Exception("Rate limited by Finviz")
@@ -1920,12 +1917,6 @@ def fetch_comprehensive_metrics(stock):
             metrics = {}
             for i in range(0, len(cells)-1, 2):
                 metrics[cells[i]] = cells[i+1]
-            
-            if stock == 'MA':  # or any stock currently showing None
-                print(f"\n🔎 RAW SCRAPE DEBUG for {stock}:")
-                print(f"   Total cells found: {len(cells)}")
-                for k, v in metrics.items():
-                    print(f"   {k!r}: {v!r}")
             
             # Extract sector information
             # REPLACE your entire sector extraction block with this:
@@ -3637,8 +3628,7 @@ def calculate_enhanced_scores_with_sectors(metrics, sector=None, stock_symbol=No
         print(f"\n   🔍 DETAILED FCF ANALYSIS:")
         print(f"      Raw FCF/share: {fcf_per_share}")
         print(f"      Raw EPS: {eps_ttm}")
-        conversion_display = f"{(fcf_per_share/eps_ttm):.2%}" if (fcf_per_share is not None and eps_ttm) else "N/A"
-        print(f"      Conversion: {conversion_display}")
+        print(f"      Conversion: {fcf_per_share/eps_ttm if eps_ttm else 'N/A':.2%}")
         print(f"      FCF Yield: {fcf_yield}%")
         print(f"      Why score is {fcf_positivity_score}?")
 
@@ -3734,7 +3724,6 @@ def create_enhanced_html(stock_data, profile_name='academic'):
             recent_growth = f"EPS: {metrics['EPS_YoY_TTM']:+.1f}% | Sales: {metrics['Sales_YoY_TTM']:+.1f}%"
         
         # Format key metrics
-        price_display = f"{metrics['Price']:.2f}" if metrics['Price'] is not None else "N/A"
         pe_display = f"{metrics['PE']:.1f}" if metrics['PE'] is not None else "N/A"
         forward_pe_display = f"{metrics['Forward_PE']:.1f}" if metrics['Forward_PE'] is not None else "N/A"
         peg_display = f"{metrics['PEG']:.2f}" if metrics['PEG'] is not None else "N/A"
@@ -3804,7 +3793,7 @@ def create_enhanced_html(stock_data, profile_name='academic'):
         # Stock row with profile class
         table_rows.append(f'''
             <tr class="stock-row {profile_class}" data-profile="{profile_name}" data-sector="{sector}" data-valuation="{scores['valuation_score']:.1f}" data-growth="{scores['growth_score']:.1f}" data-stock="{stock}" onclick="toggleDetails('{stock}', '{profile_name}')">
-                <td><strong>{stock}</strong><br><small>${price_display}</small><br><small style="color: #666;">{sector}</small></td>
+                <td><strong>{stock}</strong><br><small>${metrics['Price']:.2f}</small><br><small style="color: #666;">{sector}</small></td>
                 <td>{pe_display}<br><small>Fwd: {forward_pe_display}</small></td>
                 <td>{peg_display}</td>
                 <td>{f"{metrics['Debt/Eq']:.2f}" if metrics['Debt/Eq'] is not None else "N/A"}<br>
