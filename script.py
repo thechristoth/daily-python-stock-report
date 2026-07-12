@@ -1905,18 +1905,18 @@ def fetch_comprehensive_metrics(stock):
                 raise Exception("Rate limited by Finviz")
             
             soup = BeautifulSoup(response.text, 'html.parser')
-            snapshot_table = soup.find('table', class_='snapshot-table2')
-            if not snapshot_table:
+            snapshot_tables = soup.find_all('table', class_='snapshot-table2')
+            if not snapshot_tables:
                 print(f"No snapshot table found for {stock}")
                 return None, None
-                
-            # Extract all table cells
-            cells = [td.text.strip() for td in snapshot_table.find_all('td')]
             
-            # Create a dictionary to map labels to values
+            # Finviz splits the snapshot into several tables sharing this class
+            # (overview stats, valuation/growth stats, etc.) - merge all of them.
             metrics = {}
-            for i in range(0, len(cells)-1, 2):
-                metrics[cells[i]] = cells[i+1]
+            for snapshot_table in snapshot_tables:
+                cells = [td.text.strip() for td in snapshot_table.find_all('td')]
+                for i in range(0, len(cells) - 1, 2):
+                    metrics[cells[i]] = cells[i + 1]
             
             # Extract sector information
             # REPLACE your entire sector extraction block with this:
