@@ -1394,8 +1394,13 @@ def create_quad_profile_html(stock_data_academic, stock_data_growth,
     </tbody>'''
     
     import re
-    pattern = r'<tbody id="stockTableBody">.*?</tbody>'
+    pattern = r'<tbody[^>]*id=["\u201c\u201d]stockTableBody["\u201c\u201d][^>]*>.*?</tbody>'
     
+    idx = html_content.find('stockTableBody')
+    print("Found at index:", idx)
+    if idx >= 0:
+        print(repr(html_content[idx-40:idx+60]))
+
     if not re.search(pattern, html_content, flags=re.DOTALL):
         print("   ❌ ERROR: Could not find <tbody id='stockTableBody'> in HTML!")
         return
