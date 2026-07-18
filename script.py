@@ -2143,7 +2143,7 @@ RESEARCH_PROFILES = {
             'roic_stability': 0.30,       # SECONDARY - Duration matters
             'fcf_positivity': 0.10,       # TERTIARY - Cash validation
             'debt_quality': 0.10,         # IMPORTANT - Financial fortress
-            'roe_supplementary': 0.02     # MINIMAL - Only when no ROIC
+            'roe_supplementary': 0.00     # MINIMAL - Only when no ROIC
         },
         'growth_breakdown': {
             'roic_growth': 0.50,      # ✅ INCREASE (quality-driven growth only)
@@ -2372,7 +2372,7 @@ def get_research_validated_weights(sector, research_profile='academic'):
     profile = RESEARCH_PROFILES.get(research_profile, RESEARCH_PROFILES['academic'])
 
         # Greenblatt Magic Formula and Piotroski are explicitly sector-agnostic
-    if research_profile in ['greenblatt_magic', 'piotroski']:
+    if research_profile in ['greenblatt_magic', 'piotroski', 'magic_piotroski']:
         return {
             'growth': profile['base_weights']['growth'],
             'quality': profile['base_weights']['quality'],
