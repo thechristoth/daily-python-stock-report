@@ -2799,10 +2799,14 @@ def calculate_enhanced_scores_with_sectors(metrics, sector=None, stock_symbol=No
             base_roic = 2.0
         
         # Sector-relative bonus (beating industry significantly)
+        # Skip for sector-agnostic profiles: Greenblatt/Piotroski rank the
+        # ENTIRE market on absolute ROIC, no sector normalization
         sector_median = sector_benchmarks['median']
         sector_top = sector_benchmarks['top_quartile']
         
-        if sector_median > 0:
+        SECTOR_AGNOSTIC_PROFILES = ['greenblatt_magic', 'piotroski', 'magic_piotroski']
+        
+        if sector_median > 0 and research_profile not in SECTOR_AGNOSTIC_PROFILES:
             if roic >= sector_median * 3.0:
                 # Crushing the industry
                 base_roic = min(10, base_roic + 0.8)
