@@ -2370,6 +2370,20 @@ def get_research_validated_weights(sector, research_profile='academic'):
     """
     
     profile = RESEARCH_PROFILES.get(research_profile, RESEARCH_PROFILES['academic'])
+
+        # Greenblatt Magic Formula and Piotroski are explicitly sector-agnostic
+    if research_profile in ['greenblatt_magic', 'piotroski']:
+        return {
+            'growth': profile['base_weights']['growth'],
+            'quality': profile['base_weights']['quality'],
+            'valuation': profile['base_weights']['valuation'],
+            'historical': profile['base_weights']['historical'],
+            'multipliers_used': {'growth_mult': 1.0, 'quality_mult': 1.0, 'valuation_mult': 1.0},
+            'profile_name': profile['name'],
+            'profile_description': profile['description'],
+            'quality_breakdown': profile['quality_breakdown'],
+            'growth_breakdown': profile['growth_breakdown']
+        }
     
     SECTOR_MULTIPLIERS = {
         'Technology': {
