@@ -3587,6 +3587,10 @@ def calculate_enhanced_scores_with_sectors(metrics, sector=None, stock_symbol=No
         if research_profile == 'fama_french':
             valuation_score = calculate_book_to_market_score(metrics)
             valuation_components = [('Book_to_Market', valuation_score, 1.0)]
+        elif research_profile == 'magic_piotroski':
+            ey_score, ey_value = calculate_earnings_yield_score(metrics)
+            valuation_score = ey_score
+            valuation_components = [('Earnings_Yield', ey_score, 1.0)]
 
     elif research_profile == 'greenblatt_magic':
         # CRITICAL: Greenblatt truly ignores it (1988-2004 snapshot methodology)
