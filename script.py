@@ -309,6 +309,19 @@ KNOWN_SECTORS = {
     'AWK': 'Utilities',
 }
 
+def calculate_book_to_market_score(metrics):
+    """Fama-French HML proxy: invert P/B"""
+    pb = metrics.get('P/B')
+    if pb is None or pb <= 0:
+        return 5.0
+    
+    if pb < 2:      return 9.0   # cheap relative to book (value)
+    elif pb < 4:    return 7.5
+    elif pb < 8:    return 6.0
+    elif pb < 15:   return 4.5
+    elif pb < 25:   return 3.0
+    else:           return 1.5
+
 def calculate_performance_consistency_score(metrics, stock_symbol):
     """
     Calculate Long-Term Performance Consistency Score (0-10)
@@ -1426,6 +1439,28 @@ def create_quad_profile_html(stock_data_academic, stock_data_growth,
     except IOError as e:
         print(f"❌ Error writing HTML file: {e}")
 
+def calculate_earnings_yield_score(metrics):
+    """
+    Greenblatt's Earnings Yield = EBIT / EV
+    Proxy: invert EV/EBITDA (already capital-structure-adjusted,
+    unlike P/E which ignores debt)
+    """
+    ev_ebitda = metrics.get('EV/EBITDA')
+    if ev_ebitda is None or ev_ebitda <= 0:
+        return 5.0, None
+    
+    earnings_yield = (1 / ev_ebitda) * 100  # as a %
+    
+    if earnings_yield >= 12:      score = 10.0
+    elif earnings_yield >= 9:     score = 9.0
+    elif earnings_yield >= 7:     score = 8.0
+    elif earnings_yield >= 5.5:   score = 7.0
+    elif earnings_yield >= 4.5:   score = 6.0
+    elif earnings_yield >= 3.5:   score = 5.0
+    elif earnings_yield >= 2.5:   score = 3.5
+    else:                         score = 2.0
+    
+    return score, round(earnings_yield, 2)
 
 def calculate_greenblatt_roic(metrics):
     """
@@ -2180,11 +2215,12 @@ RESEARCH_PROFILES = {
             'historical': 0.05
         },
         'quality_breakdown': {
-            'roic_absolute': 0.40,    # Magic Formula ROIC
-            'roic_stability': 0.15,
-            'fcf_positivity': 0.25,   # Piotroski cash flow
-            'debt_quality': 0.15,     # Piotroski leverage
-            'roe_supplementary': 0.05
+            'piotroski_fscore': 0.25,
+            'roic_absolute': 0.30,
+            'roic_stability': 0.11,
+            'fcf_positivity': 0.19,
+            'debt_quality': 0.11,
+            'roe_supplementary': 0.04,
         },
         'growth_breakdown': {
             'roic_growth': 0.30,
@@ -2231,11 +2267,12 @@ RESEARCH_PROFILES = {
         },
         'quality_breakdown': {
             # Piotroski uses 9 EQUAL binary signals (1/9 each)
-            'roic_absolute': 0.22,        # ROA positive (1/9)
-            'roic_stability': 0.11,       # ROA improvement (1/9)
-            'fcf_positivity': 0.33,       # CFO positive + CFO > NI (3/9) ✅ INCREASE
-            'debt_quality': 0.33,         # Leverage + Liquidity (3/9) ✅ INCREASE
-            'roe_supplementary': 0.12,
+            'piotroski_fscore': 0.55,
+            'roic_absolute': 0.10,
+            'roic_stability': 0.05,
+            'fcf_positivity': 0.15,
+            'debt_quality': 0.10,
+            'roe_supplementary': 0.05,
         },
         'growth_breakdown': {
             'roic_growth': 0.20,
@@ -3547,10 +3584,17 @@ def calculate_enhanced_scores_with_sectors(metrics, sector=None, stock_symbol=No
     elif research_profile in ['growth_based', 'fama_french', 'peter_lynch', 'magic_piotroski']:
         # Profiles that SHOW but don't weight heavily
         HISTORICAL_WEIGHT = 0.05 if historical_score_ is not None else 0.0
+        if research_profile == 'fama_french':
+            valuation_score = calculate_book_to_market_score(metrics)
+            valuation_components = [('Book_to_Market', valuation_score, 1.0)]
+
     elif research_profile == 'greenblatt_magic':
         # CRITICAL: Greenblatt truly ignores it (1988-2004 snapshot methodology)
         HISTORICAL_WEIGHT = 0.0
         historical_score_ = None  # OK to hide for pure snapshot methodology
+        ey_score, ey_value = calculate_earnings_yield_score(metrics)
+        valuation_score = ey_score
+        valuation_components = [('Earnings_Yield', ey_score, 1.0)]
     else:
         # Default: show with minimal weight
         HISTORICAL_WEIGHT = 0.05 if historical_score_ is not None else 0.0
