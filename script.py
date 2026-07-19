@@ -9,6 +9,7 @@ import historical_fundamental_scores
 # Configuration SECOND CODE
 
 STOCKS = [
+    """   
     "MA", "MSFT", "GOOGL", "SPGI", "PGR", "AXP", "DUOL", "AAPL", "ABBV", "ADBE",
     "ADP", "ADSK", "AME", "AMZN", "ANET", "APH", "APP", "AVGO", "AXON", "AZO",
     "BKNG", "BLK", "BMI", "BRO", "BR", "BRK-B", "BSX", "CB", "CDNS", "CME",
@@ -34,6 +35,8 @@ STOCKS = [
     "DECK", "LULU", "CROX", "ERIE", "ULTA", "UBER", "NTES", "ESQ", "CPRX", "EME",
     "KO", "PG", "MCD", "PEP", "CHD", "ROL", "NVR", "ACN", "IBKR", "ITT", "MU", "UI",
     "AXON", "AMD", "UTHR", "PYPL", "TJX", "XOM", "EWBC", "DHI"
+    """
+    "MA", "MSFT"
 ]
 
 KNOWN_SECTORS = {
